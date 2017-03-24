@@ -1,5 +1,5 @@
 <header-main *ngIf="!!user"></header-main>
-<div class="user-head">
+<div class="user-head" *ngIf="!!user">
   <div class="container">
     <div class="row justify-content-sm-center">
       <div class="col-sm-10">
@@ -8,7 +8,7 @@
             <img src="images/user.png" alt=""/>
           </span>
           <div class="user-deatil">
-            <h4>John Doe</h4>
+            <h4>{{user.profile.fullName}}</h4>
             <p>Member since 01 Jan 2016</p>
           </div>
         </div>
@@ -38,7 +38,7 @@
                       <div class="form-group">
                         <label for="firstName">FIRST NAME</label>
                         <div class="input-wrap">
-                          <input type="text" class="form-control" placeholder="First Name" formControlName="firstName"/>
+                          <input type="text" class="form-control" formControlName="firstName"/>
                         </div>
                       </div>
                       <div class='form-text error has-error' *ngIf="accountForm.controls.firstName.touched">
@@ -52,7 +52,7 @@
                       <div class="form-group">
                         <label for="middleName">MIDDLE NAME</label>
                         <div class="input-wrap">
-                          <input type="text" class="form-control" placeholder="Middle Name" formControlName="middleName"/>
+                          <input type="text" class="form-control" formControlName="middleName"/>
                         </div>
                       </div>
                       <div class='form-text error has-error' *ngIf="accountForm.controls.middleName.touched">
@@ -65,7 +65,7 @@
                       <div class="form-group">
                         <label for="lastName">LAST NAME</label>
                         <div class="input-wrap">
-                          <input type="text" class="form-control" placeholder="Last Name" formControlName="lastName"/>
+                          <input type="text" class="form-control" formControlName="lastName"/>
                         </div>
                       </div>
                       <div class='form-text error has-error' *ngIf="accountForm.controls.lastName.errors && accountForm.controls.lastName.touched">
@@ -81,7 +81,7 @@
                       <div class="form-group">
                         <label for="loginEmail">EMAIL</label>
                         <div class="input-wrap">
-                          <input type="email" class="form-control" placeholder="Email Address"[readonly]="true" formControlName="email"/>
+                          <input type="email" class="form-control" [readonly]="true" formControlName="email"/>
                         </div>
                       </div>
                     </div>
@@ -91,7 +91,7 @@
                       <div class="form-group">
                         <label for="phnNumber">PHONE NUMBER</label>
                         <div class="input-wrap">
-                          <input type="text" class="form-control" placeholder="Phone Number" formControlName="phoneNum"/>
+                          <input type="text" class="form-control" formControlName="phoneNum"/>
                         </div>
                       </div>
                       <div class='form-text error has-error' *ngIf="accountForm.controls.phoneNum.touched">
@@ -109,7 +109,7 @@
                     </div>
                   </div>
                 </form>
-                
+
                 <div [hidden]="error == ''">
     							<p class="md-warn" layout="row" layout-fill layout-padding layout-margin>
     								<p class="md-body-1 has-error">{{ error }}</p>
