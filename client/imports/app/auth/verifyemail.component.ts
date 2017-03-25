@@ -28,31 +28,29 @@ export class VerifyEmail extends MeteorComponent implements OnInit {
       this.token = token;
 
       this.call("users.verifyEmailToken", this.token, (err, res) => {
-        if (err) {
-          console.log("Error while calling users.findByEmailToken()");
-          this.zone.run(() => {
+        this.zone.run(() => {
+          if (err) {
+            //console.log("Error while calling users.findByEmailToken()");
             showAlert("Uncaught server error. Please try again later.");
             this.router.navigate(['/signup']);
-          });
-          return;
-        }
+            return;
+          }
 
-        if (!res || !res.length) {
-          console.log("Invalid token supplied");
-          this.zone.run(() => {
+          if (!res || !res.length) {
+            //console.log("Invalid token supplied");
             showAlert("Invalid token supplied.");
             this.router.navigate(['/signup']);
-          });
-          return;
-        }
+            return;
+          }
 
-        this.userId = res;
-        showAlert("Your Email has been verified. Please login again.", "success");
-        this.router.navigate(['/login']);
-      })
+          this.userId = res;
+          showAlert("Your Email has been verified. Please login again.", "success");
+          this.router.navigate(['/login']);
+        });
+      });
     });
 
-     this.error = '';
+    this.error = '';
   }
 
 }

@@ -1,11 +1,11 @@
-import {Component, OnInit, NgZone} from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {Observable, Subscription, Subject, BehaviorSubject} from "rxjs";
+import { Observable, Subscription, Subject, BehaviorSubject } from "rxjs";
 import { Router, ActivatedRoute } from '@angular/router';
 import { Accounts } from 'meteor/accounts-base';
-import {MeteorComponent} from 'angular2-meteor';
+import { MeteorComponent } from 'angular2-meteor';
 import { matchingPasswords, validatePassword } from '../../validators/common';
-import {showAlert} from "../shared/show-alert";
+import { showAlert } from "../shared/show-alert";
 
 import template from './resetpassword.html';
 
@@ -26,39 +26,37 @@ export class ResetPassword extends MeteorComponent implements OnInit {
 
   ngOnInit() {
     this.paramsSub = this.route.params
-      .map(params => params['token'])
-      .subscribe(token => {
-          this.token = token;
+    .map(params => params['token'])
+    .subscribe(token => {
+      this.token = token;
 
-          this.call("users.findByPasswdToken", this.token, (err, res) => {
-            if (err) {
-              console.log("Error while calling users.findByToken()");
-              this.zone.run(() => {
-                showAlert("Uncaught server error. Please try again later.");
-                this.router.navigate(['/signup']);
-              });
-              return;
-            }
+      this.call("users.findByPasswdToken", this.token, (err, res) => {
+        this.zone.run(() => {
+          if (err) {
+            console.log("Error while calling users.findByToken()");
+            showAlert("Uncaught server error. Please try again later.");
+            this.router.navigate(['/signup']);
+            return;
+          }
+          
+          if (!res || !res.length) {
+            console.log("Invalid token supplied");
+            showAlert("Invalid token supplied.");
+            this.router.navigate(['/signup']);
+            return;
+          }
 
-            if (!res || !res.length) {
-              console.log("Invalid token supplied");
-              this.zone.run(() => {
-                showAlert("Invalid token supplied.");
-                this.router.navigate(['/signup']);
-              });
-              return;
-            }
-
-            this.userId = res;
-          })
+          this.userId = res;
         });
+      })
+    });
 
     this.passwordForm = this.formBuilder.group({
       newPassword: ['', Validators.compose([Validators.required, Validators.minLength(8)])],
       confirmPassword: ['', Validators.compose([Validators.required, Validators.minLength(8)])],
     }, {validator: matchingPasswords('newPassword', 'confirmPassword')});
 
-     this.error = '';
+    this.error = '';
   }
 
   changePassword() {
@@ -68,14 +66,15 @@ export class ResetPassword extends MeteorComponent implements OnInit {
     }
 
     this.call("users.resetPasswd", this.token, this.passwordForm.value.newPassword, (err) => {
-      //console.log("res:", err);
-      if (err) {
-        this.error = err;
-        showAlert(err.message, "danger");
-      } else {
-        showAlert("Password updated successfully.", "success");
-        this.router.navigate(['/login']);
-      }
+      this.zone.run(() => {
+        if (err) {
+          this.error = err;
+          showAlert(err.message, "danger");
+        } else {
+          showAlert("Password updated successfully.", "success");
+          this.router.navigate(['/login']);
+        }
+      });
     });
 
   }

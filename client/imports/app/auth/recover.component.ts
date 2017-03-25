@@ -1,5 +1,6 @@
 import {Component, OnInit, NgZone} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CustomValidators as CValidators } from "ng2-validation";
 import { Router } from '@angular/router';
 import { Accounts } from 'meteor/accounts-base';
 import {showAlert} from "../shared/show-alert";
@@ -17,9 +18,8 @@ export class RecoverComponent implements OnInit {
   constructor(private router: Router, private zone: NgZone, private formBuilder: FormBuilder) {}
 
   ngOnInit() {
-    var emailRegex = "[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})";
     this.recoverForm = this.formBuilder.group({
-      email: ['', Validators.compose([Validators.required, Validators.pattern(emailRegex)])]
+      email: ['', Validators.compose([Validators.required, CValidators.email])]
     });
 
     this.error = '';
@@ -35,14 +35,15 @@ export class RecoverComponent implements OnInit {
     Accounts.forgotPassword({
       email: this.recoverForm.value.email
     }, (err) => {
-      if (err) {
-        this.zone.run(() => {
-          this.error = err;
-        });
-      } else {
-        showAlert("Reset password request initiated. Please check your email for further instructions.", "success");
-        this.router.navigate(['/login']);
-      }
+      this.zone.run(() => {
+        if (err) {
+            showAlert(err.message, "danger");
+            this.error = err;
+        } else {
+          showAlert("Reset password request initiated. Please check your email for further instructions.", "success");
+          this.router.navigate(['/login']);
+        }
+      });
     });
   }
 }

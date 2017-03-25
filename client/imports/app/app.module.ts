@@ -5,19 +5,16 @@ import { Angular2TokenService } from 'angular2-token';
 import { RouterModule } from '@angular/router';
 import { AccountsModule } from 'angular2-meteor-accounts-ui';
 import { Ng2PaginationModule } from 'ng2-pagination';
-//import {LocalStorageService, LOCAL_STORAGE_SERVICE_CONFIG} from "angular-2-local-storage";
-import {Ng2Webstorage} from 'ng2-webstorage';
+import { Ng2Webstorage } from 'ng2-webstorage';
 import { AppComponent } from "./app.component.web";
-import {ACC_DECLARATIONS} from "./account/index";
-//import { DropdownModule } from 'ng2-bootstrap';
+import { ACC_DECLARATIONS } from "./account/index";
 import { routes, ROUTES_PROVIDERS } from './app.routes';
 import { SHARED_DECLARATIONS } from './shared';
-import {AUTH_DECLARATIONS} from "./auth/index";
+import { AUTH_DECLARATIONS } from "./auth/index";
 import { LAYOUT_DECLARATIONS } from "./layout/index";
-import {Page_Declarations} from "./content-page/index";
-import {Faq_Declarations} from "./faqs/index";
+import { Page_Declarations } from "./content-page/index";
+import { Faq_Declarations } from "./faqs/index";
 
-//import {FileDropModule} from "angular2-file-drop";
 import {DASHBOARD_DECLARATIONS} from "./dashboard/index";
 
 // Create config options (see ILocalStorageServiceConfigOptions) for deets:
@@ -34,12 +31,10 @@ moduleDefinition = {
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot(routes),
-    //DropdownModule.forRoot(),
     AccountsModule,
     Ng2PaginationModule,
     Ng2Webstorage,
     Ng2Webstorage.forRoot({ prefix: '', separator: '' })
-    //FileDropModule
   ],
   declarations: [
     AppComponent,

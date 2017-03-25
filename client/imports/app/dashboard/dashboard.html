@@ -45,7 +45,7 @@
                         <div *ngIf="accountForm.controls.firstName.hasError('required')">You have to fill in First Name to proceed.</div>
                         <div *ngIf="accountForm.controls.firstName.hasError('minlength')">Min 2 characters required.</div>
                         <div *ngIf="accountForm.controls.firstName.hasError('maxLength')">Max 30 characters required.</div>
-                        <div *ngIf="accountForm.controls.firstName.hasError('validatePassword')">Please type valid first name.</div>
+                        <div *ngIf="accountForm.controls.firstName.hasError('validateFirstName')">Please type valid First Name.</div>
                       </div>
                     </div>
                     <div class="col-lg-4">
@@ -58,7 +58,7 @@
                       <div class='form-text error has-error' *ngIf="accountForm.controls.middleName.touched">
                         <div *ngIf="accountForm.controls.middleName.hasError('minlength')">Min 2 characters required.</div>
                         <div *ngIf="accountForm.controls.middleName.hasError('maxLength')">Max 30 characters required.</div>
-                        <div *ngIf="accountForm.controls.middleName.hasError('validateFirstName')">Please type valid middle name.</div>
+                        <div *ngIf="accountForm.controls.middleName.hasError('validateFirstName')">Please type valid Middle Name.</div>
                       </div>
                     </div>
                     <div class="col-lg-4">
@@ -72,7 +72,7 @@
                         <div *ngIf="accountForm.controls.lastName.hasError('required')">You have to fill in Last Name to proceed.</div>
                         <div *ngIf="accountForm.controls.lastName.hasError('minlength')">Min 2 characters required.</div>
                         <div *ngIf="accountForm.controls.lastName.hasError('maxLength')">Max 30 characters required.</div>
-                        <div *ngIf="accountForm.controls.lastName.hasError('validateFirstName')">Please type valid last name.</div>
+                        <div *ngIf="accountForm.controls.lastName.hasError('validateFirstName')">Please type valid Last Name.</div>
                       </div>
                     </div>
                   </div>
@@ -95,9 +95,9 @@
                         </div>
                       </div>
                       <div class='form-text error has-error' *ngIf="accountForm.controls.phoneNum.touched">
-                        <div *ngIf="accountForm.controls.phoneNum.hasError('minlength')">Mobile Number should be of 10 digits.</div>
-                        <div *ngIf="accountForm.controls.phoneNum.hasError('maxlength')">Mobile Number should not be greater than 10 digits.</div>
-                        <div *ngIf="accountForm.controls.phoneNum.hasError('validatePhoneNum')">Invalid Contact Number.</div>
+                        <div *ngIf="accountForm.controls.phoneNum.hasError('minlength')">Min 7 characters required.</div>
+                        <div *ngIf="accountForm.controls.phoneNum.hasError('maxlength')">Max 15 characters allowed.</div>
+                        <div *ngIf="accountForm.controls.phoneNum.hasError('validatePhoneNum')">Invalid Phone Number.</div>
                       </div>
                     </div>
                   </div>

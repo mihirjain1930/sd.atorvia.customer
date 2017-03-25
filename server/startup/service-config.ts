@@ -1,3 +1,7 @@
+import { Meteor } from "meteor/meteor";
+
+declare var ServiceConfiguration:any;
+
 ServiceConfiguration.configurations.remove({
     service: 'facebook'
 });

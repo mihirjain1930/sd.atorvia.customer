@@ -28,7 +28,7 @@
 											<div [hidden]="!signupForm.controls['firstName'].errors.required">You have to fill in First Name to signup.</div>
 			                <div [hidden]="!signupForm.controls['firstName'].errors.minlength">Min 2 characters required.</div>
 			                <div [hidden]="!signupForm.controls['firstName'].errors.maxlength">Max 30 characters allowed.</div>
-			                <div [hidden]="!signupForm.controls['firstName'].errors.validateFirstName">Please type valid name.</div>
+			                <div [hidden]="!signupForm.controls['firstName'].errors.validateFirstName">Please type valid First Name.</div>
 										</div>
 									</div>
 									<div class="col-sm-6">
@@ -41,7 +41,7 @@
 											<div [hidden]="!signupForm.controls['lastName'].errors.required">You have to fill in Last Name to signup.</div>
 			                <div [hidden]="!signupForm.controls['lastName'].errors.minlength">Min 2 characters required.</div>
 			                <div [hidden]="!signupForm.controls['lastName'].errors.maxlength">Max 30 characters allowed.</div>
-			                <div [hidden]="!signupForm.controls['lastName'].errors.validateFirstName">Please type valid name.</div>
+			                <div [hidden]="!signupForm.controls['lastName'].errors.validateFirstName">Please type valid Last Name.</div>
 										</div>
 									</div>
 								</div>
@@ -57,7 +57,7 @@
 								</div>
 								<div class="form-text error has-error" *ngIf="signupForm.controls.email.errors && signupForm.controls.email.touched">
 									<div [hidden]="!signupForm.controls['email'].errors.required">You have to fill in Email to signup.</div>
-									<div [hidden]="!signupForm.controls['email'].errors.minlength">Min 2 characters required.</div>
+									<div [hidden]="!signupForm.controls['email'].errors.minlength">Min 5 characters required.</div>
 									<div [hidden]="!signupForm.controls['email'].errors.maxlength">Max 30 characters allowed.</div>
 									<div [hidden]="!signupForm.controls['email'].errors.validateEmail">Invalid Email address.</div>
 								</div>
@@ -94,11 +94,11 @@
 							</div>
 						</form>
 
-						<div [hidden]="error == ''">
+						<!--<div [hidden]="error == ''">
 							<p class="md-warn" layout="row" layout-fill layout-padding layout-margin>
 								<p class="md-body-1">{{ error }}</p>
 							</p>
-						</div>
+						</div>-->
 					</div>
 				</div>
 			</div>

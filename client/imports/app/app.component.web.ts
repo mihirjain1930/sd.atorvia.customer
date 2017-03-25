@@ -1,9 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router'
+import { InjectUser } from "angular2-meteor-accounts-ui";
+import { LocalStorageService, SessionStorageService } from 'ng2-webstorage';
 import template from './app.component.web.html';
-import {InjectUser} from "angular2-meteor-accounts-ui";
-import {LocalStorageService, SessionStorageService} from 'ng2-webstorage';
 
 declare var jQuery:any;
 
@@ -27,7 +27,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     private observeWindowHeight() {
       this.router.events.subscribe((val) => {
         //console.log("route changed:", val);
-        // see also
         (function setWindowHeight(){
         	var windowHeight = $(window).height();
         	$('.table-wrapper').height(windowHeight);

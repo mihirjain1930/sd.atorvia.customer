@@ -1,7 +1,10 @@
+import { Meteor } from "meteor/meteor";
+import { Accounts } from 'meteor/accounts-base';
+
 Meteor.startup(() => {
 
   Accounts.emailTemplates.from = "Atorvia <atorvia12@gmail.com>";
-  
+
   Accounts.emailTemplates.resetPassword.subject = function (user) {
     return "Reset Password Instructions";
   };

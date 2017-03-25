@@ -1,5 +1,6 @@
 import 'angular2-meteor-polyfills';
 
+import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { AppModule } from './imports/app/app.module';
@@ -15,6 +16,7 @@ function setClass(css) {
 
 Meteor.startup(() => {
   setClass('web');
+  enableProdMode();
 
   const platform = platformBrowserDynamic();
   platform.bootstrapModule(AppModule);
