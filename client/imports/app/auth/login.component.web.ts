@@ -6,6 +6,7 @@ import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
 import { MeteorComponent } from 'angular2-meteor';
 import { LocalStorageService, SessionStorageService } from 'ng2-webstorage';
+import { validateEmail, validatePassword } from "../../validators/common";
 import { showAlert } from "../shared/show-alert";
 import template from './login.component.web.html';
 
@@ -25,7 +26,7 @@ export class LoginComponent extends MeteorComponent implements OnInit {
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      email: ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50), CValidators.email])],
+      email: ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50), validateEmail])],
       password: ['', Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(30)])]
     });
 

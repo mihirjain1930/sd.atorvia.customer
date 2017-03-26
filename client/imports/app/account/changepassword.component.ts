@@ -22,9 +22,9 @@ export class PasswordComponent extends MeteorComponent implements OnInit {
 
   ngOnInit() {
     this.passwordForm = this.formBuilder.group({
-      oldpassword: ['', Validators.compose([Validators.required])],
-      newPassword: ['', Validators.compose([Validators.required, Validators.minLength(8)])],
-      confirmPassword: ['', Validators.compose([Validators.required, Validators.minLength(8)])],
+      oldpassword: ['', Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(30)])],
+      newPassword: ['', Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(30)])],
+      confirmPassword: ['', Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(30)])],
     }, {validator: matchingPasswords('newPassword', 'confirmPassword')});
 
      this.error = '';
@@ -37,14 +37,15 @@ export class PasswordComponent extends MeteorComponent implements OnInit {
     }
 
     Accounts.changePassword(this.passwordForm.value.oldpassword, this.passwordForm.value.newPassword, (err) => {
-      //console.log("res:", err);
-      if (err) {
-        this.error = err;
-        showAlert(err.message, "danger");
-      } else {
-        showAlert("Password updated successfully.", "success");
-        this.router.navigate(['/dashboard']);
-      }
+      this.zone.run(() => {
+        if (err) {
+          this.error = err;
+          showAlert(err.message, "danger");
+        } else {
+          showAlert("Password updated successfully.", "success");
+          this.router.navigate(['/dashboard']);
+        }
+      });
     });
   }
 }

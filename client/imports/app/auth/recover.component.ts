@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomValidators as CValidators } from "ng2-validation";
 import { Router } from '@angular/router';
 import { Accounts } from 'meteor/accounts-base';
+import { validateEmail, validatePassword } from "../../validators/common";
 import {showAlert} from "../shared/show-alert";
 
 import template from './recover.component.html';
@@ -19,7 +20,7 @@ export class RecoverComponent implements OnInit {
 
   ngOnInit() {
     this.recoverForm = this.formBuilder.group({
-      email: ['', Validators.compose([Validators.required, CValidators.email])]
+      email: ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50), validateEmail])]
     });
 
     this.error = '';

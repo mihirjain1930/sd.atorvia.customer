@@ -38,7 +38,7 @@ export class ResetPassword extends MeteorComponent implements OnInit {
             this.router.navigate(['/signup']);
             return;
           }
-          
+
           if (!res || !res.length) {
             console.log("Invalid token supplied");
             showAlert("Invalid token supplied.");
@@ -52,8 +52,8 @@ export class ResetPassword extends MeteorComponent implements OnInit {
     });
 
     this.passwordForm = this.formBuilder.group({
-      newPassword: ['', Validators.compose([Validators.required, Validators.minLength(8)])],
-      confirmPassword: ['', Validators.compose([Validators.required, Validators.minLength(8)])],
+      newPassword: ['', Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(30)])],
+      confirmPassword: ['', Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(30)])],
     }, {validator: matchingPasswords('newPassword', 'confirmPassword')});
 
     this.error = '';
