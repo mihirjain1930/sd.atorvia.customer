@@ -58,7 +58,7 @@
 								<div class="form-text error has-error" *ngIf="signupForm.controls.email.errors && signupForm.controls.email.touched">
 									<div [hidden]="!signupForm.controls['email'].errors.required">You have to fill in Email to signup.</div>
 									<div [hidden]="!signupForm.controls['email'].errors.minlength">Min 5 characters required.</div>
-									<div [hidden]="!signupForm.controls['email'].errors.maxlength">Max 30 characters allowed.</div>
+									<div [hidden]="!signupForm.controls['email'].errors.maxlength">Max 50 characters allowed.</div>
 									<div [hidden]="!signupForm.controls['email'].errors.validateEmail">Invalid Email address.</div>
 								</div>
 							</div>
