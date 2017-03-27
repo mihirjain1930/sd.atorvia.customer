@@ -56,7 +56,7 @@
 							<div class="form-group forget-pass">
 								<div class="row">
 									<div class="col-lg-6 push-lg-6">
-										<button type="submit" class="btn green-btn">Login</button>
+										<button type="submit" class="btn green-btn" [disabled]="!loginForm.valid">Login</button>
 
 									</div>
 									<div class="col-lg-6 pull-lg-6 forget-pass-link">

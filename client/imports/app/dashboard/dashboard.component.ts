@@ -73,7 +73,7 @@ export class DashboardComponent extends MeteorComponent implements OnInit {
       "profile.firstName": this.accountForm.value.firstName,
       "profile.middleName": this.accountForm.value.middleName,
       "profile.lastName": this.accountForm.value.lastName,
-      "profile.phoneNum": this.accountForm.value.phoneNum,
+      "profile.contact": this.accountForm.value.phoneNum,
       "profile.fullName": fullName,
     };
     this.call("users.update", userData, (err, res) => {
