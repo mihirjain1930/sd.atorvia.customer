@@ -32,7 +32,7 @@
                                     <div *ngIf="recoverForm.controls.email.hasError('validateEmail')">Invalid Email address.</div>
                                 </div>
                                 <div class="form-group">
-                                	<button type="submit" class="btn green-btn full-btn">Reset Password</button>
+                                	<button type="submit" class="btn green-btn full-btn" [disabled]="!recoverForm.valid">Reset Password</button>
                                 </div>
 
                                 <div class="form-group add-account">
