@@ -44,7 +44,7 @@ export class DashboardComponent extends MeteorComponent implements OnInit {
         accountForm.controls['middleName'].setValue(user.profile.middleName);
         accountForm.controls['lastName'].setValue(user.profile.lastName);
         accountForm.controls['email'].setValue(user.emails[0].address);
-        accountForm.controls['phoneNum'].setValue(user.profile.phoneNum);
+        accountForm.controls['phoneNum'].setValue(user.profile.contact);
       };
       this.fetchUser(callback);
     }
