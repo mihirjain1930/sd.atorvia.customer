@@ -76,6 +76,9 @@
 				color: $grey-anchor;
 				margin-bottom: 3px;
 			}
+			#firstName, #lastName, #middleName {
+				text-transform: capitalize;
+			}
 		}
 	}
 
@@ -91,16 +94,20 @@
 			font-size: $font-20;
 			font-weight: $weight_700;
 			margin-bottom: 25px;
+			color: $white;
 		}
 		p {
 			font-size: $font-16;
+			color: $white;
 		}
 		.contact-info {
 			h4 {
 				font-size: $font-16;
+				color: $white;
 			}
 			p {
 				font-size: $font-14;
+				color: $white;
 			}
 		}
 

@@ -9,3 +9,9 @@
 		color : $green-anchor;
 	}
 }
+
+.signup-wrap {
+	#FirstName, #LastName {
+		text-transform: capitalize;
+	}
+}

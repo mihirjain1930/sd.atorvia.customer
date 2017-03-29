@@ -38,7 +38,7 @@
                       <div class="form-group">
                         <label for="firstName">FIRST NAME</label>
                         <div class="input-wrap">
-                          <input type="text" class="form-control" formControlName="firstName"/>
+                          <input type="text" class="form-control" id="firstName" formControlName="firstName"/>
                         </div>
                       </div>
                       <div class='form-text error has-error' *ngIf="accountForm.controls.firstName.touched">
@@ -52,7 +52,7 @@
                       <div class="form-group">
                         <label for="middleName">MIDDLE NAME</label>
                         <div class="input-wrap">
-                          <input type="text" class="form-control" formControlName="middleName"/>
+                          <input type="text" class="form-control" id="middleName" formControlName="middleName"/>
                         </div>
                       </div>
                       <div class='form-text error has-error' *ngIf="accountForm.controls.middleName.touched">
@@ -65,7 +65,7 @@
                       <div class="form-group">
                         <label for="lastName">LAST NAME</label>
                         <div class="input-wrap">
-                          <input type="text" class="form-control" formControlName="lastName"/>
+                          <input type="text" class="form-control" id="lastName" formControlName="lastName"/>
                         </div>
                       </div>
                       <div class='form-text error has-error' *ngIf="accountForm.controls.lastName.errors && accountForm.controls.lastName.touched">
