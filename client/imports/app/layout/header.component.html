@@ -1,43 +1,47 @@
 <header class="user-header" *ngIf="!!user">
-    <div class="container-fluid">
-        <nav class="navbar navbar-toggleable-md">
-          <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="javascript:void(0);navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <a class="navbar-brand"><img src="images/logo.png" alt=""/></a>
-          <div class="collapse navbar-collapse" id="navbarText">
-            <ul class="navbar-nav mr-auto">
-              <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0);">Bookings</a>
-              </li>
-              <li class="nav-item active">
-                <a class="nav-link" href="javascript:void(0);">Profile <span class="sr-only">(current)</span></a>
-              </li>
-            </ul>
+  <div class="container-fluid">
+    <nav class="navbar navbar-toggleable-md">
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"><i class="fa fa-bars" aria-hidden="true"></i>
+        </span>
+      </button>
+      <a class="navbar-brand" href="javascript: void(0);"><img src="images/logo.png" alt=""/></a>
+      <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="javascript: void(0);">Bookings</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="javascript: void(0);">Profile <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="user-drop">
             <span class="navbar-text">
-                <ul class="pull-right">
-                    <li>
-                        <a href="javascript:void(0)" class="">
-                            <img src="images/bell.png" alt=""/>
-                            <span class="red-dot"></span>
-                        </a>
-                    </li>
-                    <li>
-                        <span class="user-img"><img src="images/user.png" alt=""/></span>
-                        <div class="btn-group">
-                          <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{user.profile.fullName}}
-                          </button>
-                          <div class="dropdown-menu dropdown-menu-right">
-                            <button class="dropdown-item" type="button" [routerLink]="['/changepassword']">Change Password</button>
-                            <button class="dropdown-item" type="button" href="javascript:void(0);" (click)="logout()">Logout</button>
-                          </div>
-                        </div>
-                    </li>
+              <ul class="pull-right">
+                <li>
+                  <a href="javascript:void(0)" class="">
+                    <img src="images/bell.png" alt=""/>
+                    <span class="red-dot"></span>
+                  </a>
+                </li>
+                <li>
+                  <span class="user-img"><img src="/images/user.png" alt=""/></span>
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      {{user.profile.fullName}}
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                      <button class="dropdown-item" type="button" [routerLink]="['/changepassword']">Change Password</button>
+                      <button class="dropdown-item" type="button" href="javascript:void(0);" (click)="logout()">Logout</button>
+                    </div>
+                  </div>
+                </li>
 
-                </ul>
+              </ul>
             </span>
-          </div>
-        </nav>
-    </div>
+          </li>
+        </ul>
+
+      </div>
+    </nav>
+  </div>
 </header>
