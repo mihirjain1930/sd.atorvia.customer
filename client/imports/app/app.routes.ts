@@ -1,21 +1,19 @@
 import { Route } from '@angular/router';
 import { Meteor } from 'meteor/meteor';
 
-import {SignupComponent} from "./auth/singup.component";
-import {RecoverComponent} from "./auth/recover.component";
-import {LoginComponent} from "./auth/login.component.web";
-import {DashboardComponent} from "./dashboard/dashboard.component";
-import {LandingComponent} from "./layout/landing.component";
-import {ResetPassword} from "./auth/resetpassword";
-import {VerifyEmail} from "./auth/verifyemail.component";
-
-import {accountRoutes} from "./account/account.routes";
-import {routes as pageRoutes} from "./content-page/routes";
-import {routes as faqRoutes} from "./faqs/routes";
+import { SignupComponent } from "./auth/singup.component";
+import { RecoverComponent } from "./auth/recover.component";
+import { LoginComponent } from "./auth/login.component.web";
+import { DashboardComponent } from "./dashboard/dashboard.component";
+import { ResetPassword } from "./auth/resetpassword";
+import { VerifyEmail } from "./auth/verifyemail.component";
+import { accountRoutes } from "./account/account.routes";
+import { routes as pageRoutes } from "./content-page/routes";
+import { routes as faqRoutes } from "./faqs/routes";
+import { routes as landingRoutes } from "./landing/routes";
 
 
 let mainRoutes = [
-    { path: '', component: LoginComponent/*, canActivate: ['canActivateForLogoff']*/ },
     { path: 'dashboard', component: DashboardComponent, canActivate: ['canActivateForLoggedIn'] },
     { path: 'login', component: LoginComponent },
     { path: 'signup', component: SignupComponent },
@@ -28,7 +26,8 @@ export const routes: Route[] = [
     ...mainRoutes,
     ...accountRoutes,
     ...pageRoutes,
-    ...faqRoutes
+    ...faqRoutes,
+    ...landingRoutes
 ];
 
 export const ROUTES_PROVIDERS = [

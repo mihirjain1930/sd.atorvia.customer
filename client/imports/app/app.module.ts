@@ -14,6 +14,7 @@ import { AUTH_DECLARATIONS } from "./auth/index";
 import { LAYOUT_DECLARATIONS } from "./layout/index";
 import { Page_Declarations } from "./content-page/index";
 import { Faq_Declarations } from "./faqs/index";
+import { LANDING_DECLARATIONS } from "./landing/index";
 
 import {DASHBOARD_DECLARATIONS} from "./dashboard/index";
 
@@ -44,7 +45,8 @@ moduleDefinition = {
     ...DASHBOARD_DECLARATIONS,
     ...LAYOUT_DECLARATIONS,
     ...Page_Declarations,
-    ...Faq_Declarations
+    ...Faq_Declarations,
+    ...LANDING_DECLARATIONS
   ],
   providers: [
     ...ROUTES_PROVIDERS,
