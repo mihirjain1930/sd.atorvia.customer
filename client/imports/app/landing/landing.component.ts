@@ -4,9 +4,18 @@ import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
 import { MeteorComponent } from 'angular2-meteor';
 import template from './landing.html';
-import { Tour } from "../../../both/models/tour.model";
+import { Tour } from "../../../../both/models/tour.model";
 import { isValidEmail } from "../../../../both/validators/index";
 import { showAlert } from "../shared/show-alert";
+
+interface Pagination {
+  limit: number;
+  skip: number;
+}
+
+interface Options extends Pagination {
+  [key: string]: any
+}
 
 @Component({
   selector: '',
@@ -51,17 +60,25 @@ export class LandingComponent extends MeteorComponent implements OnInit, AfterVi
   ngOnDestroy() {
   }
 
-  search(searchString) {
+  doSearch(searchString) {
     console.log(searchString);
   }
 
-  subscribe(email) {
-    var validEmail = isValidEmail(email);
+  doSubscribe(input) {
+    let email = input.value;
+    let validEmail = isValidEmail(email);
     if (! validEmail) {
       showAlert("Please enter a valid email.", "danger");
       return;
     }
 
-    console.log(email);
+    this.call("subscribers.insert", email, "landing", (err, res) => {
+      if (err) {
+        showAlert(err.reason, "danger");
+      } else {
+        input.value = "";
+        showAlert("Thank you for subscribing to our website.", "success");
+      }
+    })
   }
 }
