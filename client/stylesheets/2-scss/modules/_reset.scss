@@ -235,5 +235,153 @@ $desktop : 1200px;
 $laptop:  992px;
 $ipad:  768px;
 $phone: 600px;
+$small-grid: 575px;
 $medium-phone: 480px;
 $small_phone: 360px;
+
+.select-style  {
+	padding: 0;
+	margin: 0;
+	@include border-all (1px, solid, $border-color);
+	width: $full;
+	@include border-radius (3px, 3px, 3px, 3px);
+	overflow: hidden;
+	background-color: $white;
+	background: $white url("/images/drop.png") no-repeat 90% 50%;
+	.select {
+		padding: 5px 8px;
+		width: 100%;
+		border: none;
+		box-shadow: none;
+		background-color: transparent;
+		background-image: none;
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		appearance: none;
+		color: $grey-anchor;
+		font-size: $font-16;
+	}
+}
+.radio-custom {
+	opacity: 0;
+	@extend .absolute;
+	padding: 5px;
+}
+.radio-custom,
+.radio-custom-label {
+	@extend .inline-block;
+	@extend .vertical-middle;
+	margin: 5px;
+	cursor: pointer;
+}
+.radio-custom-label {
+	@extend .relative;
+}
+
+.radio-custom + .radio-custom-label:before {
+	content: '';
+	background: $white;
+	border: 2px solid #ddd;
+	@include border-all (1px, solid, $border-color);
+	@extend .vertical-middle;
+	width: 23px;
+	height: 23px;
+	padding: 2px;
+	margin-right: 10px;
+	@extend .text-center;
+	@extend .inline-block;
+	@include border-radius ($full, $full, $full, $full);
+}
+.radio-custom:checked + .radio-custom-label:before {
+	content: "\f00c";
+	font-family: 'FontAwesome';
+	color: $white;
+	background: $green-color;
+	line-height: 17px;
+}
+
+.radio-custom:focus + .radio-custom-label {
+	outline: none;
+}
+
+.green-anchor {
+	color: $green-anchor;
+	font-size: $font-20;
+	font-weight: $weight_700 ;
+}
+.green-label {
+	background: $green-color;
+	color: $white;
+	font-size: $font-14;
+	font-weight: $weight_700;
+	padding: 5px;
+}
+
+
+.arrow_box {
+	@extend .relative;
+	background: $white;
+	@include border-all(4px, solid, $white);
+	-webkit-box-shadow: 0px 2px 4px 0px rgba(0, 16, 0, 0.59);
+	-moz-box-shadow: 0px 2px 4px 0px rgba(0, 16, 0, 0.59);
+	box-shadow: 0px 2px 4px 0px rgba(0, 16, 0, 0.59);
+}
+
+.arrow_box {
+	&:after,
+	&:before {
+		top: $full;
+		left: 50%;
+		@include border-all(4px, solid, transparent);
+		content: " ";
+		height: 0;
+		width: 0;
+		@extend .absolute;
+		pointer-events: none;
+	}
+}
+
+
+.arrow_box {
+	&:after {
+		border-color: rgba(0, 0, 0, 0);
+		border-top-color: $white;
+		border-width: 14px;
+		margin-left: -14px;
+	}
+}
+
+.arrow_box {
+	&:before {
+		border-color: rgba(255, 255, 255, 0);
+		border-top-color: $white;
+		border-width: 20px;
+		margin-left: -20px;
+	}
+}
+
+.custom-control.custom-checkbox {
+	padding-left: 0;
+	padding-right: 1.5rem;
+	margin-right: 0;
+	width: $full;
+	.custom-control-indicator {
+		left: auto;
+		@extend .right-0;
+		background: $white;
+		@include border-all(1px, solid, $border-color);
+		@include border-radius(1px, 1px, 1px, 1px);
+		height: 18px;
+		width: 18px;
+	}
+	.custom-control-input {
+		&:checked {
+			&+ .custom-control-indicator {
+				@include cover-background('/images/checked.png', 100%, 100%);
+				background-color: transparent;
+				padding: 2px;
+				box-shadow: none;
+			}
+		}
+	}
+}

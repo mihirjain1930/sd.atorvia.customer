@@ -11,6 +11,7 @@ import { accountRoutes } from "./account/account.routes";
 import { routes as pageRoutes } from "./content-page/routes";
 import { routes as faqRoutes } from "./faqs/routes";
 import { routes as landingRoutes } from "./landing/routes";
+import { routes as toursRoutes } from "./tours/routes";
 
 
 let mainRoutes = [
@@ -27,7 +28,8 @@ export const routes: Route[] = [
     ...accountRoutes,
     ...pageRoutes,
     ...faqRoutes,
-    ...landingRoutes
+    ...landingRoutes,
+    ...toursRoutes
 ];
 
 export const ROUTES_PROVIDERS = [

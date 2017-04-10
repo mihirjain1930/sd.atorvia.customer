@@ -15,7 +15,7 @@ import { LAYOUT_DECLARATIONS } from "./layout/index";
 import { Page_Declarations } from "./content-page/index";
 import { Faq_Declarations } from "./faqs/index";
 import { LANDING_DECLARATIONS } from "./landing/index";
-
+import { TOURS_DECLARATIONS } from "./tours/index";
 import {DASHBOARD_DECLARATIONS} from "./dashboard/index";
 
 // Create config options (see ILocalStorageServiceConfigOptions) for deets:
@@ -46,7 +46,8 @@ moduleDefinition = {
     ...LAYOUT_DECLARATIONS,
     ...Page_Declarations,
     ...Faq_Declarations,
-    ...LANDING_DECLARATIONS
+    ...LANDING_DECLARATIONS,
+    ...TOURS_DECLARATIONS
   ],
   providers: [
     ...ROUTES_PROVIDERS,
