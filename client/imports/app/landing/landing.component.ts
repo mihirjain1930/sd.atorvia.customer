@@ -4,18 +4,38 @@ import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
 import { MeteorComponent } from 'angular2-meteor';
 import template from './landing.html';
+import { Tour } from "../../../both/models/tour.model";
+import { isValidEmail } from "../../../../both/validators/index";
+import { showAlert } from "../shared/show-alert";
 
 @Component({
   selector: '',
   template
 })
 export class LandingComponent extends MeteorComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
-
+  topItems: Tour[];
+  hotItems: Tour[];
   constructor(private zone: NgZone) {
     super();
   }
 
   ngOnInit() {
+    const options: Options = {
+        limit: 8,
+        skip: 0,
+        sort: { "createdAt": -1 }
+    };
+    let where = {active: true, approved: true};
+
+    this.call("tours.find", options, where, "", (err, res) => {
+        if (err) {
+            showAlert("Error while fetching pages list.", "danger");
+            return;
+        }
+
+        this.topItems = res.data;
+        this.hotItems = res.data;
+    })
   }
 
   ngAfterViewChecked() {
@@ -29,5 +49,19 @@ export class LandingComponent extends MeteorComponent implements OnInit, AfterVi
   }
 
   ngOnDestroy() {
+  }
+
+  search(searchString) {
+    console.log(searchString);
+  }
+
+  subscribe(email) {
+    var validEmail = isValidEmail(email);
+    if (! validEmail) {
+      showAlert("Please enter a valid email.", "danger");
+      return;
+    }
+
+    console.log(email);
   }
 }

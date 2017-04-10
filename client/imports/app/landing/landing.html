@@ -31,7 +31,6 @@
           </ul>
         </div>
       </nav>
-
     </div>
     <div class="container">
       <div class="row justify-content-md-center align-items-center">
@@ -41,9 +40,9 @@
             <div class="form-group">
               <div class="input-group">
                 <span class="left-icon"><i class="fa fa-question" aria-hidden="true"></i></span>
-                <input class="form-control" id="search" placeholder="Where you go next ?" type="text">
+                <input class="form-control" id="search" placeholder="Where you go next ?" type="text" #searchQuery>
                 <div class="input-group-btn">
-                  <button type="button" class="btn green-btn"><span><i class="fa fa-search" aria-hidden="true"></i></span>Search</button>
+                  <button type="button" class="btn green-btn" (click)="search(searchQuery.value)"><span><i class="fa fa-search" aria-hidden="true"></i></span>Search</button>
                 </div>
               </div>
             </div>
@@ -62,54 +61,13 @@
           <h3>See our top 8 destinaton</h3>
         </div>
       </div>
-
       <div class="row">
-        <div class="col-sm-3">
+        <div class="col-sm-3" *ngFor = "let tour of topItems">
           <div class="destination-wrap">
-            <img src="images/destination.png" alt="" />
-            <p>Destination</p>
-          </div>
-        </div>
-        <div class="col-sm-3">
-          <div class="destination-wrap">
-            <img src="images/destination.png" alt="" />
-            <p>Destination</p>
-          </div>
-        </div>
-        <div class="col-sm-3">
-          <div class="destination-wrap">
-            <img src="images/destination.png" alt="" />
-            <p>Destination</p>
-          </div>
-        </div>
-        <div class="col-sm-3">
-          <div class="destination-wrap">
-            <img src="images/destination.png" alt="" />
-            <p>Destination</p>
-          </div>
-        </div>
-        <div class="col-sm-3">
-          <div class="destination-wrap">
-            <img src="images/destination.png" alt="" />
-            <p>Destination</p>
-          </div>
-        </div>
-        <div class="col-sm-3">
-          <div class="destination-wrap">
-            <img src="images/destination.png" alt="" />
-            <p>Destination</p>
-          </div>
-        </div>
-        <div class="col-sm-3">
-          <div class="destination-wrap">
-            <img src="images/destination.png" alt="" />
-            <p>Destination</p>
-          </div>
-        </div>
-        <div class="col-sm-3">
-          <div class="destination-wrap">
-            <img src="images/destination.png" alt="" />
-            <p>Destination</p>
+            <span *ngIf="!tour.images?.length"><img src="/images/destination.png" /></span>
+            <span *ngIf="tour.images?.length > 0 && tour.featuredImage?.url"><img [src]="tour.featuredImage?.url" /></span>
+            <span *ngIf="tour.images?.length > 0 && !tour.featuredImage?.url"><img [src]="tour.images[0]?.url" /></span>
+            <p>{{tour.destination}}</p>
           </div>
         </div>
       </div>
@@ -125,114 +83,27 @@
           <h3>Our hotest deals</h3>
         </div>
       </div>
-
       <div class="row">
-        <div class="col-lg-4 col-md-6">
+        <div class="col-lg-4 col-md-6" *ngFor = "let tour of hotItems">
           <div class="destination-wrap">
-            <img src="images/destination.png" alt="" />
+            <span *ngIf="!tour.images?.length"><img src="/images/destination.png" /></span>
+            <span *ngIf="tour.images?.length > 0 && tour.featuredImage?.url"><img [src]="tour.featuredImage?.url" /></span>
+            <span *ngIf="tour.images?.length > 0 && !tour.featuredImage?.url"><img [src]="tour.images[0]?.url" /></span>
             <div class="content">
               <div class="row">
                 <div class="col-8">
-                  <h4>Halong Harbour</h4>
-                  <p><span><i class="fa fa-map-marker" aria-hidden="true"></i></span>Hanoi, Vietnam</p>
+                  <h4>{{tour.name}}</h4>
+                  <p><span><i class="fa fa-map-marker" aria-hidden="true"></i></span>{{tour.departure}}, {{tour.destination}}</p>
                 </div>
                 <div class="col-4">
                   <p>From</p>
-                  <h3><span>$</span>99</h3>
+                  <h3><span>$</span>{{tour.dateRange[0]?.price[0]?.adult}}</h3>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-lg-4 col-md-6">
-          <div class="destination-wrap">
-            <img src="images/destination.png" alt="" />
-            <div class="content">
-              <div class="row">
-                <div class="col-8">
-                  <h4>Halong Harbour</h4>
-                  <p><span><i class="fa fa-map-marker" aria-hidden="true"></i></span>Hanoi, Vietnam</p>
-                </div>
-                <div class="col-4">
-                  <p>From</p>
-                  <h3><span>$</span>99</h3>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-6">
-          <div class="destination-wrap">
-            <img src="images/destination.png" alt="" />
-            <div class="content">
-              <div class="row">
-                <div class="col-8">
-                  <h4>Halong Harbour</h4>
-                  <p><span><i class="fa fa-map-marker" aria-hidden="true"></i></span>Hanoi, Vietnam</p>
-                </div>
-                <div class="col-4">
-                  <p>From</p>
-                  <h3><span>$</span>99</h3>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6">
-          <div class="destination-wrap">
-            <img src="images/destination.png" alt="" />
-            <div class="content">
-              <div class="row">
-                <div class="col-8">
-                  <h4>Halong Harbour</h4>
-                  <p><span><i class="fa fa-map-marker" aria-hidden="true"></i></span>Hanoi, Vietnam</p>
-                </div>
-                <div class="col-4">
-                  <p>From</p>
-                  <h3><span>$</span>99</h3>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-6">
-          <div class="destination-wrap">
-            <img src="images/destination.png" alt="" />
-            <div class="content">
-              <div class="row">
-                <div class="col-8">
-                  <h4>Halong Harbour</h4>
-                  <p><span><i class="fa fa-map-marker" aria-hidden="true"></i></span>Hanoi, Vietnam</p>
-                </div>
-                <div class="col-4">
-                  <p>From</p>
-                  <h3><span>$</span>99</h3>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-6">
-          <div class="destination-wrap">
-            <img src="images/destination.png" alt="" />
-            <div class="content">
-              <div class="row">
-                <div class="col-8">
-                  <h4>Halong Harbour</h4>
-                  <p><span><i class="fa fa-map-marker" aria-hidden="true"></i></span>Hanoi, Vietnam</p>
-                </div>
-                <div class="col-4">
-                  <p>From</p>
-                  <h3><span>$</span>99</h3>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
       </div>
-
       <div class="row">
         <div class="col-12 text-center">
           <button class="btn green-outline">See all popular tours <span><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
@@ -255,9 +126,9 @@
           <div class="form-group">
             <div class="input-group">
               <span class="left-icon"><i class="fa fa-question" aria-hidden="true"></i></span>
-              <input class="form-control" id="search" placeholder="Email Address" type="text">
+              <input class="form-control" id="search" placeholder="Email Address" type="email" #email>
               <div class="input-group-btn">
-                <button type="button" class="btn green-btn">Subscribe</button>
+                <button type="button" class="btn green-btn" (click)="subscribe(email.value)">Subscribe</button>
               </div>
             </div>
           </div>

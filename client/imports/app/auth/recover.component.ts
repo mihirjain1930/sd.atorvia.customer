@@ -1,10 +1,10 @@
-import {Component, OnInit, NgZone} from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomValidators as CValidators } from "ng2-validation";
 import { Router } from '@angular/router';
 import { Accounts } from 'meteor/accounts-base';
 import { validateEmail, validatePassword } from "../../validators/common";
-import {showAlert} from "../shared/show-alert";
+import { showAlert } from "../shared/show-alert";
 
 import template from './recover.component.html';
 
