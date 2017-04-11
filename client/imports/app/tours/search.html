@@ -37,8 +37,8 @@
 			<div class="row justify-content-md-center align-items-center">
 				<div class="col-lg-12 align-self-center">
 					<div class="search-box">
-						<h1>Search Results for "Vietnam"</h1>
-						<p>We found 48 tours for you.</p>
+						<h1 *ngIf="!!searchString">Search Results for "{{searchString}}"</h1>
+						<p>We found {{itemsSize}} tours for you.</p>
 					</div>
 				</div>
 			</div>
@@ -59,11 +59,16 @@
 							<div class="dropdown">
 								<div class="select-style">
 									<span><img src="images/sort.png" alt=""/></span>
-									<select class="select">
+									<select class="select" (change)="changeOrderBy(sortOrder.value)" #sortOrder>
 										<option>Sort</option>
-										<option value="Value 1">Value 1</option>
-										<option value="Value 2">Value 2</option>
-										<option value="Value 3">Value 3</option>
+										<option >Tour (A-Z)</option>
+										<option >Tour (Z-A)</option>
+										<option >Length (ASC)</option>
+										<option >Length (DESC)</option>
+										<option >Availability (ASC)</option>
+										<option >Availability (DESC)</option>
+										<option >Price From (ASC)</option>
+										<option >Price From (DESC)</option>
 									</select>
 								</div>
 								<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
@@ -93,71 +98,62 @@
 								<li class="form-checkbox">
 									<label class="custom-control custom-checkbox">
 										<span class="custom-control-description">Slow</span>
-										<input type="checkbox" class="custom-control-input">
+										<input type="checkbox" class="custom-control-input" value="Slow" (change)="updatePaceOptions('Slow', $event)">
 										<span class="custom-control-indicator"></span>
 									</label>
 								</li>
 								<li class="form-checkbox">
 									<label class="custom-control custom-checkbox">
-										<span class="custom-control-description">Slow - Medium</span>
-										<input type="checkbox" class="custom-control-input">
+										<span class="custom-control-description">Medium</span>
+										<input type="checkbox" class="custom-control-input" value="Medium" (change)="updatePaceOptions('Medium', $event)">
 										<span class="custom-control-indicator"></span>
 									</label>
 								</li>
 								<li class="form-checkbox">
 									<label class="custom-control custom-checkbox">
-										<span class="custom-control-description">Medium - Fast</span>
-										<input type="checkbox" class="custom-control-input">
+										<span class="custom-control-description">Fast</span>
+										<input type="checkbox" class="custom-control-input" value="Fast" (change)="updatePaceOptions('Fast', $event)">
 										<span class="custom-control-indicator"></span>
 									</label>
 								</li>
-								<li class="form-checkbox">
-									<label class="custom-control custom-checkbox">
-										<span class="custom-control-description">Adventure</span>
-										<input type="checkbox" class="custom-control-input">
-										<span class="custom-control-indicator"></span>
-									</label>
-								</li>
-
 							</ul>
 							<h4>Type</h4>
 							<ul>
 								<li class="form-checkbox">
 									<label class="custom-control custom-checkbox">
 										<span class="custom-control-description">Family Friendly</span>
-										<input type="checkbox" class="custom-control-input">
+										<input type="checkbox" class="custom-control-input" value="Family friendly" (change)="updateTourOptions('Family friendly', $event)">
 										<span class="custom-control-indicator"></span>
 									</label>
 								</li>
 								<li class="form-checkbox">
 									<label class="custom-control custom-checkbox">
 										<span class="custom-control-description">Honeymoon</span>
-										<input type="checkbox" class="custom-control-input">
+										<input type="checkbox" class="custom-control-input" value="Honeymoon" (change)="updateTourOptions('Honeymoon', $event)">
 										<span class="custom-control-indicator"></span>
 									</label>
 								</li>
 								<li class="form-checkbox">
 									<label class="custom-control custom-checkbox">
 										<span class="custom-control-description">Adventure</span>
-										<input type="checkbox" class="custom-control-input">
+										<input type="checkbox" class="custom-control-input" value="Adventure" (change)="updateTourOptions('Adventure', $event)">
 										<span class="custom-control-indicator"></span>
 									</label>
 								</li>
 								<li class="form-checkbox">
 									<label class="custom-control custom-checkbox">
-										<span class="custom-control-description">Honeymoon</span>
-										<input type="checkbox" class="custom-control-input">
+										<span class="custom-control-description">Designed For Couples</span>
+										<input type="checkbox" class="custom-control-input" value="Designed For Couples" (change)="updateTourOptions('Designed For Couples', $event)">
 										<span class="custom-control-indicator"></span>
 									</label>
 								</li>
 							</ul>
 							<h4>Price Range</h4>
-
+							<input type="hidden" id="filterPrice" #filterPrice />
 							<div class="slider-box-custom">
 							  <input type="text" id="priceRange" readonly>
-							  <div id="price-range" class="slider-custom"></div>
+							  <div id="price-range" class="slider-custom" (click)="changePrice(filterPrice.value)"></div>
 							</div>
-
 						</div>
 					</div>
 				</div>

@@ -34,7 +34,11 @@ export class SearchComponent extends MeteorComponent implements OnInit, AfterVie
   itemsSize: number = -1;
   searchSubject: Subject<string> = new Subject<string>();
   searchString: string = "";
-  whereCond: Subject<any> = new Subject<any>();
+  whereCond: any = {"active": true, "approved": true};
+  whereSub: Subject<any> = new Subject<any>();
+  tourOptions: Subject<any> = new Subject<any>();
+  paceOptions: Subject<any> = new Subject<any>();
+  paramsSub: Subscription;
 
   constructor(private zone: NgZone, private route: ActivatedRoute, private paginationService: PaginationService) {
     super();
@@ -63,13 +67,19 @@ export class SearchComponent extends MeteorComponent implements OnInit, AfterVie
         $("#price-range").slider({
           range: true,
           min: 0,
-          max: 200000,
-          values: [0, 200000],
+          max: 10000,
+          values: [0, 10000],
           slide: function(event, ui) {
             $("#priceRange").val("$" + ui.values[0] + " - $" + ui.values[1]);
-          }
+            $("#filterPrice").val(ui.values[0] + ',' + ui.values[1]);
+          },
+          change: function( event, ui ) { }
         });
         $("#priceRange").val("$" + $("#price-range").slider("values", 0) + " - $" + $("#price-range").slider("values", 1));
+      });
+
+      $(".filter-wrap").click(function () {
+       $(".filter").show();
       });
     }, 500);
   }
@@ -84,7 +94,7 @@ export class SearchComponent extends MeteorComponent implements OnInit, AfterVie
           orderBy: "createdAt",
           nameOrder: -1,
           searchString: this.searchString,
-          where: {"active": true, "approved": true}
+          where: this.whereCond
       }
 
       this.setOptionsSub();
@@ -101,7 +111,7 @@ export class SearchComponent extends MeteorComponent implements OnInit, AfterVie
       this.orderBy.next(options.orderBy);
       this.nameOrder.next(options.nameOrder);
       this.searchSubject.next(options.searchString);
-      this.whereCond.next(options.where);
+      this.whereSub.next(options.where);
   }
 
   private setOptionsSub() {
@@ -110,7 +120,7 @@ export class SearchComponent extends MeteorComponent implements OnInit, AfterVie
           this.curPage,
           this.orderBy,
           this.nameOrder,
-          this.whereCond,
+          this.whereSub,
           this.searchSubject
       ).subscribe(([pageSize, curPage, orderBy, nameOrder, where, searchString]) => {
           //console.log("inside subscribe");
@@ -184,5 +194,77 @@ export class SearchComponent extends MeteorComponent implements OnInit, AfterVie
 
   changeSortOrder(nameOrder: string): void {
       this.nameOrder.next(parseInt(nameOrder));
+  }
+
+  changePrice(value) {
+    let range = value.split(',');
+    let where = this.whereCond;
+    where["dateRange.price.adult"] = {
+      $gte: Number(range[0]),
+      $lte: Number(range[1])
+    };
+    this.whereCond = JSON.parse(JSON.stringify(where));
+
+    // redefine where
+    this.redefineWhere(where);
+    this.whereSub.next(where);
+  }
+
+  updatePaceOptions(value, event) {
+    let where = this.whereCond;
+    if (typeof where["tourPace"] == "undefined") {
+      where["tourPace"] = { };
+    }
+    where["tourPace"] [value] = event.target.checked;
+    this.whereCond = JSON.parse(JSON.stringify(where));
+
+    // redefine where
+    this.redefineWhere(where);
+    this.whereSub.next(where);
+  }
+
+  updateTourOptions(value, event) {
+    let where = this.whereCond;
+    if (typeof where["tourType"] == "undefined") {
+      where["tourType"] = { };
+    }
+    where["tourType"] [value] = event.target.checked;
+    this.whereCond = JSON.parse(JSON.stringify(where));
+
+    // redefine where
+    this.redefineWhere(where);
+    this.whereSub.next(where);
+  }
+
+  private redefineWhere(where) {
+    if (typeof where.tourPace != "undefined") {
+      let tourPace = [];
+      for (let i in where.tourPace) {
+        if (where.tourPace[i] == true) {
+          tourPace.push(i);
+        }
+      }
+
+      if (tourPace.length > 0) {
+        where.tourPace = {$in: tourPace};
+      } else {
+        delete where.tourPace;
+      }
+    }
+
+    if (typeof where.tourType != "undefined") {
+      let tourType = [];
+      for (let i in where.tourType) {
+        if (where.tourType[i] == true) {
+          tourType.push(i);
+        }
+      }
+
+      if (tourType.length > 0) {
+        where.tourType = {$in: tourType};
+      } else {
+        delete where.tourType;
+      }
+    }
   }
 }
