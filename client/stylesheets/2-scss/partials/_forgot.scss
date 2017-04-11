@@ -21,3 +21,8 @@ h4 {
 {
 		@extend .full-btn;
 }
+.side-form .center-content 	.forgot-pass h4{
+	@media (max-width: $small_phone) {
+		font-size : $font-28;
+	}
+}

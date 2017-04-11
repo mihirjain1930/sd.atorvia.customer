@@ -67,17 +67,20 @@
 	bottom: $bottom;
 }
 
-@mixin placeholder() {
-	input::-webkit-input-placeholder {
+@mixin placeholder {
+	&::-webkit-input-placeholder {
 		@content;
 	}
-	input:-moz-placeholder {
+
+	&:-moz-placeholder {
 		@content;
 	}
-	input::-moz-placeholder {
+
+	&::-moz-placeholder {
 		@content;
 	}
-	input:-ms-input-placeholder {
+
+	&:-ms-input-placeholder {
 		@content;
 	}
 }
