@@ -2,7 +2,7 @@
 	@include cover-background("../images/banner.jpg", $background-top:"100%", $background-left:"100%");
 
 	.navbar-toggleable-sm .navbar-collapse {
-		padding: 50px 15px;
+		padding: 20px 15px;
 		display: inline-block!important;
 		@media (max-width: $ipad) {
 			height: 0;

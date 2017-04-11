@@ -12,14 +12,12 @@
 	{
 		padding : 0 100px;
 		@media (max-width: $desktop) {
-			padding: 0 50px;
+			padding: 0 30px;
 		}
 		@media (max-width: $ipad) {
-			padding: 0 25px;
-		}
-		@media (max-width: small_phone) {
 			padding: 0 15px;
 		}
+
 		h3
 		{
 			color : $white;
@@ -86,6 +84,9 @@
 			font-weight : 700;
 			color : $green-anchor;
 			font-size : $font-30;
+			@media (max-width: small_phone){
+				margin-bottom: 5px;
+			}
 		}
 		p {
 			color : $label-color;
