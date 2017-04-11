@@ -173,18 +173,24 @@
 					</ul>
 
 					<div class="pagination-wrap">
-						<div class="row">
-							<div class="col-4">
-								<button type="button" class="btn green-btn disabled"><span><i class="fa fa-angle-left" aria-hidden="true"></i></span> Previous</button>
-							</div>
-							<div class="col-4 text-center">
-								<p>page</p>
-								<h4>1/12</h4>
-							</div>
-							<div class="col-4 text-right">
-								<button type="button" class="btn green-btn">Next <span><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
-							</div>
-						</div>
+						<pagination-template id="tours" #p="paginationApi"
+                 (pageChange)="pageChange.emit($event)">
+
+								<div class="row">
+									<div class="col-4">
+										<button type="button" class="btn green-btn" [class.disabled]="p.isFirstPage()"><span><i class="fa fa-angle-left" aria-hidden="true"></i></span> Previous</button>
+									</div>
+									<div class="col-4 text-center">
+										<p>page</p>
+										<h4 [innerHTML]="p.getCurrent() + '/' + p.getLastPage()"></h4>
+									</div>
+									<div class="col-4 text-right">
+										<button type="button" class="btn green-btn" [class.disabled]="p.isLastPage()">Next <span><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
+									</div>
+								</div>
+
+						</pagination-template>
+
 					</div>
 				</div>
 			</div>
