@@ -62,7 +62,7 @@ export class LandingComponent extends MeteorComponent implements OnInit, AfterVi
 
   doSearch(searchString) {
     this.zone.run(() => {
-      this.router.navigate(['/tours/search']);
+      this.router.navigate(['/tours/search', searchString]);
     });
   }
 

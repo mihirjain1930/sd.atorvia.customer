@@ -58,7 +58,8 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     ngAfterViewInit() {
         jQuery(function($){
-             var link = '<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">';
+             var link = `<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+             <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.min.css">`;
              $('head').prepend(link);
         })
     }

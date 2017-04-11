@@ -67,7 +67,10 @@ export interface Tour extends CollectionObject {
       url: string;
     };
     /*  default */
-    ownerId: string;
+    owner: {
+      id: string;
+      companyName: string;
+    };
     active: boolean;
     approved: boolean;
     deleted: boolean;
