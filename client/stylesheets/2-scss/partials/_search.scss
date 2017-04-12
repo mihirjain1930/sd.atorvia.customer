@@ -227,3 +227,20 @@
     }
   }
 }
+#endPriceRange{
+	@extend .pull_right;
+}
+.ui-slider-handle{
+	@include border-radius($full, $full, $full, $full);
+	top: -4px !important;
+	background: $green-color !important;
+}
+.ui-state-default{
+	background: $green-color;
+}
+.ui-widget-header{
+	background: $grey-bg;
+}
+.ui-corner-all{
+	@include border-radius(10px, 10px, 10px, 10px);
+}

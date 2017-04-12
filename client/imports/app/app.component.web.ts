@@ -48,11 +48,6 @@ export class AppComponent implements OnInit, AfterViewInit {
             router.navigate( ['/login'] );
           }, 500);
         }
-        if (Meteor.userId()) {
-            this.router.navigate(['/dashboard']);
-        }
-      } else if (Meteor.userId()) {
-        this.router.navigate(['/dashboard']);
       }
     }
 

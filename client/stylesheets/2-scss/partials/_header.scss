@@ -57,6 +57,14 @@
 		right: 0;
 		position: absolute;
 		top: 50px;
-		background: rgba(0, 0, 0, 0.999);
-  }
+		background: transparent;
+		padding: 0;
+	}
+	.navbar-toggler-icon {
+		margin-top: 10px;
+		color: $white;
+		border: 0;
+		right: 0;
+		top: 5;
+	}
 }
