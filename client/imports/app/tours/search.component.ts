@@ -70,12 +70,12 @@ export class SearchComponent extends MeteorComponent implements OnInit, AfterVie
           max: 10000,
           values: [0, 10000],
           slide: function(event, ui) {
-            $("#priceRange").val("$" + ui.values[0] + " - $" + ui.values[1]);
+            $("#startPriceRange").text("$" + ui.values[0]);
+            $("#endPriceRange").text("$" + ui.values[1]);
             $("#filterPrice").val(ui.values[0] + ',' + ui.values[1]);
           },
           change: function( event, ui ) { }
         });
-        $("#priceRange").val("$" + $("#price-range").slider("values", 0) + " - $" + $("#price-range").slider("values", 1));
       });
 
       $(".filter-wrap").click(function () {

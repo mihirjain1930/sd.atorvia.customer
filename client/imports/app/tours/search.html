@@ -122,7 +122,11 @@
 							<h4>Price Range</h4>
 							<input type="hidden" id="filterPrice" #filterPrice />
 							<div class="slider-box-custom">
-							  <input type="text" id="priceRange" readonly>
+								<p>
+										<span id="startPriceRange">$0</span>
+										-
+										<span id="endPriceRange">$10000</span>
+								</p>
 							  <div id="price-range" class="slider-custom" (click)="changePrice(filterPrice.value)"></div>
 							</div>
 						</div>
