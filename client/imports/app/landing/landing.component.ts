@@ -24,6 +24,8 @@ interface Options extends Pagination {
 export class LandingComponent extends MeteorComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
   topItems: Tour[];
   hotItems: Tour[];
+  error: string;
+
   constructor(private zone: NgZone, private router: Router) {
     super();
   }
@@ -61,6 +63,10 @@ export class LandingComponent extends MeteorComponent implements OnInit, AfterVi
   }
 
   doSearch(searchString) {
+    if (typeof searchString == "undefined" || searchString.length == 0) {
+      this.error = "Search field can't be blank.";
+      return;
+    }
     this.zone.run(() => {
       this.router.navigate(['/tours/search', searchString]);
     });
