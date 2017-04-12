@@ -23,13 +23,13 @@
         <div class="form-group">
           <div class="row">
             <div class="col-sm-12">
-              <label for="FirstName">Name</label>
+              <label for="FullName">Full Name</label>
               <div class="input-wrap">
-                <input type="text" class="form-control" id="FirstName" placeholder="Your Full Name" formControlName="fullName"/>
+                <input type="text" class="form-control" id="FullName" placeholder="Your Full Name" formControlName="fullName"/>
                 <span><i class="fa fa-user" aria-hidden="true"></i></span>
               </div>
               <div class='form-text error has-error' *ngIf='contactForm.controls.fullName.errors && contactForm.controls.fullName.touched'>
-                <div [hidden]="!contactForm.controls['fullName'].errors.required">You have to fill in First Name to proceed.</div>
+                <div [hidden]="!contactForm.controls['fullName'].errors.required">You have to fill in Full Name to proceed.</div>
                 <div [hidden]="!contactForm.controls['fullName'].errors.minlength">Min 2 characters required.</div>
                 <div [hidden]="!contactForm.controls['fullName'].errors.maxlength">Max 30 characters allowed.</div>
                 <div [hidden]="!contactForm.controls['fullName'].errors.validateFirstName">Please type valid First Name.</div>
@@ -69,13 +69,12 @@
 					<div class="row">
 						<div class="col-sm-12">
 							<div class="form-group">
-								<label for="phnNumber">PHONE NUMBER</label>
+								<label for="phnNumber">Contact</label>
 								<div class="input-wrap">
 									<input type="text" class="form-control" formControlName="phoneNum"/>
 								</div>
 							</div>
 							<div class='form-text error has-error' *ngIf="contactForm.controls.phoneNum.touched">
-								<div *ngIf="contactForm.controls.phoneNum.hasError('minlength')">Min 7 characters required.</div>
 								<div *ngIf="contactForm.controls.phoneNum.hasError('maxlength')">Max 15 characters allowed.</div>
 								<div *ngIf="contactForm.controls.phoneNum.hasError('validatePhoneNum')">Invalid Phone Number.</div>
 							</div>

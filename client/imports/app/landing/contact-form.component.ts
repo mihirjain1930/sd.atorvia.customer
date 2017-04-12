@@ -22,21 +22,24 @@ export class ContactFormComponent extends MeteorComponent implements OnInit {
     this.contactForm = this.formBuilder.group({
       email: ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50), validateEmail])],
       fullName: ['', Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(30), validateFirstName])],
-      phoneNum: ['', Validators.compose([Validators.required, Validators.minLength(7), Validators.maxLength(15), validatePhoneNum])],
+      phoneNum: ['', Validators.compose([Validators.minLength(7), Validators.maxLength(15), validatePhoneNum])],
       message: ['', Validators.compose([Validators.required, Validators.minLength(10), Validators.maxLength(300)])]
     })
   }
 
   sendQuery() {
-    let subject = "Received query from " + fullName;
-    this.call("sendEmail", email, "atorvia12@gmail.com", subject, "We will contact you soon.", (err, res) => {
+    let subject = "Thank you for contacting us.";
+    let message = "We have received your email and we will get back to you asap. Thank you!";
+    let email = this.contactForm.value.email;
+    this.call("sendEmail", email, subject, message, (err, res) => {
       if (! err) {
-        showAlert("Your messagehas been received. Someone from our team will contact you soon.", "success");
-        this.router.navigate(['/']);
+        this.zone.run(() => {
+          showAlert("Your messagehas been received. Someone from our team will contact you soon.", "success");
+          this.router.navigate(['/']);
+        });
       } else {
         console.log("Error while sending email.", err);
       }
     })
-    console.log("in contactus form control");
   }
 }

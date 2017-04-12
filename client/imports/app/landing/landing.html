@@ -18,6 +18,7 @@
                 </div>
               </div>
             </div>
+            <p *ngIf="error" class="has-error">{{error}}</p>
           </div>
         </div>
       </div>
@@ -35,12 +36,12 @@
       </div>
       <div class="row">
         <div class="col-sm-3" *ngFor = "let tour of topItems">
-          <div class="destination-wrap">
+          <a [routerLink]="['/tours/view']"><div class="destination-wrap">
             <span *ngIf="!tour.images?.length"><img src="/images/destination.png" /></span>
             <span *ngIf="tour.images?.length > 0 && tour.featuredImage?.url"><img [src]="tour.featuredImage?.url" /></span>
             <span *ngIf="tour.images?.length > 0 && !tour.featuredImage?.url"><img [src]="tour.images[0]?.url" /></span>
             <p>{{tour.destination}}</p>
-          </div>
+          </div></a>
         </div>
       </div>
     </div>
@@ -57,7 +58,7 @@
       </div>
       <div class="row">
         <div class="col-lg-4 col-md-6" *ngFor = "let tour of hotItems">
-          <div class="destination-wrap">
+          <a [routerLink]="['/tours/view']"><div class="destination-wrap">
             <span *ngIf="!tour.images?.length"><img src="/images/destination.png" /></span>
             <span *ngIf="tour.images?.length > 0 && tour.featuredImage?.url"><img [src]="tour.featuredImage?.url" /></span>
             <span *ngIf="tour.images?.length > 0 && !tour.featuredImage?.url"><img [src]="tour.images[0]?.url" /></span>
@@ -73,12 +74,12 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div></a>
         </div>
       </div>
       <div class="row">
         <div class="col-12 text-center">
-          <button class="btn green-outline">See all popular tours <span><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
+          <button class="btn green-outline" [routerLink]="['/tours/search']">See all popular tours <span><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
         </div>
       </div>
     </div>
