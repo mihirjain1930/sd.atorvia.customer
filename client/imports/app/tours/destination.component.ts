@@ -4,7 +4,7 @@ import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
 import { MeteorComponent } from 'angular2-meteor';
 import { Observable, Subscription, Subject, BehaviorSubject } from "rxjs";
-import template from './view.html';
+import template from './destination.html';
 import { Tour } from "../../../../both/models/tour.model";
 import { showAlert } from "../shared/show-alert";
 
@@ -21,7 +21,7 @@ interface Options extends Pagination {
   selector: '',
   template
 })
-export class TourViewComponent extends MeteorComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
+export class DestinationComponent extends MeteorComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
   paramsSub: Subscription;
   query: string;
   error: string;

@@ -11,7 +11,7 @@
             <h1>Find affordable & memoriable tours.</h1>
             <div class="form-group">
               <div class="input-group">
-                <span class="left-icon"><i class="fa fa-question" aria-hidden="true"></i></span>
+                <span class="left-icon"><i class="fa fa-map-marker" aria-hidden="true"></i></span>
                 <input class="form-control" id="search" placeholder="Where you go next ?" type="text" #searchQuery (keyup.enter)="doSearch(searchQuery.value)">
                 <div class="input-group-btn">
                   <button type="button" class="btn green-btn" (click)="doSearch(searchQuery.value)"><span><i class="fa fa-search" aria-hidden="true"></i></span>Search</button>
@@ -36,7 +36,7 @@
       </div>
       <div class="row">
         <div class="col-sm-3" *ngFor = "let tour of topItems">
-          <a [routerLink]="['/tours/view']"><div class="destination-wrap">
+          <a [routerLink]="['/destinations', tour.destination]"><div class="destination-wrap">
             <span *ngIf="!tour.images?.length"><img src="/images/destination.png" /></span>
             <span *ngIf="tour.images?.length > 0 && tour.featuredImage?.url"><img [src]="tour.featuredImage?.url" /></span>
             <span *ngIf="tour.images?.length > 0 && !tour.featuredImage?.url"><img [src]="tour.images[0]?.url" /></span>
@@ -58,7 +58,7 @@
       </div>
       <div class="row">
         <div class="col-lg-4 col-md-6" *ngFor = "let tour of hotItems">
-          <a [routerLink]="['/tours/view']"><div class="destination-wrap">
+          <a [routerLink]="['/tours', tour.name]"><div class="destination-wrap">
             <span *ngIf="!tour.images?.length"><img src="/images/destination.png" /></span>
             <span *ngIf="tour.images?.length > 0 && tour.featuredImage?.url"><img [src]="tour.featuredImage?.url" /></span>
             <span *ngIf="tour.images?.length > 0 && !tour.featuredImage?.url"><img [src]="tour.images[0]?.url" /></span>
@@ -98,7 +98,7 @@
         <div class="col-md-8">
           <div class="form-group">
             <div class="input-group">
-              <span class="left-icon"><i class="fa fa-question" aria-hidden="true"></i></span>
+              <span class="left-icon"><i class="fa fa-envelope" aria-hidden="true"></i></span>
               <input class="form-control" id="search" placeholder="Email Address" type="email" #email>
               <div class="input-group-btn">
                 <button type="button" class="btn green-btn" (click)="doSubscribe(email)">Subscribe</button>

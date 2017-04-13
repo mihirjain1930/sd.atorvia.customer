@@ -16,9 +16,27 @@
 	</section>
 	<!--banner-->
 
-  <div >
-    No contents have been added yet.
-  </div>
+	<!--destinations-->
+  <section class="destinations">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <h3>Top destinatons</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-3" *ngFor = "let tour of topItems">
+          <a [routerLink]="['/destinations', tour.destination]"><div class="destination-wrap">
+            <span *ngIf="!tour.images?.length"><img src="/images/destination.png" /></span>
+            <span *ngIf="tour.images?.length > 0 && tour.featuredImage?.url"><img [src]="tour.featuredImage?.url" /></span>
+            <span *ngIf="tour.images?.length > 0 && !tour.featuredImage?.url"><img [src]="tour.images[0]?.url" /></span>
+            <p>{{tour.destination}}</p>
+          </div></a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--destinations-->
 
   <footer-bar></footer-bar>
 </main>

@@ -22,12 +22,28 @@ interface Options extends Pagination {
 })
 export class TopDestinationsComponent extends MeteorComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
   error: string;
+  topItems: Tour[];
 
   constructor(private zone: NgZone, private router: Router) {
     super();
   }
 
   ngOnInit() {
+    const options: Options = {
+        limit: 8,
+        skip: 0,
+        sort: { "createdAt": -1 }
+    };
+    let where = {active: true, approved: true};
+
+    this.call("tours.find", options, where, "", (err, res) => {
+        if (err) {
+            showAlert("Error while fetching pages list.", "danger");
+            return;
+        }
+
+        this.topItems = res.data;
+    })
   }
 
   ngAfterViewChecked() {

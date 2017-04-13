@@ -32,49 +32,43 @@ export class ViewPageComponent extends MeteorComponent implements OnInit, OnDest
     }
 
     ngOnInit() {
-      this.paramsSub = this.route.params
-        .map(params => params['slug'])
-        .subscribe(id => {
-            this.slug = id;
+      this.slug = this.route.routeConfig.path;
 
-            if (! this.slug) {
-              showAlert("Invalid slug supplied.");
-              return;
-            }
+      if (! this.slug) {
+        showAlert("Invalid slug supplied.");
+        return;
+      }
 
-            switch (this.slug) {
-              case "terms":
-                this.item = <Page> {
-                  heading: "Terms",
-                  contents: terms
-                };
-              break;
-              case "privacy":
-                this.item = <Page> {
-                  heading: "Privacy",
-                  contents: privacy
-                };
-              break;
-              case "disclaimer":
-                this.item = <Page> {
-                  heading: "Disclaimer",
-                  contents: disclaimer
-                };
-              break;
-              default:
-                this.call("pages.findOne", this.slug, (err, res)=> {
-                    if (err) {
-                        showAlert("Error while fetching page data.", "danger");
-                        return;
-                    }
+      switch (this.slug) {
+        case "terms":
+          this.item = <Page> {
+            heading: "Terms",
+            contents: terms
+          };
+        break;
+        case "privacy":
+          this.item = <Page> {
+            heading: "Privacy",
+            contents: privacy
+          };
+        break;
+        case "disclaimer":
+          this.item = <Page> {
+            heading: "Disclaimer",
+            contents: disclaimer
+          };
+        break;
+        default:
+          this.call("pages.findOne", this.slug, (err, res)=> {
+              if (err) {
+                  showAlert("Error while fetching page data.", "danger");
+                  return;
+              }
 
-                    this.item = res;
-                });
-              break;
-            }
-
-
-        });
+              this.item = res;
+          });
+        break;
+      }
     }
 
     get page() {

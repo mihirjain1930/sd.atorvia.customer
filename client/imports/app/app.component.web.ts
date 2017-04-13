@@ -27,6 +27,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     private observeWindowHeight() {
       this.router.events.subscribe((val) => {
         //console.log("route changed:", val);
+        window.scrollTo(0, 0);
         (function setWindowHeight(){
         	var windowHeight = $(window).height();
         	$('.table-wrapper').height(windowHeight);
