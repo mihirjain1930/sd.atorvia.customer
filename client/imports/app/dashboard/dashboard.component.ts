@@ -15,7 +15,7 @@ import template from "./dashboard.html";
   template
 })
 @InjectUser('user')
-export class DashboardComponent extends MeteorComponent implements OnInit {
+export class DashboardComponent extends MeteorComponent implements OnInit, AfterViewInit {
   accountForm: FormGroup;
   userId: string;
   error: string;
@@ -62,6 +62,17 @@ export class DashboardComponent extends MeteorComponent implements OnInit {
     });
   }
 
+  ngAfterViewInit() {
+    Meteor.setTimeout(() => {
+      jQuery(function($){
+        var phones = [{ "mask": "(###) ###-####"}];
+            $('#phoneNum').inputmask({
+                mask: phones,
+                greedy: false,
+                definitions: { '#': { validator: "[0-9]", cardinality: 1}} });
+      })
+    })
+  }
   //update user from dashboard
   update() {
     let fullName = this.accountForm.value.firstName;

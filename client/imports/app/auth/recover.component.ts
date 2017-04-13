@@ -38,10 +38,10 @@ export class RecoverComponent implements OnInit {
     }, (err) => {
       this.zone.run(() => {
         if (err) {
-            showAlert(err.message, "danger");
+            showAlert(err.reason, "danger");
             this.error = err;
         } else {
-          showAlert("Reset password request initiated. Please check your email for further instructions.", "success");
+          showAlert("Your password is updated successfully. Please login to continue.", "success");
           this.router.navigate(['/login']);
         }
       });

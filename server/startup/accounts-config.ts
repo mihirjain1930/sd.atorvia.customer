@@ -60,7 +60,7 @@ Accounts.validateLoginAttempt(function (options) {
     }
 
     if (!isVerified) {
-      throw new Meteor.Error(403, "Email not verified");
+      throw new Meteor.Error(403, "Your email isn’t verified. Please check your inbox to continue.");
     }
   }
   return true;
@@ -69,12 +69,12 @@ Accounts.validateLoginAttempt(function (options) {
 //validate the change password
 Accounts.changePassword = function (oldpassword, newPassword) {
   if (!Meteor.user()) {
-    throw new Meteor.Error("Must be logged in to change password.");
+    throw new Meteor.Error("Must be logged-in to change password.");
   }
 
   check(newPassword, String);
   if (!newPassword) {
-    throw new Meteor.Error(400, "Password may not be empty");
+    throw new Meteor.Error(400, "Password should not be empty.");
   }
 }
 Accounts.config({

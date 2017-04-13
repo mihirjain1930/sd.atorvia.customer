@@ -44,7 +44,7 @@ export class VerifyEmail extends MeteorComponent implements OnInit {
           }
 
           this.userId = res;
-          showAlert("Your Email has been verified. Please login again.", "success");
+          showAlert("Your email is verified now. Please login to continue.", "success");
           this.router.navigate(['/login']);
         });
       });
