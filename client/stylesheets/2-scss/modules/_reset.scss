@@ -206,7 +206,7 @@ textarea.form-control
 
 .slider
 {
-		@extend .absolute;
+		/*@extend .absolute;*/
 		cursor : pointer;
 		@extend .top-0;
 		@extend .left-0;
@@ -229,7 +229,7 @@ textarea.form-control
 			@include  border-radius (4px, 4px, 4px, 4px);
 		}
 		span {
-			@extend .absolute;
+			/*@extend .absolute;*/
 			top : 6px;
 			color : $white;
 			text-transform : uppercase;

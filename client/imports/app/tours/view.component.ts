@@ -44,6 +44,30 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
   ngAfterViewInit() {
     Meteor.setTimeout(() => {
       jQuery(function($){
+        $('.slider-wrap').slick({
+          infinite: true,
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          centerPadding: '30px',
+          speed: 300,
+           responsive: [
+
+            {
+              breakpoint: 992,
+              settings: {
+                slidesToShow: 2,
+                slidesToScroll: 2
+              }
+            },
+            {
+              breakpoint: 600,
+              settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1
+              }
+            }
+          ]
+        })
       });
     }, 500);
   }

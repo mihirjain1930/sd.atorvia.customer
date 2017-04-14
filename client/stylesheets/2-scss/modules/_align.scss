@@ -64,8 +64,20 @@
 	position: absolute;
 }
 
+.fixed {
+	position: fixed
+}
+
 .relative {
 	position: relative;
+}
+
+.static {
+	position: static
+}
+
+.table-responsive {
+	display: block
 }
 
 .top-0 {
