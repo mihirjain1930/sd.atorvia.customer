@@ -58,7 +58,7 @@
       </div>
       <div class="row">
         <div class="col-lg-4 col-md-6" *ngFor = "let tour of hotItems">
-          <a [routerLink]="['/tours', tour.name]"><div class="destination-wrap">
+          <a [routerLink]="['/tours', tour.slug]"><div class="destination-wrap">
             <span *ngIf="!tour.images?.length"><img src="/images/destination.png" /></span>
             <span *ngIf="tour.images?.length > 0 && tour.featuredImage?.url"><img [src]="tour.featuredImage?.url" /></span>
             <span *ngIf="tour.images?.length > 0 && !tour.featuredImage?.url"><img [src]="tour.images[0]?.url" /></span>

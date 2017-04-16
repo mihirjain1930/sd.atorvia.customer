@@ -3,6 +3,7 @@ import { CollectionObject } from "./collection-object.model";
 export interface Tour extends CollectionObject {
     /* step 1 */
     name: string;
+    slug: string;
     description: string;
     departure: string;
     destination: string;
@@ -70,6 +71,12 @@ export interface Tour extends CollectionObject {
     owner: {
       id: string;
       companyName: string;
+      agentIdentity: {
+        verified: boolean;
+      };
+      agentCertificate: {
+        verified: boolean;
+      };
     };
     active: boolean;
     approved: boolean;

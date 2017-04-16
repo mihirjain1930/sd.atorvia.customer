@@ -42,15 +42,28 @@ Meteor.methods({
         let cursor = Tours.collection.find({$and: where}, options);
         return {count: cursor.count(), data: cursor.fetch()};
     },
-    "tours.findOne": (slug: string) => {
+    "tours.findOne": (criteria: any, options?: {with?: {owner: boolean}} ) => {
       let where:any = [];
       where.push({
           "$or": [{deleted: false}, {deleted: {$exists: false} }]
       }, {
         "$or": [{active: true}, {active: {$exists: false} }]
       });
-      where.push({slug: slug});
+      if (_.isEmpty(criteria)) {
+        criteria = { };
+      }
+      where.push(criteria);
 
-      return Tours.collection.findOne({$and: where});
+      let tour = Tours.collection.findOne({$and: where});
+
+      if (typeof options.with == "undefined") {
+        return tour;
+      }
+
+      if (options.with.owner == true) {
+        let owner = Meteor.users.findOne({_id: tour.owner.id}, {fields: {profile: 1, supplier: 1} });
+        let numOfTours = Tours.collection.find({"owner.id": tour.owner.id, "approved": true, "active": true, "deleted": false}).count();
+        return {tour, owner, numOfTours};
+      }
     }
 });

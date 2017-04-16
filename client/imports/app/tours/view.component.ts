@@ -4,9 +4,10 @@ import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
 import { MeteorComponent } from 'angular2-meteor';
 import { Observable, Subscription, Subject, BehaviorSubject } from "rxjs";
-import template from './view.html';
 import { Tour } from "../../../../both/models/tour.model";
+import { User } from "../../../../both/models/user.model";
 import { showAlert } from "../shared/show-alert";
+import template from './view.html';
 
 interface Pagination {
   limit: number;
@@ -25,6 +26,9 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
   paramsSub: Subscription;
   query: string;
   error: string;
+  item: Tour;
+  owner: User;
+  numOfTours: number;
 
   constructor(private zone: NgZone, private router: Router, private route: ActivatedRoute) {
     super();
@@ -35,6 +39,17 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
       .map(params => params['name'])
       .subscribe(name => {
           this.query = name;
+
+          this.call("tours.findOne", {slug: this.query}, {with: {owner: true}}, (err, res) => {
+            if (err) {
+              showAlert(err.reason, "danger");
+              return;
+            }
+
+            this.item = <Tour>res.tour;
+            this.owner = <User>res.owner;
+            this.numOfTours = res.numOfTours;
+          })
         });
   }
 
@@ -68,11 +83,18 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
             }
           ]
         })
+        $("a[rel^='prettyPhoto']").prettyPhoto({
+          social_tools: false
+        });
       });
     }, 500);
   }
 
   ngOnDestroy() {
+  }
+
+  get tour() {
+    return this.item;
   }
 
 }

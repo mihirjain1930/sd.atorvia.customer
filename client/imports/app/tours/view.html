@@ -2,39 +2,11 @@
 	<!--slider-->
 	<section class="slider">
 		<div class="container-fluid">
-			<nav class="navbar navbar-toggleable-sm">
-				<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"><i class="fa fa-bars" aria-hidden="true"></i></span>
-				</button>
-				<!-- Brand -->
-				<a class="navbar-brand" href="#"><img src="images/logo.png" alt=""/></a>
-				<!-- Links -->
-				<div class="collapse navbar-collapse" id="navbarToggler">
-					<ul class="nav navbar-nav float-md-right ">
-						<li class="nav-item active">
-							<a class="nav-link" href="#">Destinations <span class="sr-only">(current)</span></a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#">Login</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#">Sign Up</a>
-						</li>
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="" data-toggle="dropdown">English</a>
-							<div class="dropdown-menu">
-								<a class="dropdown-item" href="#">French</a>
-								<a class="dropdown-item" href="#">Spanish</a>
-								<a class="dropdown-item" href="#">Arabic</a>
-							</div>
-						</li>
-					</ul>
-				</div>
-			</nav>
+			<navbar></navbar>
 		</div>
 		<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 			<div class="carousel-inner" role="listbox">
-				<div class="carousel-item active">
+				<div class="carousel-item active" *ngIf="!!tour">
 					<img class="d-block img-fluid" src="images/slide1.png" alt="First slide">
 					<div class="carousel-caption d-none d-md-block">
 						<div class="destination-wrap">
@@ -42,54 +14,12 @@
 								<div class="container">
 									<div class="row">
 										<div class="col-md-9 left-content">
-											<h4>Japan and Taiwan 12 Days Super Easter Highlight</h4>
-											<p><span><i class="fa fa-map-marker" aria-hidden="true"></i></span>Osaka, Japan & Taipie, Taiwan</p>
+											<h4>{{tour.name}}</h4>
+											<p><span><i class="fa fa-map-marker" aria-hidden="true"></i></span>{{tour.departure}} & {{tour.destination}}</p>
 										</div>
 										<div class="col-md-3 right-content">
 											<p>From</p>
-											<h3><span>$</span>2,695</h3>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="carousel-item">
-					<img class="d-block img-fluid" src="images/slide1.png" alt="First slide">
-					<div class="carousel-caption d-none d-md-block">
-						<div class="destination-wrap">
-							<div class="content">
-								<div class="container">
-									<div class="row">
-										<div class="col-md-9 left-content">
-											<h4>Halong Harbour</h4>
-											<p><span><i class="fa fa-map-marker" aria-hidden="true"></i></span>Hanoi, Vietnam</p>
-										</div>
-										<div class="col-md-3 right-content">
-											<p>From</p>
-											<h3><span>$</span>99</h3>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="carousel-item">
-					<img class="d-block img-fluid" src="images/slide1.png" alt="First slide">
-					<div class="carousel-caption d-none d-md-block">
-						<div class="destination-wrap">
-							<div class="content">
-								<div class="container">
-									<div class="row">
-										<div class="col-md-9 left-content">
-											<h4>Halong Harbour</h4>
-											<p><span><i class="fa fa-map-marker" aria-hidden="true"></i></span>Hanoi, Vietnam</p>
-										</div>
-										<div class="col-md-3 right-content">
-											<p>From</p>
-											<h3><span>$</span>99</h3>
+											<h3><span>A${{tour.dateRange[0]?.price[0]?.adult}}</span></h3>
 										</div>
 									</div>
 								</div>
@@ -218,15 +148,19 @@
 	<section class="grey-bg link-content">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-4 push-md-8">
+				<div class="col-md-4 push-md-8" *ngIf="!!owner">
 					<div class="id-verfication">
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="tour-inf">
 									<div class="center-img">
 									</div>
-									<h3>Worldwide Travel & Tours<span><i class="fa fa-check-circle" aria-hidden="true"></i></span></h3>
-									<p><span><i class="fa fa-map-marker" aria-hidden="true"></i></span> Inala, Queensland, Australia</p>
+									<h3>{{owner.supplier.companyName}}<span><i class="fa fa-check-circle" aria-hidden="true"></i></span></h3>
+									<p><span><i class="fa fa-map-marker" aria-hidden="true"></i></span>
+										{{owner.profile.address.suburb}},
+										{{owner.profile.address.state}},
+										{{owner.profile.address.country}}
+									</p>
 								</div>
 								<ul>
 									<li>
@@ -237,11 +171,12 @@
 												</div>
 												<div class="verfication-info">
 													<p>Agent Certificate</p>
-													<h5>X-0001</h5>
+													<h5>{{owner.supplier.agentCertificate?.name}}</h5>
 												</div>
 											</div>
 											<div class="col-sm-5 col-md-12 col-lg-5">
-												<button type="button" class="btn green-btn"><span><i class="fa fa-check" aria-hidden="true"></i></span>Verified</button>
+												<button type="button" class="btn green-btn" *ngIf="owner.supplier.agentCertificate?.verified"><span><i class="fa fa-check" aria-hidden="true"></i></span>Verified</button>
+												<button type="button" class="btn" *ngIf="!owner.supplier.agentCertificate?.verified"><span><i class="fa fa-cross" aria-hidden="true"></i></span>Verified</button>
 											</div>
 										</div>
 									</li>
@@ -253,22 +188,23 @@
 												</div>
 												<div class="verfication-info">
 													<p>Manager</p>
-													<h5>Jane Document</h5>
+													<h5>{{owner.supplier.ownerName}}</h5>
 												</div>
 											</div>
 											<div class="col-sm-5 col-md-12 col-lg-5">
-												<button type="button" class="btn green-btn"><span><i class="fa fa-check" aria-hidden="true"></i></span>Verified</button>
+												<button type="button" class="btn green-btn" *ngIf="owner.supplier.agentIdentity?.verified"><span><i class="fa fa-check" aria-hidden="true"></i></span>Verified</button>
+												<button type="button" class="btn" *ngIf="!owner.supplier.agentIdentity?.verified"><span><i class="fa fa-cross" aria-hidden="true"></i></span>Verified</button>
 											</div>
 										</div>
 									</li>
 								</ul>
 								<div class="tour-ratings">
 									<div class="left">
-										<h4>200</h4>
+										<h4>{{numOfTours}}</h4>
 										<p>Tours</p>
 									</div>
 									<div class="right">
-										<h4>4.6 / 5</h4>
+										<h4>N.A.</h4>
 										<p>Ratings</p>
 									</div>
 								</div>
@@ -282,30 +218,31 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-md-8 pull-md-4">
+				<div class="col-md-8 pull-md-4" *ngIf="!!tour">
 					<!--overview-->
 					<div class="tour-detail right-wrap">
 						<h3>Overview</h3>
 						<ul>
 							<li>
 								<p>Pace</p>
-								<h5>Slow Medium</h5>
+								<h5>{{tour.tourPace}}</h5>
 							</li>
 							<li>
 								<p>Type</p>
-								<h5>Family Friendly</h5>
+								<h5>{{tour.tourType}}</h5>
 							</li>
 							<li>
 								<p>Total Meals</p>
-								<h5>14</h5>
+								<h5>{{tour.totalMeals}}</h5>
 							</li>
 							<li>
 								<p>TourGuide</p>
-								<h5>Included</h5>
+								<h5 *ngIf="tour.hasGuide">Included</h5>
+								<h5 *ngIf="!tour.hasGuide">Not Included</h5>
 							</li>
 						</ul>
-						<p>Visiting Osaka, Kyoto, Nara, Nagoya, Mt.Fuji, Kawaguchikou, Tokyo and Disneyland, Taipei, Taichung, Miaoli, Nantou, Taoyuan, Sun moon Lake. Spending 7 days in Japan and 3 nights Tokyo, plenty of time to do shopping and visit the most famous sites in Japan and Taiwan.</p>
-						<p>Include bullet train experience, Traditional Japanese and Taiwanese cuisine. These Fantastic combination tours bring you so much more than you can imagine.</p>
+						<p [innerHTML]="tour.description | nl2br">
+						</p>
 					</div>
 					<!--overview-->
 					<!--tour-itinerary-->
@@ -314,124 +251,45 @@
 							<div class="col-sm-12">
 								<h3>Itinerary</h3>
 								<div class="day-box">
-									<div class="day-wrap green-icon">
-										<h2>Day 1 : Brisbane &gt; Taiwan &gt; Osaka</h2>
-										<p>Assembel at brisbane</p>
-										<a href="javascript:void(0)" class="showmore">Show more <span><i class="fa fa-angle-down" aria-hidden="true"></i></span></a>
-									</div>
-									<div class="day-wrap small-icon">
-										<h2>Day 2 : Kyoto/Osaka</h2>
-										<p>Upon arrival, meeting with guide and transfer to Osaka, visit Osaka Castle, then transfer to Kyoto by bullet train, visit Kiyomizu Temple, Golden Pavilion and Gion Corner, overnight at Urban Hotel Kyoto or similar one</p>
-										<div class="show-less">
+									<!-- itenerary loop -->
+									<div class="day-wrap" [ngClass]="{'small-icon': i>0, 'green-icon': i==0}" *ngFor="let row of tour.itenerary; let i = index;">
+										<h2>Day <span [innerHTML]="i+1"></span> : {{row.title}}</h2>
+										<p [innerHTML]="row.description | nl2br"></p>
+										<div [ngClass]="{'show-less': !row.showMore}">
 											<div class="sub-head">
 												<h4>Hotel</h4>
-												<p>Dormy Inn Premium Kyoto Ekimae</p>
+												<p>{{row.hotelName}}</p>
 											</div>
 											<div class="sub-head">
 												<h4>Meals</h4>
 												<p>
 													<span class="radio-wrap">
-														<input id="radio-7" class="radio-custom" name="radio-group" checked="" type="radio">
-														<label for="radio-7" class="radio-custom-label">Breakfast</label>
-													</span>
-													<span class="radio-wrap">
-														<input id="radio-8" class="radio-custom" name="radio-group" checked="" type="radio">
-														<label for="radio-8" class="radio-custom-label">Lunch</label>
-													</span>
-													<span class="radio-wrap">
-														<input id="radio-9" class="radio-custom" name="radio-group" checked="" type="radio">
-														<label for="radio-9" class="radio-custom-label">Dinner</label>
-													</span>
+                            <img src="images/imgpsh_fullsize.png" alt="" *ngIf="!row.hasBreakfast">
+                            <img src="images/imgpsh_fullsize(2).png" alt="" *ngIf="row.hasBreakfast">
+                            <label for="breakFast" class="radio-custom-label">Breakfast</label>
+                          </span>
+                          <span class="radio-wrap">
+                            <img src="images/imgpsh_fullsize.png" alt="" *ngIf="!row.hasLunch">
+                            <img src="images/imgpsh_fullsize(2).png" alt="" *ngIf="row.hasLunch">
+                            <label for="lunch" class="radio-custom-label">Lunch</label>
+                          </span>
+                          <span class="radio-wrap">
+                            <img src="images/imgpsh_fullsize.png" alt="" *ngIf="!row.hasDinner">
+                            <img src="images/imgpsh_fullsize(2).png" alt="" *ngIf="row.hasDinner">
+                            <label for="dinner" class="radio-custom-label">Dinner</label>
+                          </span>
 												</p>
 											</div>
 										</div>
-										<a href="javascript:void(0)" class="showmore">Show more <span><i class="fa fa-angle-down" aria-hidden="true"></i></span></a>
+										<a href="javascript:void(0)" class="showmore" (click)="row.showMore = !row.showMore">
+											<span *ngIf="!row.showMore">Show more</span>
+											<span *ngIf="row.showMore">Show less</span>
+											<span>
+												<i class="fa fa-angle-down" [ngClass]="{'fa-angle-down': !row.showMore, 'fa-angle-up': row.showMore}" aria-hidden="true"></i>
+											</span>
+										</a>
 									</div>
-									<div class="day-wrap small-icon">
-										<h2>Day 3 : Kyoto/Nara/Nagoyaa</h2>
-										<p>Transfer to Nara, visit Todaiji Temple, Great Buddha and Deer Park, then transfer to Nagoya, visit Nagoya Castle if time permitted, then check into hotel, overnight at Chisun Inn Nagoya or similar one.</p>
-										<div class="show-less">
-											<div class="sub-head">
-												<h4>Hotel</h4>
-												<p>Dormy Inn Premium Kyoto Ekimae</p>
-											</div>
-											<div class="sub-head">
-												<h4>Meals</h4>
-												<p>
-													<span class="radio-wrap">
-														<input id="radio-10" class="radio-custom" name="radio-group" checked="" type="radio">
-														<label for="radio-10" class="radio-custom-label">Breakfast</label>
-													</span>
-													<span class="radio-wrap">
-														<input id="radio-11" class="radio-custom" name="radio-group" checked="" type="radio">
-														<label for="radio-11" class="radio-custom-label">Lunch</label>
-													</span>
-													<span class="radio-wrap">
-														<input id="radio-12" class="radio-custom" name="radio-group" checked="" type="radio">
-														<label for="radio-12" class="radio-custom-label">Dinner</label>
-													</span>
-												</p>
-											</div>
-										</div>
-
-										<a href="javascript:void(0)" class="showmore">Show more <span><i class="fa fa-angle-down" aria-hidden="true"></i></span></a>
-									</div>
-									<div class="day-wrap small-icon">
-										<h2>Day 4 : Nagoya/Mt. Fuji</h2>
-										<p>Proceed to Hakone Nationa Park, visit Owakudani Boiling Valley, Lake Ashi and Mt Fuji 5th Station if weather permitted, Royal Hotel Kawaguchiko or similar one</p>
-										<div class="show-less">
-											<div class="sub-head">
-												<h4>Hotel</h4>
-												<p>Dormy Inn Premium Kyoto Ekimae</p>
-											</div>
-											<div class="sub-head">
-												<h4>Meals</h4>
-												<p>
-													<span class="radio-wrap">
-														<input id="radio-13" class="radio-custom" name="radio-group" checked="" type="radio">
-														<label for="radio-13" class="radio-custom-label">Breakfast</label>
-													</span>
-													<span class="radio-wrap">
-														<input id="radio-14" class="radio-custom" name="radio-group" checked="" type="radio">
-														<label for="radio-14" class="radio-custom-label">Lunch</label>
-													</span>
-													<span class="radio-wrap">
-														<input id="radio-15" class="radio-custom" name="radio-group" checked="" type="radio">
-														<label for="radio-15" class="radio-custom-label">Dinner</label>
-													</span>
-												</p>
-											</div>
-										</div>
-										<a href="javascript:void(0)" class="showmore">Show more <span><i class="fa fa-angle-down" aria-hidden="true"></i></span></a>
-									</div>
-									<div class="day-wrap small-icon">
-										<h2>Day 5 : Mt. Fuji/Tokyo</h2>
-										<p>Visit Gotenba Outlet Mall, then transfer to Tokyo, visit Tokyo Metropolitan Observatory, Shinjuku for shopping and Imperial Palace, overnight at Villa Fontaine Roppongi Annex or similar</p>
-										<div class="show-less">
-											<div class="sub-head">
-												<h4>Hotel</h4>
-												<p>Dormy Inn Premium Kyoto Ekimae</p>
-											</div>
-											<div class="sub-head">
-												<h4>Meals</h4>
-												<p>
-													<span class="radio-wrap">
-														<input id="radio-16" class="radio-custom" name="radio-group" checked="" type="radio">
-														<label for="radio-16" class="radio-custom-label">Breakfast</label>
-													</span>
-													<span class="radio-wrap">
-														<input id="radio-17" class="radio-custom" name="radio-group" checked="" type="radio">
-														<label for="radio-17" class="radio-custom-label">Lunch</label>
-													</span>
-													<span class="radio-wrap">
-														<input id="radio-18" class="radio-custom" name="radio-group" checked="" type="radio">
-														<label for="radio-18" class="radio-custom-label">Dinner</label>
-													</span>
-												</p>
-											</div>
-										</div>
-									</div>
-
+									<!-- itenerary loop ends -->
 								</div>
 								<div class="text-center">
 									<a href="javascript:void(0)" class="full-itinerary">View full itinerary<span><i class="fa fa-angle-down" aria-hidden="true"></i></span></a>
@@ -446,26 +304,11 @@
 							<div class="col-sm-12">
 								<h3>Galery</h3>
 							</div>
-							<div class="col-sm-12 first-row">
-								<div class="img-wrap">
-									<img src="images/g1.png" alt="">
-								</div>
-								<div class="img-wrap">
-									<img src="images/g2.png" alt="">
-								</div>
-
-							</div>
 							<div class="col-sm-12 second-row">
-								<div class="img-wrap">
-									<img src="images/g3.png" alt="">
-								</div>
-								<div class="img-wrap">
-									<img src="images/g4.png" alt="">
-								</div>
-								<div class="img-wrap">
-									<img src="images/g5.png" alt="">
-								</div>
-							</div>
+                <div class="img-wrap" *ngFor="let image of tour.images;">
+                  <a href="{{image.url}}" rel="prettyPhoto[tour_gallery]"><img src="{{image.url}}" alt="{{image.name}}" /></a>
+                </div>
+              </div>
 						</div>
 					</div>
 					<!--inclusive-policy-->
@@ -475,16 +318,11 @@
 								<h3>Inclusion &amp; Policy</h3>
 								<h4>Included:</h4>
 								<ul>
-									<li>International flight to Japan &amp; Taiwan 4* hotel and daily buffet breakfast</li>
-									<li>Meals as indicated as itinerary</li>
-									<li>All admissions and transfers by private coach Bullet train ticket</li>
-									<li>Chiness &amp; English speeking local guide</li>
+									<li *ngFor="let text of tour.inclusions;">{{text}}</li>
 								</ul>
 								<h4>Excluded:</h4>
 								<ul>
-									<li>Airport tax $380 (approximately)</li>
-									<li>Tips $100</li>
-									<li>Travel Insuarnce $99/person</li>
+									<li *ngFor="let text of tour.exclusions">{{text}}</li>
 								</ul>
 
 							</div>
@@ -501,58 +339,18 @@
 										<th>Start</th>
 										<th>End </th>
 										<th>Seats Left</th>
-										<th>Price(USD$)</th>
+										<th>Price(A$)</th>
 										<th></th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td>1/05/2017</td>
-										<td>7/05/2017</td>
-										<td>13</td>
+									<tr *ngFor="let row of tour.dateRange; let i = index;">
+										<td>{{row.startDate | date}}</td>
+										<td>{{row.endDate | date}}</td>
+										<td>{{row.availableSeats}}</td>
 										<td>
-											$1,799
-											<a href="javascript:void(0)">see all pricing</a>
-										</td>
-										<td><button type="button" class="btn green-btn">BOOK</button></td>
-									</tr>
-									<tr>
-										<td>1/05/2017</td>
-										<td>7/05/2017</td>
-										<td>13</td>
-										<td>
-											$1,799
-											<a href="javascript:void(0)">see all pricing</a>
-										</td>
-										<td><button type="button" class="btn green-btn">BOOK</button></td>
-									</tr>
-									<tr>
-										<td>1/05/2017</td>
-										<td>7/05/2017</td>
-										<td>13</td>
-										<td>
-											$1,799
-											<a href="javascript:void(0)">see all pricing</a>
-										</td>
-										<td><button type="button" class="btn green-btn">BOOK</button></td>
-									</tr>
-									<tr>
-										<td>1/05/2017</td>
-										<td>7/05/2017</td>
-										<td>13</td>
-										<td>
-											$1,799
-											<a href="javascript:void(0)">see all pricing</a>
-										</td>
-										<td><button type="button" class="btn green-btn">BOOK</button></td>
-									</tr>
-									<tr>
-										<td>1/05/2017</td>
-										<td>7/05/2017</td>
-										<td>13</td>
-										<td>
-											$1,799
-											<a href="javascript:void(0)">see all pricing</a>
+											A${{row.price[0]?.adult}}
+											<a href="javascript:void(0)" (click)="selDateRange=row" data-toggle="modal" data-target="#myModal">see all pricing</a>
 										</td>
 										<td><button type="button" class="btn green-btn">BOOK</button></td>
 									</tr>
@@ -560,6 +358,33 @@
 							</table>
 						</div>
 					</div>
+					<div class=" modal fade bd-example-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content ">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Schedule Pricing</h5>
+                </div>
+                <div class="modal-body">
+                  <table class="table hover-table" *ngIf="selDateRange">
+                    <thead>
+                      <tr>
+                        <th>People</th>
+                        <th>Adult</th>
+                        <th>Child</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let row of selDateRange.price">
+                        <td>{{row.numOfPersons}}</td>
+                        <td>${{row.adult}}</td>
+                        <td>${{row.child}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
 					<!--Availability-->
 				</div>
 			</div>
@@ -691,49 +516,5 @@
 		</div>
 	</div>
 	<!--link-content-->
-	<footer class="footer">
-		<div class="container">
-			<div class="row">
-				<div class="col-xl-4">
-					<a href="javascript:void(0)" class="footer-logo"><img src="images/footer-logo.png" alt="" /></a>
-					<p>Find the most affordable tours without paying multiple layers of fees</p>
-				</div>
-				<div class="col-xl-8">
-					<div class="row">
-						<div class="col-md-8">
-							<div class="row">
-								<div class="col-6">
-									<h4>About Us</h4>
-									<ul>
-										<li><a href="javascript:void(0)">Our Story</a></li>
-										<li><a href="javascript:void(0)">Why use Atorvia?</a></li>
-										<li><a href="javascript:void(0)">Sell on Atorvia</a></li>
-										<li><a href="javascript:void(0)">Contact Us</a></li>
-									</ul>
-								</div>
-								<div class="col-6">
-									<h4>Customer Care</h4>
-									<ul>
-										<li><a href="javascript:void(0)">Frequently Asked Questions</a></li>
-										<li><a href="javascript:void(0)">Terms & Conditions</a></li>
-										<li><a href="javascript:void(0)">Privacy Policy</a></li>
-										<li><a href="javascript:void(0)">Disclaimer</a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<h4>About Us</h4>
-
-							<div class="social-link">
-								<a href="javascript:void(0)"><img src="images/facebook.png" alt=""/></a>
-								<a href="javascript:void(0)"><img src="images/twitter.png" alt=""/></a>
-								<a href="javascript:void(0)"><img src="images/s3.png" alt=""/></a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</footer>
+	<footer-bar></footer-bar>
 </main>
