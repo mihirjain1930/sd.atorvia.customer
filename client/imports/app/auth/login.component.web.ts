@@ -40,6 +40,7 @@ export class LoginComponent extends MeteorComponent implements OnInit {
     }
 
     Meteor.loginWithPassword(this.loginForm.value.email, this.loginForm.value.password, (err) => {
+      this.subscribe("users");
       this.zone.run(() => {
         if (err) {
           this.error = err;

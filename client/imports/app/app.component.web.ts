@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router'
+import { MeteorComponent } from 'angular2-meteor';
 import { InjectUser } from "angular2-meteor-accounts-ui";
 import { LocalStorageService, SessionStorageService } from 'ng2-webstorage';
 import template from './app.component.web.html';
@@ -12,14 +13,16 @@ declare var jQuery:any;
     template
 })
 @InjectUser('user')
-export class AppComponent implements OnInit, AfterViewInit {
+export class AppComponent extends MeteorComponent implements OnInit, AfterViewInit {
     constructor(private router: Router, private localStorage: LocalStorageService, private sessionStorage: SessionStorageService) {
+      super();
       this.observeWindowHeight();
     }
 
     ngOnInit() {
       if (Meteor.userId())
       {
+          this.subscribe("users");
           this.checkRememberMe();
       }
     }
