@@ -61,7 +61,7 @@ Meteor.methods({
       }
 
       if (options.with.owner == true) {
-        let owner = Meteor.users.findOne({_id: tour.owner.id}, {fields: {profile: 1, supplier: 1} });
+        let owner = Meteor.users.findOne({_id: tour.owner.id}, {fields: {profile: 1} });
         let numOfTours = Tours.collection.find({"owner.id": tour.owner.id, "approved": true, "active": true, "deleted": false}).count();
         return {tour, owner, numOfTours};
       }
