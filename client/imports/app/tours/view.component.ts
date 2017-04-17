@@ -4,6 +4,7 @@ import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
 import { MeteorComponent } from 'angular2-meteor';
 import { Observable, Subscription, Subject, BehaviorSubject } from "rxjs";
+import { ChangeDetectorRef } from "@angular/core";
 import { Tour } from "../../../../both/models/tour.model";
 import { User } from "../../../../both/models/user.model";
 import { showAlert } from "../shared/show-alert";
@@ -29,8 +30,10 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
   item: Tour;
   owner: User;
   numOfTours: number;
+  relatedItems: Tour[] = null;
+  slickInitialized: boolean = false;
 
-  constructor(private zone: NgZone, private router: Router, private route: ActivatedRoute) {
+  constructor(private zone: NgZone, private router: Router, private route: ActivatedRoute, private changeDetectorRef: ChangeDetectorRef) {
     super();
   }
 
@@ -57,32 +60,9 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
   }
 
   ngAfterViewInit() {
+    this.fetchRelatedItems();
     Meteor.setTimeout(() => {
       jQuery(function($){
-        $('.slider-wrap').slick({
-          infinite: true,
-          slidesToShow: 3,
-          slidesToScroll: 3,
-          centerPadding: '30px',
-          speed: 300,
-           responsive: [
-
-            {
-              breakpoint: 992,
-              settings: {
-                slidesToShow: 2,
-                slidesToScroll: 2
-              }
-            },
-            {
-              breakpoint: 600,
-              settings: {
-                slidesToShow: 1,
-                slidesToScroll: 1
-              }
-            }
-          ]
-        })
         $("a[rel^='prettyPhoto']").prettyPhoto({
           social_tools: false
         });
@@ -93,8 +73,68 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
   ngOnDestroy() {
   }
 
+  private fetchRelatedItems() {
+    if (this.relatedItems !== null) {
+      return;
+    }
+
+    const options: Options = {
+        limit: 10,
+        skip: 0,
+        sort: { "totalAvailableSeats": -1 }
+    };
+    let where = {active: true, approved: true};
+
+    this.call("tours.find", options, where, "", (err, res) => {
+        if (err) {
+            showAlert("Error while fetching related items.", "danger");
+            return;
+        }
+
+        this.relatedItems = res.data;
+    })
+  }
+
   get tour() {
     return this.item;
+  }
+
+  get relatedTours() {
+    this.initializeSlick();
+    return this.relatedItems;
+  }
+
+  initializeSlick() {
+    if (this.slickInitialized !== false) {
+      return;
+    }
+    this.slickInitialized = true;
+
+    Meteor.setTimeout(() => {
+      jQuery('.slider-wrap').slick({
+        infinite: true,
+        slidesToShow: 3,
+        slidesToScroll: 3,
+        centerPadding: '30px',
+        speed: 300,
+         responsive: [
+          {
+            breakpoint: 992,
+            settings: {
+              slidesToShow: 2,
+              slidesToScroll: 2
+            }
+          },
+          {
+            breakpoint: 600,
+            settings: {
+              slidesToShow: 1,
+              slidesToScroll: 1
+            }
+          }
+        ]
+      })
+    }, 500);
   }
 
 }

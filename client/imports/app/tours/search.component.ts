@@ -170,11 +170,11 @@ export class SearchComponent extends MeteorComponent implements OnInit, AfterVie
       this.nameOrder.next(-1);
       break;
       case 'Availability (ASC)':
-      this.orderBy.next("totalSeats");
+      this.orderBy.next("totalAvailableSeats");
       this.nameOrder.next(1);
       break;
       case 'Availability (DESC)':
-      this.orderBy.next("totalSeats");
+      this.orderBy.next("totalAvailableSeats");
       this.nameOrder.next(-1);
       break;
       case 'Price From (ASC)':

@@ -258,7 +258,7 @@
 										<div [ngClass]="{'show-less': !row.showMore}">
 											<div class="sub-head">
 												<h4>Hotel</h4>
-												<p>{{row.hotelName}}</p>
+												<p>{{row.hotelName || row.hotelType}}</p>
 											</div>
 											<div class="sub-head">
 												<h4>Meals</h4>
@@ -401,74 +401,27 @@
 				</div>
 				<div class="col-sm-12">
 					<div class="slider-wrap">
-						<div>
+						<!-- start loop -->
+						<div *ngFor= "let tour of relatedTours; let i = index;">
 							<div class="destination-wrap">
-								<img src="images/destination.png" alt="">
+								<span *ngIf="!tour.images?.length"><img src="/images/destination.png" /></span>
+		            <span *ngIf="tour.images?.length > 0 && tour.featuredImage?.url"><img [src]="tour.featuredImage?.url" /></span>
+		            <span *ngIf="tour.images?.length > 0 && !tour.featuredImage?.url"><img [src]="tour.images[0]?.url" /></span>
 								<div class="content">
 									<div class="row">
 										<div class="col-8">
-											<h4>Halong Harbour</h4>
-											<p><span><i class="fa fa-map-marker" aria-hidden="true"></i></span>Hanoi, Vietnam</p>
+											<h4>{{tour.name}}</h4>
+											<p><span><i class="fa fa-map-marker" aria-hidden="true"></i></span>{{tour.departure}}, {{tour.destination}}</p>
 										</div>
 										<div class="col-4">
 											<p>From</p>
-											<h3><span>$</span>99</h3>
+											<h3><span>$</span>{{tour.dateRange[0]?.price[0]?.adult}}</h3>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-						<div>
-							<div class="destination-wrap">
-								<img src="images/slideimg1.png" alt="">
-								<div class="content">
-									<div class="row">
-										<div class="col-8">
-											<h4>Halong Harbour</h4>
-											<p><span><i class="fa fa-map-marker" aria-hidden="true"></i></span>Hanoi, Vietnam</p>
-										</div>
-										<div class="col-4">
-											<p>From</p>
-											<h3><span>$</span>99</h3>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div>
-							<div class="destination-wrap">
-								<img src="images/slideimg1.png" alt="">
-								<div class="content">
-									<div class="row">
-										<div class="col-8">
-											<h4>Halong Harbour</h4>
-											<p><span><i class="fa fa-map-marker" aria-hidden="true"></i></span>Hanoi, Vietnam</p>
-										</div>
-										<div class="col-4">
-											<p>From</p>
-											<h3><span>$</span>99</h3>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div>
-							<div class="destination-wrap">
-								<img src="images/slideimg1.png" alt="">
-								<div class="content">
-									<div class="row">
-										<div class="col-8">
-											<h4>Halong Harbour</h4>
-											<p><span><i class="fa fa-map-marker" aria-hidden="true"></i></span>Hanoi, Vietnam</p>
-										</div>
-										<div class="col-4">
-											<p>From</p>
-											<h3><span>$</span>99</h3>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+						<!-- end loop -->
 					</div>
 				</div>
 			</div>
