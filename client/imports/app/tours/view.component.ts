@@ -32,6 +32,7 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
   numOfTours: number;
   relatedItems: Tour[] = null;
   slickInitialized: boolean = false;
+  activeTab: string = "overview";
 
   constructor(private zone: NgZone, private router: Router, private route: ActivatedRoute, private changeDetectorRef: ChangeDetectorRef) {
     super();
@@ -52,6 +53,7 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
             this.item = <Tour>res.tour;
             this.owner = <User>res.owner;
             this.numOfTours = res.numOfTours;
+            this.changeDetectorRef.detectChanges();
           })
         });
   }
@@ -67,7 +69,7 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
           social_tools: false
         });
       });
-    }, 500);
+    }, 1000);
   }
 
   ngOnDestroy() {
@@ -134,7 +136,17 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
           }
         ]
       })
+    }, 1000);
+  }
+
+  scrollToDiv(elemId) {
+    jQuery('html, body').animate({
+        scrollTop: jQuery("#" + elemId).offset().top
     }, 500);
+  }
+
+  detectChanges() {
+    this.changeDetectorRef.detectChanges();
   }
 
 }

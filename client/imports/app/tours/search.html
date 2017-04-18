@@ -135,9 +135,11 @@
 					<ul class="listing">
 						<li *ngFor="let tour of items">
 							<div class="side-image">
-								<span *ngIf="!tour.images?.length"><img src="/images/destination.png" /></span>
-		            <span *ngIf="tour.images?.length > 0 && tour.featuredImage?.url"><img [src]="tour.featuredImage?.url" /></span>
-		            <span *ngIf="tour.images?.length > 0 && !tour.featuredImage?.url"><img [src]="tour.images[0]?.url" /></span>
+								<a [routerLink]="['/tours', tour.slug]">
+									<span *ngIf="!tour.images?.length"><img src="/images/destination.png" /></span>
+			            <span *ngIf="tour.images?.length > 0 && tour.featuredImage?.url"><img [src]="tour.featuredImage?.url" /></span>
+			            <span *ngIf="tour.images?.length > 0 && !tour.featuredImage?.url"><img [src]="tour.images[0]?.url" /></span>
+								</a>
 							</div>
 							<div class="list-cotent">
 								<div class="list-detail">
