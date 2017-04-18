@@ -102,12 +102,16 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
   }
 
   get relatedTours() {
-    this.initializeSlick();
     return this.relatedItems;
   }
 
-  initializeSlick() {
-    if (this.slickInitialized !== false) {
+  initializeSlick(i) {
+    if (this.relatedItems == null) {
+      return;
+    }
+    
+    let index = i + 1;
+    if (index < this.relatedItems.length || this.slickInitialized !== false) {
       return;
     }
     this.slickInitialized = true;
