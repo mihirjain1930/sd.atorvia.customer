@@ -43,6 +43,15 @@ Accounts.onCreateUser(function(options, user) {
 // validate user role before login
 Accounts.validateLoginAttempt(function (options) {
   if (options.user && options.allowed) {
+
+    if ( options.user.deleted === true ) {
+      throw new Meteor.Error(403, "You are not allowed to login.");
+    }
+
+    if ( options.user.active !== true ) {
+      throw new Meteor.Error(403, "Your account is deactivated.");
+    }
+
     var isAdmin = Roles.userIsInRole(options.user, ['customer'])
     if (!isAdmin) {
       throw new Meteor.Error(403, "Not authorized!");
