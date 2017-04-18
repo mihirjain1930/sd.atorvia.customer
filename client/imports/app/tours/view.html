@@ -397,7 +397,7 @@
 	</section>
 
 	<!--slider-option-->
-	<section class="slider-option">
+	<section class="slider-option" *ngIf="relatedTours!=null && relatedTours.length">
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-12">
@@ -424,6 +424,8 @@
 									</div>
 								</div>
 							</div>
+
+							<span [innerHTML]="initializeSlick(i)"></span>
 						</div>
 						<!-- end loop -->
 					</div>
