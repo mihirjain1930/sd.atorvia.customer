@@ -4,9 +4,9 @@ import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
 import { MeteorComponent } from 'angular2-meteor';
 import { Observable, Subscription, Subject, BehaviorSubject } from "rxjs";
-import template from './destination.html';
 import { Tour } from "../../../../both/models/tour.model";
 import { showAlert } from "../shared/show-alert";
+import template from './destination.html';
 
 interface Pagination {
   limit: number;
