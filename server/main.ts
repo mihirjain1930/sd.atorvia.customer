@@ -3,6 +3,7 @@ import { Accounts } from 'meteor/accounts-base';
 import './startup/accounts-config';
 import './startup/service-config';
 import './imports/publications/users';
+import './imports/routers/email-routes';
 import './startup/email-config';
 
 Meteor.startup(() => {
