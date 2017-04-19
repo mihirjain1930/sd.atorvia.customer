@@ -18,9 +18,28 @@ Meteor.methods({
         }
         return userId;
     },
-    "users.update": (userData: {"profile" : any }): any => {
+    "users.update": (userData: {"profile" : any }, email?: {oldAddress: string, newAddress: string}): any => {
       if (! Meteor.userId()) {
         throw new Meteor.Error(403, "Not authorized!");
+      }
+
+      if (email.oldAddress != email.newAddress) {
+        try {
+          let success = Meteor.users.update({ _id: Meteor.userId(), 'emails.address': email.oldAddress },
+           { $set: { 'emails.$.address': email.newAddress }});
+           if (! success) {
+             throw new Meteor.Error(500, "Error while updating email address.");
+           }
+         } catch (e) {
+           switch(e.code) {
+             case 11000:
+              throw new Meteor.Error(500, "Duplicate email submitted. Please supply unique email address.");
+             break;
+             default:
+              throw new Meteor.Error(500, "Error while updating email address.");
+             break;
+           }
+         }
       }
 
       return Meteor.users.update({

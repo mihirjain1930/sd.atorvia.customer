@@ -18,6 +18,7 @@ import template from "./dashboard.html";
 export class DashboardComponent extends MeteorComponent implements OnInit, AfterViewInit {
   accountForm: FormGroup;
   userId: string;
+  oldEmailAddress: string;
   error: string;
 
   constructor(private router: Router, private zone: NgZone, private formBuilder: FormBuilder) {
@@ -37,14 +38,15 @@ export class DashboardComponent extends MeteorComponent implements OnInit, After
         lastName: ['', Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(30), validateFirstName])],
         phoneNum: ['', Validators.compose([Validators.required, Validators.minLength(7), Validators.maxLength(15), validatePhoneNum])],
       });
-      let accountForm = this.accountForm;
+      let self = this;
       let callback = (user) => {
         //console.log("user:", user);
-        accountForm.controls['firstName'].setValue(user.profile.firstName);
-        accountForm.controls['middleName'].setValue(user.profile.middleName);
-        accountForm.controls['lastName'].setValue(user.profile.lastName);
-        accountForm.controls['email'].setValue(user.emails[0].address);
-        accountForm.controls['phoneNum'].setValue(user.profile.contact);
+        self.accountForm.controls['firstName'].setValue(user.profile.firstName);
+        self.accountForm.controls['middleName'].setValue(user.profile.middleName);
+        self.accountForm.controls['lastName'].setValue(user.profile.lastName);
+        self.accountForm.controls['email'].setValue(user.emails[0].address);
+        self.accountForm.controls['phoneNum'].setValue(user.profile.contact);
+        self.oldEmailAddress = user.emails[0].address;
       };
       this.fetchUser(callback);
     }
@@ -77,21 +79,28 @@ export class DashboardComponent extends MeteorComponent implements OnInit, After
   update() {
     let fullName = this.accountForm.value.firstName;
     if(this.accountForm.value.middleName) {
-      fullName  = fullName + " " +this.accountForm.value.middleName;
+      fullName  = fullName + " " + this.accountForm.value.middleName;
     }
-    fullName = fullName + " " +this.accountForm.value.lastName;
+    fullName = fullName + " " + this.accountForm.value.lastName;
     let userData = {
       "profile.firstName": this.accountForm.value.firstName,
       "profile.middleName": this.accountForm.value.middleName,
       "profile.lastName": this.accountForm.value.lastName,
       "profile.contact": this.accountForm.value.phoneNum,
-      "profile.fullName": fullName,
+      "profile.fullName": fullName
     };
-    this.call("users.update", userData, (err, res) => {
+    let emailAddress = {
+      oldAddress: this.oldEmailAddress,
+      newAddress: this.accountForm.value.email
+    };
+
+    this.error = null;
+    this.call("users.update", userData, emailAddress, (err, res) => {
       this.zone.run(() => {
         if(err) {
             this.error = err;
         } else {
+          this.oldEmailAddress = emailAddress.newAddress;
           showAlert("Your profile has been updated successfully.", "success");
           this.router.navigate(['/dashboard']);
         }
