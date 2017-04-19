@@ -356,7 +356,7 @@
 											A${{row.price[0]?.adult}}
 											<a href="javascript:void(0)" (click)="selDateRange=row" data-toggle="modal" data-target="#myModal">see all pricing</a>
 										</td>
-										<td><button type="button" class="btn green-btn">BOOK</button></td>
+										<td><button type="button" class="btn green-btn" [routerLink]="['/booking/step1']">BOOK</button></td>
 									</tr>
 								</tbody>
 							</table>

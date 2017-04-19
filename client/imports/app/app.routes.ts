@@ -12,6 +12,7 @@ import { routes as pageRoutes } from "./content-page/routes";
 import { routes as faqRoutes } from "./faqs/routes";
 import { routes as landingRoutes } from "./landing/routes";
 import { routes as toursRoutes } from "./tours/routes";
+import { routes as bookingRoutes } from "./bookings/routes";
 
 
 let mainRoutes = [
@@ -29,7 +30,8 @@ export const routes: Route[] = [
     ...pageRoutes,
     ...faqRoutes,
     ...landingRoutes,
-    ...toursRoutes
+    ...toursRoutes,
+    ...bookingRoutes
 ];
 
 export const ROUTES_PROVIDERS = [

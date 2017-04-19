@@ -16,7 +16,8 @@ import { Page_Declarations } from "./content-page/index";
 import { Faq_Declarations } from "./faqs/index";
 import { LANDING_DECLARATIONS } from "./landing/index";
 import { TOURS_DECLARATIONS } from "./tours/index";
-import {DASHBOARD_DECLARATIONS} from "./dashboard/index";
+import { DASHBOARD_DECLARATIONS } from "./dashboard/index";
+import { BOOKING_DECLARATIONS } from "./bookings/index";
 
 // Create config options (see ILocalStorageServiceConfigOptions) for deets:
 let localStorageServiceConfig = {
@@ -47,7 +48,8 @@ moduleDefinition = {
     ...Page_Declarations,
     ...Faq_Declarations,
     ...LANDING_DECLARATIONS,
-    ...TOURS_DECLARATIONS
+    ...TOURS_DECLARATIONS,
+    ...BOOKING_DECLARATIONS
   ],
   providers: [
     ...ROUTES_PROVIDERS,

@@ -84,3 +84,9 @@
 		@content;
 	}
 }
+
+@mixin border-right($width, $style, $color) {
+	border-right-width: $width;
+	border-right-style: $style;
+	border-right-color: $color;
+}
