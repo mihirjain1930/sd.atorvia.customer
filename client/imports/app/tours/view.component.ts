@@ -53,6 +53,7 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
             this.item = <Tour>res.tour;
             this.owner = <User>res.owner;
             this.numOfTours = res.numOfTours;
+            this.fetchRelatedItems();
             this.changeDetectorRef.detectChanges();
           })
         });
@@ -62,7 +63,6 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
   }
 
   ngAfterViewInit() {
-    this.fetchRelatedItems();
     Meteor.setTimeout(() => {
       jQuery(function($){
         $("a[rel^='prettyPhoto']").prettyPhoto({
@@ -85,7 +85,8 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
         skip: 0,
         sort: { "totalAvailableSeats": -1 }
     };
-    let where = {active: true, approved: true};
+    let item = this.item;
+    let where = {active: true, approved: true, tourType: item.tourType};
 
     this.call("tours.find", options, where, "", (err, res) => {
         if (err) {
@@ -109,7 +110,7 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
     if (this.relatedItems == null) {
       return;
     }
-    
+
     let index = i + 1;
     if (index < this.relatedItems.length || this.slickInitialized !== false) {
       return;
