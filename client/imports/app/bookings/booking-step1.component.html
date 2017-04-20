@@ -157,7 +157,7 @@
             </ul>
           </div>
           <div class="col-md-8">
-            <form>
+            <form [formGroup]="bookingForm" #f="ngForm">
               <section class="right-wrap">
                 <div class="tour-header">
                   <h3>Traveller 1<span>* Required Fields</span>
@@ -204,7 +204,7 @@
                         </div>
                         <div class="col-sm-6">
                           <div class="form-group">
-                            <label for="phone">Phone Number*</label>
+                            <label for="phone">Phone Number *</label>
                             <div class="input-wrap">
                               <input type="text" class="form-control" id="phone" placeholder="Phone Number"/>
                             </div>
@@ -309,7 +309,7 @@
                         </div>
                         <div class="col-md-6">
                           <div class="form-group">
-                            <label for="Country">COUNRY *</label>
+                            <label for="Country">COUNTRY *</label>
                             <div class="form-group">
                               <div class="select-style">
                                 <select class="select">
@@ -371,7 +371,7 @@
                           </div>
                           <div class="col-sm-6">
                             <div class="form-group">
-                              <label for="phone">Phone Number*</label>
+                              <label for="phone">Phone Number *</label>
                               <div class="input-wrap">
                                 <input type="text" class="form-control" id="phone" placeholder="Phone Number"/>
                               </div>
@@ -426,18 +426,17 @@
                               <div class="form-group">
                                 <label for="fname">Name on card</label>
                                 <div class="input-wrap">
-                                  <input type="text" name="" class="form-control" id="fname" placeholder="Name on card">
+                                  <input type="text" name="" class="form-control" id="fname" placeholder="Name on card" formControlName="nameOnCard">
                                 </div>
                               </div>
                             </div>
                           </div>
                           <div class="row">
                             <div class="col-9">
-
                               <div class="form-group">
                                 <label for="fname">Card Number</label>
                                 <div class="input-wrap">
-                                  <input type="text" name="" class="form-control" id="fname" placeholder="Credit number">
+                                  <input type="number" name="" class="form-control" id="fname" placeholder="Credit number" formControlName="cardNumber">
                                 </div>
                               </div>
                             </div>
@@ -452,7 +451,7 @@
                               <div class="form-group">
                                 <label for="exDate">Expiry Date</label>
                                 <div class="input-wrap">
-                                  <input type="text" name="" class="form-control" id="exDate" placeholder="MM/YY">
+                                  <input type="text" name="" class="form-control" id="exDate" placeholder="MM/YY" formControlName="expiryDate">
                                 </div>
                               </div>
                             </div>
@@ -460,7 +459,7 @@
                               <div class="form-group">
                                 <label for="cvv">CVV <span></span></label>
                                 <div class="input-wrap">
-                                  <input type="text" name="" class="form-control" id="cvv" placeholder="CVV">
+                                  <input type="number" name="" class="form-control" id="cvv" placeholder="CVV" formControlName="cvvNumber">
                                 </div>
                               </div>
                             </div>
@@ -475,7 +474,7 @@
                         <p>By clicking the 'Next' button below, you have read and agreed width our <a href="javascript:void(0)"> Terms & Conditions</a> and <a href="javascript:void(0)"> Privacy Policy</a>for us to process your tour booking.</p>
                       </div>
                       <div class="col-sm-4">
-                        <button type="button" class="btn green-btn" [routerLink]="['/booking/step2']">Next<span><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
+                        <button type="button" class="btn green-btn" (click)="book()">Next<span><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
                       </div>
                     </div>
                   </div>

@@ -15,8 +15,19 @@ import template from './booking-step1.component.html';
   template
 })
 export class BookingStep1Component extends MeteorComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy  {
+  bookingForm: FormGroup
+
   constructor(private router: Router, private zone: NgZone, private formBuilder: FormBuilder, private localStorage: LocalStorageService, private sessionStorage: SessionStorageService) {
     super();
+  }
+
+  ngOnInit() {
+    this.bookingForm = this.formBuilder.group({
+      nameOnCard: ['', Validators.compose([Validators.required])],
+      cardNumber: ['', Validators.compose([Validators.required, CValidators.creditCard])],
+      expiryDate: ['', Validators.compose([Validators.required])],
+      cvvNumber:  ['', Validators.compose([Validators.required,Validators.minLength(3),Validators.maxLength(3)])]
+    })
   }
 
   ngAfterViewChecked() {
@@ -34,5 +45,16 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
   }
 
   ngOnDestroy() {
+  }
+
+  book() {
+    let paymentData = {
+      nameOnCard: this.bookingForm.value.nameOnCard,
+      cardNumber: this.bookingForm.value.cardNumber,
+      expiryDate: this.bookingForm.value.expiryDate,
+      cvvNumber:  this.bookingForm.value.cvvNumber,
+    }
+    console.log(paymentData);
+    this.router.navigate(['/booking/step2']);
   }
 }
