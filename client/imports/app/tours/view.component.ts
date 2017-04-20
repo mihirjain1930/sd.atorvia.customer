@@ -19,6 +19,19 @@ interface Options extends Pagination {
   [key: string]: any
 }
 
+interface DateRange {
+  startDate: Date;
+  endDate: Date;
+  price?: [{
+    numOfPersons: number;
+    adult: number;
+    child: number;
+  }],
+  numOfSeats: number;
+  soldSeats: number;
+  availableSeats: number;
+}
+
 @Component({
   selector: '',
   template
@@ -33,6 +46,7 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
   relatedItems: Tour[] = null;
   slickInitialized: boolean = false;
   activeTab: string = "overview";
+  selDateRange: DateRange = null;
 
   constructor(private zone: NgZone, private router: Router, private route: ActivatedRoute, private changeDetectorRef: ChangeDetectorRef) {
     super();
@@ -153,5 +167,6 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
   detectChanges() {
     this.changeDetectorRef.detectChanges();
   }
+
 
 }

@@ -123,19 +123,19 @@
       }
 
 			.departure-form {
-				@extend .fixed;
-				@extend .none;
-				max-width: 768px;
-				width: 768px;
-				top: 0;
-
+				/*@extend .fixed;
+				@extend .none;*/
+				padding: 10px 20px;
+				/*max-width: 768px;
+				width: 768px;*/
+				/*top: 0;
 				z-index: 5;
 				right: 0;
-				left: auto;
+				left: auto;*/
 				background: $white;
-				-webkit-box-shadow: 0px 3px 5px 0px rgba(50, 50, 50, 0.63);
+				/*-webkit-box-shadow: 0px 3px 5px 0px rgba(50, 50, 50, 0.63);
 				-moz-box-shadow: 0px 3px 5px 0px rgba(50, 50, 50, 0.63);
-				box-shadow: 0px 3px 5px 0px rgba(50, 50, 50, 0.63);
+				box-shadow: 0px 3px 5px 0px rgba(50, 50, 50, 0.63);*/
 				@media (max-width: $ipad) {
 					max-width: 480px;
 					width: auto;

@@ -43,79 +43,6 @@
 								<div class="departure-box">
 									<button class="btn green-btn" type="button" (click)="scrollToDiv('availability')">Choose Departure Date</button>
 									<p>Booking will be confirmed within 24 hours.</p>
-									<!-- <div class="departure-form">
-										<div class="row">
-											<div class="col-md-6">
-												<div class="date-pick">
-													<h4>Select your departure date</h4>
-													<img src="images/cal-img.png" alt="" />
-												</div>
-											</div>
-											<div class="col-md-6">
-												<div class="book-form">
-													<h4>How many people is travelling</h4>
-													<form>
-														<div class="row">
-															<div class="col-sm-6">
-																<div class="form-group">
-																	<label for="adults">Adult</label>
-																	<div class="select-style">
-																		<select class="select">
-																			<option value="Value 1">1</option>
-																			<option value="Value 2">2</option>
-																			<option value="Value 3">3</option>
-																		</select>
-																	</div>
-																</div>
-															</div>
-															<div class="col-sm-6">
-																<div class="form-group">
-																	<label for="Child">Child</label>
-																	<div class="select-style">
-																		<select class="select">
-																			<option value="Value 1">1</option>
-																			<option value="Value 2">2</option>
-																			<option value="Value 3">3</option>
-																		</select>
-																	</div>
-																</div>
-															</div>
-														</div>
-														<div class="row">
-															<div class="col-sm-12">
-																<h4>Tour Price</h4>
-																<h5>Japan and Taiwan 12 Days Super Easter Highlight</h5>
-																<ul>
-																	<li>
-																		<span class="pull_left">Adults x 2</span>
-																		<span class="pull_right">$2,495.00</span>
-																	</li>
-																	<li>
-																		<span class="pull_left">Child x 2</span>
-																		<span class="pull_right">$2,195.00</span>
-																	</li>
-																</ul>
-																<div class="total-wrap">
-																	<div class="row">
-																		<div class="col-4">
-																			<p>Total</p>
-																		</div>
-																		<div class="col-8">
-																			<h2>AU$</h2>
-																			<h2>9,980</h2>
-																		</div>
-																	</div>
-																</div>
-															</div>
-															<div class="col-sm-12">
-																<button type="button" class="btn green-btn">Book now</button>
-															</div>
-														</div>
-													</form>
-												</div>
-											</div>
-										</div>
-									</div> -->
 								</div>
 							</div>
 							<div class="col-lg-9 pull-lg-3">
@@ -133,6 +60,23 @@
 					</div>
 				</div>
 			</div>
+			<!-- Booking modal -->
+			<div class="modal fade" id="bookTour" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Book a Tour</h5>
+						</div>
+
+						<div class="modal-body departure-box">
+							<!-- departure form -->
+							<booking-form [tour]="tour" [selDateRange]="selDateRange"></booking-form>
+							<!-- departure form ends -->
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Booking modal ends -->
 		</div>
 	</section>
 	<!--link-wrap-->
@@ -346,9 +290,9 @@
 										<td>{{row.availableSeats}}</td>
 										<td>
 											A${{row.price[0]?.adult}}
-											<a href="javascript:void(0)" (click)="selDateRange=row" data-toggle="modal" data-target="#myModal">see all pricing</a>
+											<a href="javascript:void(0)" (click)="selDateRange=row; detectChanges();" data-toggle="modal" data-target="#myModal">see all pricing</a>
 										</td>
-										<td><button type="button" class="btn green-btn" [routerLink]="['/booking/step1']">BOOK</button></td>
+										<td><button type="button" class="btn green-btn" (click)="selDateRange=row; detectChanges();" data-toggle="modal" data-target="#bookTour">BOOK</button></td>
 									</tr>
 								</tbody>
 							</table>
