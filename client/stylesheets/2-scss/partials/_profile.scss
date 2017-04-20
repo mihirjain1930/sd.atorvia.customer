@@ -7,6 +7,25 @@
 		height: auto;
 	}
 	.profile {
+		.image-input {
+			.update-img{
+				@extend .absolute;
+				left:0px;
+				right: 0px;
+				text-align: center;
+				width: 122px;
+				z-index: 555;
+				font-size: $font-24;
+				color: $green-color;
+				bottom: -7px;
+				cursor: pointer;
+
+			}
+			input{
+				opacity: 0;
+				width: 90px;
+			}
+		}
 		@media (max-width: $medium-phone) {
 			text-align: center;
 		}

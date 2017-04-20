@@ -32,14 +32,14 @@
 									<span><img src="images/sort.png" alt=""/></span>
 									<select class="select" (change)="changeOrderBy(sortOrder.value)" #sortOrder>
 										<option>Sort</option>
-										<option >Tour (A-Z)</option>
-										<option >Tour (Z-A)</option>
-										<option >Length (ASC)</option>
-										<option >Length (DESC)</option>
-										<option >Availability (ASC)</option>
-										<option >Availability (DESC)</option>
-										<option >Price From (ASC)</option>
-										<option >Price From (DESC)</option>
+										<option value="tour_asc">Tour (A - Z)</option>
+										<option value="tour_desc">Tour (Z - A)</option>
+										<option value="length_asc">Length (Low - High)</option>
+										<option value="length_desc">Length (High - Low)</option>
+										<option value="availability_asc">Availability (Min - Max)</option>
+										<option value="availability_desc">Availability (Max - Min)</option>
+										<option value="price_asc">Price From (Min - Max)</option>
+										<option value="price_desc">Price From (Max - Min)</option>
 									</select>
 								</div>
 								<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
@@ -120,13 +120,13 @@
 								</li>
 							</ul>
 							<h4>Price Range</h4>
-							<input type="hidden" id="filterPrice" #filterPrice />
+							<input type="hidden" id="filterPrice" #filterPrice (click)="changePrice(filterPrice.value)" />
 							<div class="slider-box-custom">
 								<p>
-										<span id="startPriceRange">$0</span>
-										<span id="endPriceRange">$10000</span>
+										<span id="startPriceRange">A$ 0</span>
+										<span id="endPriceRange">A$ 10000</span>
 								</p>
-							  <div id="price-range" class="slider-custom" (click)="changePrice(filterPrice.value)"></div>
+							  <div id="price-range" class="slider-custom" ></div>
 							</div>
 						</div>
 					</div>
@@ -156,7 +156,10 @@
 									</p>
 								</div>
 								<div class="info">
-									<h3><span class="grey-box"></span>{{tour.owner.companyName}}<span><i class="fa fa-check-circle" aria-hidden="true"></i></span></h3>
+									<h3><span class="grey-box">
+										<img src="images/user.png" alt="" *ngIf="! user?.profile.image?.url" />
+			              <img src="{{user?.profile.image.url}}" alt="" *ngIf="!! user?.profile.image?.url" />
+									</span>{{tour.owner.companyName}}<span><i class="fa fa-check-circle" aria-hidden="true"></i></span></h3>
 									<p>{{tour.description}}</p>
 									<ul>
 										<li>

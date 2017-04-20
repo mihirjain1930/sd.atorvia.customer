@@ -23,6 +23,10 @@ export class BookingStep2Component extends MeteorComponent implements OnInit, Af
   ngAfterViewChecked() {
   }
 
+  ngOnInit() {
+    
+  }
+
   ngAfterViewInit() {
     Meteor.setTimeout(() => {
       jQuery(function($){

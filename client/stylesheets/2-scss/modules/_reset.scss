@@ -411,6 +411,8 @@ $small_phone: 360px;
 	padding-right: 1.5rem;
 	margin-right: 0;
 	width: $full;
+	box-shadow: none;
+	outline: 0;
 	.custom-control-indicator {
 		left: auto;
 		@extend .right-0;
@@ -419,6 +421,8 @@ $small_phone: 360px;
 		@include border-radius(1px, 1px, 1px, 1px);
 		height: 18px;
 		width: 18px;
+		box-shadow: none;
+		outline: 0;
 	}
 	.custom-control-input {
 		&:checked {
