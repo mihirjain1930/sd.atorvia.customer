@@ -146,9 +146,18 @@
 							<div class="col-sm-12">
 								<div class="tour-inf">
 									<div class="center-img">
+										<img src="images/user.png" alt="" *ngIf="! owner?.profile.image?.url" />
+                    <img src="{{owner?.profile.image.url}}" alt="" *ngIf="!! owner?.profile.image?.url" />
 									</div>
-									<h3>{{owner.profile.supplier?.companyName}}<span><i class="fa fa-check-circle" aria-hidden="true"></i></span></h3>
-									<p *ngIf="!! user?.profile?.address?.suburb || !! user?.profile?.address?.state || !! user?.profile?.address?.country"><span><i class="fa fa-map-marker" aria-hidden="true"></i></span>
+									<h3>{{owner.profile.supplier?.companyName}}
+										<span *ngIf="owner?.profile.supplier?.agentCertificate?.verified == true && owner?.profile.supplier?.agentIdentity?.verified == true">
+											<i class="fa fa-check-circle" aria-hidden="true"></i>
+										</span>
+										<span *ngIf="owner?.profile.supplier?.agentCertificate?.verified == false && owner?.profile.supplier?.agentIdentity?.verified == false">
+											<i class="fa fa-times-close" aria-hidden="true"></i>
+										</span>
+									</h3>
+									<p *ngIf="!! owner?.profile?.address?.suburb || !! owner?.profile?.address?.state || !! owner?.profile?.address?.country"><span><i class="fa fa-map-marker" aria-hidden="true"></i></span>
 										{{owner.profile.address?.suburb}},
 										{{owner.profile.address?.state}},
 										{{owner.profile.address?.country}}
