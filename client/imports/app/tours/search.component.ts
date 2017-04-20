@@ -73,8 +73,9 @@ export class SearchComponent extends MeteorComponent implements OnInit, AfterVie
             $("#startPriceRange").text("$" + ui.values[0]);
             $("#endPriceRange").text("$" + ui.values[1]);
             $("#filterPrice").val(ui.values[0] + ',' + ui.values[1]);
-          },
-          change: function( event, ui ) { }
+
+            $("#filterPrice").trigger("click");
+          }
         });
       });
 
@@ -153,35 +154,35 @@ export class SearchComponent extends MeteorComponent implements OnInit, AfterVie
 
   changeOrderBy(sortBy: string): void {
     switch(sortBy) {
-      case 'Tour (A-Z)':
+      case 'tour_asc':
       this.orderBy.next("name");
       this.nameOrder.next(1);
       break;
-      case 'Tour (Z-A)':
+      case 'tour_desc':
       this.orderBy.next("name");
       this.nameOrder.next(-1);
       break;
-      case 'Length (ASC)':
+      case 'length_asc':
       this.orderBy.next("noOfDays");
       this.nameOrder.next(1);
       break;
-      case 'Length (DESC)':
+      case 'length_desc':
       this.orderBy.next("noOfDays");
       this.nameOrder.next(-1);
       break;
-      case 'Availability (ASC)':
+      case 'availability_asc':
       this.orderBy.next("totalAvailableSeats");
       this.nameOrder.next(1);
       break;
-      case 'Availability (DESC)':
+      case 'availability_desc':
       this.orderBy.next("totalAvailableSeats");
       this.nameOrder.next(-1);
       break;
-      case 'Price From (ASC)':
+      case 'price_asc':
       this.orderBy.next("dateRange.price.adult");
       this.nameOrder.next(1);
       break;
-      case 'Price From (DESC)':
+      case 'price_desc':
       this.orderBy.next("dateRange.price.adult");
       this.nameOrder.next(-1);
       break;
@@ -197,6 +198,12 @@ export class SearchComponent extends MeteorComponent implements OnInit, AfterVie
   }
 
   changePrice(value) {
+    console.log("changePrice:", value);
+    // don't apply filters if range is empty
+    if (!value) {
+      return;
+    }
+
     let range = value.split(',');
     let where = this.whereCond;
     where["dateRange.price.adult"] = {

@@ -18,6 +18,20 @@ Meteor.methods({
         }
         return userId;
     },
+    "users.resendVerificationEmail": (email: string) => {
+      let user = Meteor.users.findOne({"emails.address": email});
+      if (! user || !user._id) {
+        throw new Meteor.Error(403, "No matching records found with your email.");
+      }
+
+      if (user.emails[0].verified === true) {
+        throw new Meteor.Error(403, "Your account is already verified. Please login to continue.");
+      }
+
+      Meteor.setTimeout(function () {
+        Accounts.sendVerificationEmail(user._id);
+      }, 500);
+    },
     "users.update": (userData: {"profile" : any }, email: {oldAddress: string, newAddress: string}={}): any => {
       if (! Meteor.userId()) {
         throw new Meteor.Error(403, "Not authorized!");

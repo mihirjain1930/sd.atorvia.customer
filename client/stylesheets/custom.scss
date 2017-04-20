@@ -32,3 +32,8 @@
     cursor: pointer;
   }
 }
+.custom-control-input {
+  input[type="checkbox"]:focus {
+        outline:0;
+   }
+}
