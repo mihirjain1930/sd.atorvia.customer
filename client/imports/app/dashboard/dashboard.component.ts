@@ -6,6 +6,7 @@ import { InjectUser } from "angular2-meteor-accounts-ui";
 import { Router } from '@angular/router';
 import { MeteorComponent } from 'angular2-meteor';
 import { User } from "../../../../both/models/user.model";
+import { upload } from '../../../../both/methods/images.methods';
 import { showAlert } from "../shared/show-alert";
 import { validateEmail, validatePassword, validatePhoneNum, validateFirstName } from "../../validators/common";
 import template from "./dashboard.html";
@@ -20,6 +21,12 @@ export class DashboardComponent extends MeteorComponent implements OnInit, After
   userId: string;
   oldEmailAddress: string;
   error: string;
+  user: User;
+  isUploading: boolean = false;
+  isUploaded: boolean = false;
+  imageId: string;
+  image: Image;
+  searchString: string;
 
   constructor(private router: Router, private zone: NgZone, private formBuilder: FormBuilder) {
     super();
@@ -107,4 +114,52 @@ export class DashboardComponent extends MeteorComponent implements OnInit, After
       });
     });
   }
+
+  onFileSelect(event) {
+        var files = event.srcElement.files;
+        this.startUpload(files[0]);
+    }
+
+
+    private startUpload(file: File): void {
+        // check for previous upload
+        if (this.isUploading === true) {
+            console.log("aleady uploading...");
+            return;
+        }
+
+        // start uploading
+        this.isUploaded = false;
+        //console.log('file uploading...');
+        this.isUploading = true;
+
+        upload(file)
+        .then((res) => {
+            this.isUploading = false;
+            this.isUploaded = true;
+            this.image = res;
+            this.imageId = res._id;
+            let userData = {
+                "profile.image":{
+                  id: this.imageId,
+                  url: this.image.url,
+                  name: this.image.name
+                }
+            };
+            this.call("users.update", userData, (err, res) => {
+                if (err) {
+                    console.log("Error while updating user picture");
+                    return;
+                }
+                $("#inputFile").val("");
+                this.user.profile.image.url = this.image.url;
+                showAlert("Profile picture updated successfully.", "success");
+            });
+        })
+        .catch((error) => {
+            this.isUploading = false;
+            console.log('Error in file upload:', error);
+            showAlert(error.reason, "danger");
+        });
+    }
 }

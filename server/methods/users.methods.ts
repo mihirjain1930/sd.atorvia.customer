@@ -18,7 +18,7 @@ Meteor.methods({
         }
         return userId;
     },
-    "users.update": (userData: {"profile" : any }, email?: {oldAddress: string, newAddress: string}): any => {
+    "users.update": (userData: {"profile" : any }, email: {oldAddress: string, newAddress: string}={}): any => {
       if (! Meteor.userId()) {
         throw new Meteor.Error(403, "Not authorized!");
       }
