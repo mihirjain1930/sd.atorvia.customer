@@ -47,3 +47,10 @@
     outline: 0;
   }
 }
+
+.completer-dropdown-holder, .completer-dropdown {
+  width: 90% !important;
+}
+.completer-row-wrapper, .completer-row, .completer-item-text, .completer-list-item-holder, .completer-list-item {
+  width: 100% !important;
+}
