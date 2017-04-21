@@ -7,8 +7,8 @@
 		<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 			<div class="carousel-inner" role="listbox">
 				<div class="carousel-item active" *ngIf="!!tour">
-					<span *ngIf="!tour.images?.length"><img class="d-block img-fluid" src="images/slide1.png"></span>
-					<span *ngIf="tour.featuredImage?.url"><img class="img-set" [src]="tour.featuredImage.url" /></span>
+					<img *ngIf="!tour.featuredImage?.url" class="d-block img-fluid" src="images/slide1.png" alt="First slide">
+					<img *ngIf="!!tour.featuredImage?.url" class="d-block img-fluid" [src]="tour.featuredImage.url" alt="First slide" style="height: 680px; width: 1600px;">
 					<div class="carousel-caption d-none d-md-block">
 						<div class="destination-wrap">
 							<div class="content">

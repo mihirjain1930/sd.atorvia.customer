@@ -36,3 +36,20 @@
   width: 1680px !important;
   height: 600px !important;
 }
+
+.search-box {
+  .completer-input {
+    width: 100%;
+    padding: 10px 0;
+    border: 0;
+    box-shadow: none;
+    outline: 0;
+  }
+}
+
+.completer-dropdown-holder, .completer-dropdown {
+  width: 90% !important;
+}
+.completer-row-wrapper, .completer-row, .completer-item-text, .completer-list-item-holder, .completer-list-item {
+  width: 100% !important;
+}

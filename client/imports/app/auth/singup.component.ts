@@ -49,7 +49,7 @@ export class SignupComponent extends MeteorComponent implements OnInit {
     this.call("users.insert", userData, (err, res) => {
       this.zone.run(() => {
         if (err) {
-            showAlert(err.message, "danger");
+            showAlert(err.reason, "danger");
             this.error = err;
         } else {
           showAlert("Your account has been created successfully. Please check your email for further instructions.", "success");
