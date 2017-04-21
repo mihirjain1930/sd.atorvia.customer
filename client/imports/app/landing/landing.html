@@ -12,7 +12,7 @@
             <div class="form-group">
               <div class="input-group">
                 <span class="left-icon"><i class="fa fa-map-marker" aria-hidden="true"></i></span>
-                <input class="form-control" id="search" placeholder="Where you go next ?" type="text" #searchQuery (keyup.enter)="doSearch(searchQuery.value)">
+                <ng2-completer [datasource]="dataService" [minSearchLength]="3" class="form-control" id="search" placeholder="Where you go next ?" type="text" #searchQuery (keyup.enter)="doSearch(searchQuery.value)"></ng2-completer>
                 <div class="input-group-btn">
                   <button type="button" class="btn green-btn" (click)="doSearch(searchQuery.value)"><span><i class="fa fa-search" aria-hidden="true"></i></span>Search</button>
                 </div>

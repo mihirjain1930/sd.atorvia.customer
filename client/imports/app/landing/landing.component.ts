@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
 import { MeteorComponent } from 'angular2-meteor';
+import { CompleterService, CompleterData } from 'ng2-completer';
 import template from './landing.html';
 import { Tour } from "../../../../both/models/tour.model";
 import { isValidEmail } from "../../../../both/validators/index";
@@ -25,9 +26,11 @@ export class LandingComponent extends MeteorComponent implements OnInit, AfterVi
   topItems: Tour[];
   hotItems: Tour[];
   error: string;
+  dataService: CompleterData;
 
-  constructor(private zone: NgZone, private router: Router) {
+  constructor(private zone: NgZone, private router: Router, private completerService: CompleterService) {
     super();
+    this.dataService = completerService.remote('/api/1.0/tours/search?searchString=', 'name,destination', 'name');
   }
 
   ngOnInit() {
