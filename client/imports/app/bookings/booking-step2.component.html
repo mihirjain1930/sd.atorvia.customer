@@ -58,19 +58,19 @@
             <div class="row">
               <div class="col-md-2">
                 <div class="img-wrp">
+                  <span *ngIf="bookingDetails.tour.featuredImage?.url"><img [src]="bookingDetails.tour.featuredImage?.url" /></span>
                 </div>
               </div>
               <div class="col-md-10">
-                <h5>Japan and Taiwan 12 Days Super Easter Highlight</h5>
+                <h5>{{bookingDetails.tour.name}}</h5>
                 <p>
-                  <span><i class="fa fa-map-marker" aria-hidden="true"></i></span>Osaka, Japan &amp; Taipei, Taiwan
+                  <span><i class="fa fa-map-marker" aria-hidden="true"></i></span>{{bookingDetails.tour.departure}} &amp; {{bookingDetails.tour.destination}}
                   <span class="rating">
                     <i class="fa fa-star" aria-hidden="true"></i>
                     <i class="fa fa-star" aria-hidden="true"></i>
                     <i class="fa fa-star" aria-hidden="true"></i>
                     <i class="fa fa-star" aria-hidden="true"></i>
                     <i class="fa fa-star-half-o" aria-hidden="true"></i>
-
                   </span>
                 </p>
               </div>
@@ -79,15 +79,15 @@
               <ul>
                 <li class="col-md-4">
                   <h6>Departure</h6>
-                  <p>01 December 2016</p>
+                  <p>{{bookingDetails.startDate | date}}</p>
                 </li>
                 <li class="col-md-4">
                   <h6>Return</h6>
-                  <p>13 December 2016</p>
+                  <p>{{bookingDetails.startDate | date}}</p>
                 </li>
                 <li class="col-md-4">
                   <h6>Travellers</h6>
-                  <p>4</p>
+                  <p>{{bookingDetails.numOfTravellers}}</p>
                 </li>
               </ul>
             </div>
@@ -99,30 +99,20 @@
             <ul>
               <li>
                 <div class="left-content">
-                  <h5>Japan and Taiwan 12 Days Super Easter Hightlight</h5>
-                  <p>Travellers: 4</p>
+                  <h5>{{bookingDetails.tour.name}}</h5>
+                  <p>Travellers: {{bookingDetails.numOfTravellers}}</p>
                 </div>
                 <div class="right-content">
-                  <h5>$2,495.00</h5>
+                  <h5>A$ {{bookingDetails.pricePerAdult}}</h5>
                   <p>Tax Inclusive</p>
                 </div>
               </li>
               <li>
                 <div class="left-content">
                   <h5>Total purchases</h5>
-                  <h5>Taxes</h5>
                 </div>
                 <div class="right-content">
-                  <h5>$8,982.00</h5>
-                  <p>$998</p>
-                </div>
-              </li>
-              <li>
-                <div class="left-content">
-                  <h5>Total purchases</h5>
-                </div>
-                <div class="right-content">
-                  <h2>AU$9,980</h2>
+                  <h2>AU$ {{bookingDetails.totalPrice}}</h2>
                 </div>
               </li>
             </ul>

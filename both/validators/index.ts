@@ -21,3 +21,7 @@ export function isValidPasswd (value) {
 export function isValidSlug(value) {
     return /^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$/.test(value);
 }
+
+export function isValidPassportNum(value) {
+    return /[a-zA-Z]{2}[0-9]{7}/.test(value);
+}

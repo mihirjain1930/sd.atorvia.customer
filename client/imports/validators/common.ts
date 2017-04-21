@@ -122,6 +122,20 @@ export const validateMaxVal = (max: number) => {
   }
 }
 
+export const validatePassportNum = function(c: FormControl) {
+  if (isEmptyInputValue(c.value)) {
+    return null;  // don't validate empty values to allow optional controls
+  }
+
+  let REGEXP = /[a-zA-Z]{2}[0-9]{7}/;
+
+  return REGEXP.test(c.value) ? null : {
+    validatePassportNum: {
+      valid: false
+    }
+  };
+}
+
 function isEmptyInputValue(value: any) {
   return value == null || typeof value === 'string' && value.length === 0;
 }

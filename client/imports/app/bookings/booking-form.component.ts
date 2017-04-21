@@ -24,7 +24,7 @@ interface DateRange {
   soldSeats: number;
   availableSeats: number;
 };
-
+declare var jQuery: any;
 @Component({
   selector: 'booking-form',
   template
@@ -44,6 +44,7 @@ export class BookingFormComponent extends MeteorComponent implements OnInit, Aft
     let booking = <Booking> {};
     booking.numOfAdults = 1;
     booking.numOfChild = 1;
+    booking.travellers = [];
 
     this.bookingForm = this.formBuilder.group({
       numOfAdults: [booking.numOfAdults, Validators.compose([Validators.required, CValidators.min(1), CValidators.max(30) ] ) ],
@@ -69,12 +70,31 @@ export class BookingFormComponent extends MeteorComponent implements OnInit, Aft
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    let booking = this.booking;
+
     // only run when property "data" changed
     if (changes['selDateRange']) {
-      this.selDateRange = <DateRange> changes["selDateRange"].currentValue;
-      if (this.selDateRange) {
+      let selDateRange = <DateRange> changes["selDateRange"].currentValue;
+      if (selDateRange) {
+        booking.startDate = selDateRange.startDate;
+        booking.endDate = selDateRange.endDate;
+        this.selDateRange = selDateRange;
         this.setBookingPrice();
       }
+    }
+
+    if (changes['tour']) {
+      let tour = changes["tour"].currentValue;
+      if (typeof tour !== "undefined") {
+        this.tour = tour;
+        booking.tour = {
+          name: tour.name,
+          departure: tour.departure,
+          destination: tour.destination,
+          featuredImage: tour.featuredImage
+        };
+      }
+
     }
   }
 
@@ -117,7 +137,18 @@ export class BookingFormComponent extends MeteorComponent implements OnInit, Aft
   }
 
   doBooking() {
-    console.log(this.booking);
+    this.booking.numOfTravellers = this.booking.numOfAdults + this.booking.numOfChild;
+    this.sessionStorage.store("bookingDetails", this.booking);
+    let bookingDetails = this.sessionStorage.retrieve("bookingDetails");
+      if (bookingDetails) {
+        this.zone.run(() => {
+          jQuery(".modal").modal('hide');
+          this.router.navigate(['/booking/step1']);
+        });
+      } else {
+        showAlert("Error while saving data. Please try after restarting your browser.", "danger");
+      }
+
   }
 
 }

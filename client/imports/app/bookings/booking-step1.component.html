@@ -53,12 +53,13 @@
             <div class="row">
               <div class="col-md-2">
                 <div class="img-wrp">
+                  <span *ngIf="bookingDetails.tour.featuredImage?.url"><img [src]="bookingDetails.tour.featuredImage?.url" /></span>
                 </div>
               </div>
               <div class="col-md-10">
-                <h5>Japan and Taiwan 12 Days Super Easter Highlight</h5>
+                <h5>{{bookingDetails.tour.name}}</h5>
                 <p>
-                  <span><i class="fa fa-map-marker" aria-hidden="true"></i></span>Osaka, Japan &amp; Taipei, Taiwan
+                  <span><i class="fa fa-map-marker" aria-hidden="true"></i></span>{{bookingDetails.tour.departure}} &amp; {{bookingDetails.tour.destination}}
                   <span class="rating">
                     <i class="fa fa-star" aria-hidden="true"></i>
                     <i class="fa fa-star" aria-hidden="true"></i>
@@ -73,15 +74,15 @@
               <ul>
                 <li class="col-md-4">
                   <h6>Departure</h6>
-                  <p>01 December 2016</p>
+                  <p>{{bookingDetails.startDate | date}}</p>
                 </li>
                 <li class="col-md-4">
                   <h6>Return</h6>
-                  <p>13 December 2016</p>
+                  <p>{{bookingDetails.startDate | date}}</p>
                 </li>
                 <li class="col-md-4">
                   <h6>Travellers</h6>
-                  <p>4</p>
+                  <p>{{bookingDetails.numOfTravellers}}</p>
                 </li>
               </ul>
             </div>
@@ -93,30 +94,20 @@
             <ul>
               <li>
                 <div class="left-content">
-                  <h5>Japan and Taiwan 12 Days Super Easter Hightlight</h5>
-                  <p>Travellers: 4</p>
+                  <h5>{{bookingDetails.tour.name}}</h5>
+                  <p>Travellers: {{bookingDetails.numOfTravellers}}</p>
                 </div>
                 <div class="right-content">
-                  <h5>$2,495.00</h5>
+                  <h5>A$ {{bookingDetails.pricePerAdult}}</h5>
                   <p>Tax Inclusive</p>
                 </div>
               </li>
               <li>
                 <div class="left-content">
                   <h5>Total purchases</h5>
-                  <h5>Taxes</h5>
                 </div>
                 <div class="right-content">
-                  <h5>$8,982.00</h5>
-                  <p>$998</p>
-                </div>
-              </li>
-              <li>
-                <div class="left-content">
-                  <h5>Total purchases</h5>
-                </div>
-                <div class="right-content">
-                  <h2>AU$9,980</h2>
+                  <h2>AU$ {{bookingDetails.totalPrice}}</h2>
                 </div>
               </li>
             </ul>
@@ -158,204 +149,54 @@
           </div>
           <div class="col-md-8">
             <form [formGroup]="bookingForm" #f="ngForm">
-              <section class="right-wrap">
-                <div class="tour-header">
-                  <h3>Traveller 1<span>* Required Fields</span>
-                    <span class="pull-right">
-                      <a href="javascript:void(0)"><i class="fa fa-angle-down" aria-hidden="true"></i></a>
-                    </span></h3>
-                  </div>
-                  <div class="steps step1-form">
-                    <div class="from-inner">
-                      <div class="row">
-                        <div class="col-sm-4">
-                          <div class="form-group">
-                            <label for="fname">First Name *</label>
-                            <div class="input-wrap">
-                              <input type="text" name="" class="form-control" id="fname" placeholder="First Name">
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-sm-4">
-                          <div class="form-group">
-                            <label for="mname">Middle Name</label>
-                            <div class="input-wrap">
-                              <input type="text" name="" class="form-control" id="mname" placeholder="Middle Name">
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-sm-4">
-                          <div class="form-group">
-                            <label for="lname">Last Name *</label>
-                            <div class="input-wrap">
-                              <input type="text" name="" class="form-control" id="lname" placeholder="Last Name">
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-sm-6">
-                          <div class="form-group">
-                            <label for="mail">Email *</label>
-                            <div class="input-wrap">
-                              <input type="email" class="form-control" id="mail" placeholder="Email Address"/>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-sm-6">
-                          <div class="form-group">
-                            <label for="phone">Phone Number *</label>
-                            <div class="input-wrap">
-                              <input type="text" class="form-control" id="phone" placeholder="Phone Number"/>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-sm-6">
-                          <div class="form-group">
-                            <label for="country">Passport Country *</label>
-                            <div class="form-group">
-                              <div class="select-style">
-                                <select class="select">
-                                  <option>Australia</option>
-                                  <option value="Value 1">Value 1</option>
-                                  <option value="Value 2">Value 2</option>
-                                  <option value="Value 3">Value 3</option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-sm-6">
-                          <div class="form-group">
-                            <label for="Passport">Passport Number *</label>
-                            <div class="input-wrap">
-                              <input type="text" class="form-control" id="Passport" placeholder="Passport Number"/>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-sm-12">
-                          <div class="form-group">
-                            <label for="Request">Speacial Request</label>
-                            <div class="input-wrap">
-                              <textarea class="form-control" id="Request" placeholder="Enter any other extra request for your booking"></textarea>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+              <div formArrayName="travellers">
+                <section class="right-wrap" *ngFor="let row of bookingForm.controls.travellers.controls; let i=index">
                   <div class="tour-header">
-                    <h3>Billing Address</h3>
-                  </div>
-                  <div class="steps step1-form no-border">
-                    <div class="form-inner">
-                      <div class="row">
-                        <div class="col-lg-12">
-                          <div class="form-group">
-                            <label for="address">ADDRESS LINE 1 *</label>
-                            <div class="input-wrap">
-                              <input class="form-control" id="address" placeholder="Address Line 1" type="text">
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-lg-12">
-                          <div class="form-group">
-                            <label for="address">ADDRESS LINE 2</label>
-                            <div class="input-wrap">
-                              <input class="form-control" id="address" placeholder="Address Line 2" type="text">
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-md-6">
-                          <div class="form-group">
-                            <label for="SUBURB">SUBURB/TOWN *</label>
-                            <div class="input-wrap">
-                              <input class="form-control" id="SUBURB" placeholder="Suburb" type="text">
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="form-group">
-                            <label for="state">STATE/PROVINCE *</label>
-                            <div class="form-group">
-                              <div class="select-style">
-                                <select class="select">
-                                  <option>Select State</option>
-                                  <option value="Value 1">Value 1</option>
-                                  <option value="Value 2">Value 2</option>
-                                  <option value="Value 3">Value 3</option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-md-6">
-                          <div class="form-group">
-                            <label for="postCode">POST CODE *</label>
-                            <div class="input-wrap">
-                              <input class="form-control" id="postCode" placeholder="Post Code" type="text">
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="form-group">
-                            <label for="Country">COUNTRY *</label>
-                            <div class="form-group">
-                              <div class="select-style">
-                                <select class="select">
-                                  <option value="Australia">Australia</option>
-                                  <option value="London">Algeria</option>
-                                  <option value="Las Vegas">Cambodia</option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </section>
-                <section class="right-wrap">
-                  <div class="tour-header">
-                    <h3>Traveller 2<span>* Required Fields</span>
+                    <h3>Traveller {{i+1}}<span>* Required Fields</span>
                       <span class="pull-right">
                         <a href="javascript:void(0)"><i class="fa fa-angle-down" aria-hidden="true"></i></a>
                       </span></h3>
                     </div>
-                    <div class="steps step1-form">
+                    <div class="steps step1-form" [formGroupName]="i">
                       <div class="from-inner">
                         <div class="row">
                           <div class="col-sm-4">
                             <div class="form-group">
-                              <label for="fname">First Name *</label>
+                              <label [for]="'fname'+i">First Name *</label>
                               <div class="input-wrap">
-                                <input type="text" name="" class="form-control" id="fname" placeholder="First Name">
+                                <input type="text" name="" class="form-control" [id]="'fname'+i" placeholder="First Name" formControlName="firstName">
+                              </div>
+                              <div *ngIf="bookingForm.controls.travellers.controls[i].controls.firstName.errors && bookingForm.controls.travellers.controls[i].controls.firstName.touched" class="has-error">
+                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls.firstName.hasError('required')">You have to fill in First Name to continue.</div>
+                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls.firstName.hasError('minlength')">Min 2 characters required.</div>
+                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls.firstName.hasError('maxlength')">Max 30 characters allowed.</div>
+                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls.firstName.hasError('validateFirstName')">Please type valid First Name.</div>
                               </div>
                             </div>
                           </div>
                           <div class="col-sm-4">
                             <div class="form-group">
-                              <label for="mname">Middle Name</label>
+                              <label [for]="'name'+i">Middle Name</label>
                               <div class="input-wrap">
-                                <input type="text" name="" class="form-control" id="mname" placeholder="Middle Name">
+                                <input type="text" name="" class="form-control" [id]="'name'+i" placeholder="Middle Name" formControlName="middleName">
+                              </div>
+                              <div *ngIf="bookingForm.controls.travellers.controls[i].controls.middleName.errors && bookingForm.controls.travellers.controls[i].controls.middleName.touched" class="has-error">
+                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls.middleName.hasError('minlength')">Min 2 characters required.</div>
+                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls.middleName.hasError('maxlength')">Max 30 characters allowed.</div>
                               </div>
                             </div>
                           </div>
                           <div class="col-sm-4">
                             <div class="form-group">
-                              <label for="lname">Last Name *</label>
+                              <label [for]="'lname'+i">Last Name *</label>
                               <div class="input-wrap">
-                                <input type="text" name="" class="form-control" id="lname" placeholder="Last Name">
+                                <input type="text" name="" class="form-control" [id]="'lname'+1" placeholder="Last Name" formControlName="lastName">
+                              </div>
+                              <div *ngIf="bookingForm.controls.travellers.controls[i].controls.lastName.errors && bookingForm.controls.travellers.controls[i].controls.lastName.touched" class="has-error">
+                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls.lastName.hasError('required')">You have to fill in Last Name to continue.</div>
+                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls.lastName.hasError('minlength')">Min 2 characters required.</div>
+                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls.lastName.hasError('maxlength')">Max 30 characters allowed.</div>
+                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls.lastName.hasError('validateFirstName')">Please type valid Last Name.</div>
                               </div>
                             </div>
                           </div>
@@ -363,17 +204,29 @@
                         <div class="row">
                           <div class="col-sm-6">
                             <div class="form-group">
-                              <label for="mail">Email *</label>
+                              <label [for]="'mail'+i">Email *</label>
                               <div class="input-wrap">
-                                <input type="email" class="form-control" id="mail" placeholder="Email Address"/>
+                                <input type="email" class="form-control" [id]="'mail'+1" placeholder="Email Address" formControlName="email"/>
+                              </div>
+                              <div *ngIf="bookingForm.controls.travellers.controls[i].controls.email.errors && bookingForm.controls.travellers.controls[i].controls.email.touched" class="has-error">
+                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls.email.hasError('required')">You have to fill in Email to continue.</div>
+                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls.email.hasError('minlength')">Min 5 characters required.</div>
+                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls.email.hasError('maxlength')">Max 50 characters allowed.</div>
+                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls.email.hasError('validateEmail')">Invalid Email address.</div>
                               </div>
                             </div>
                           </div>
                           <div class="col-sm-6">
                             <div class="form-group">
-                              <label for="phone">Phone Number *</label>
+                              <label [for]="'phone'+i">Phone Number *</label>
                               <div class="input-wrap">
-                                <input type="text" class="form-control" id="phone" placeholder="Phone Number"/>
+                                <input type="number" class="form-control" [id]="'phone'+i" placeholder="Phone Number" formControlName="contact"/>
+                              </div>
+                              <div *ngIf="bookingForm.controls.travellers.controls[i].controls.contact.errors && bookingForm.controls.travellers.controls[i].controls.contact.touched" class="has-error">
+                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls.contact.hasError('required')">You have to fill in contact to continue .</div>
+                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls.contact.hasError('minlength')">Min 7 characters required.</div>
+                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls.contact.hasError('maxlength')">Max 15 characters allowed.</div>
+                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls.contact.hasError('validatePhoneNum')">Invalid Phone Number.</div>
                               </div>
                             </div>
                           </div>
@@ -381,11 +234,90 @@
                         <div class="row">
                           <div class="col-sm-6">
                             <div class="form-group">
-                              <label for="country">Passport Country *</label>
+                              <label [for]="'country'+i">Passport Country *</label>
                               <div class="form-group">
                                 <div class="select-style">
-                                  <select class="select">
+                                  <select class="select" [id]="'country'+i" formControlName="passportCountry">
                                     <option>Australia</option>
+                                    <option value="Value 1">Value 1</option>
+                                    <option value="Value 2">Value 2</option>
+                                    <option value="Value 3">Value 3</option>
+                                  </select>
+                                </div>
+                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls.passportCountry.errors && bookingForm.controls.travellers.controls[i].controls.passportCountry.touched" class="has-error">
+                                  <div *ngIf="bookingForm.controls.travellers.controls[i].controls.passportCountry.hasError('required')">You have to choose Country to proceed.</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                              <label [for]="'Passport'+i">Passport Number *</label>
+                              <div class="input-wrap">
+                                <input type="text" class="form-control" [id]="'Passport'+i" placeholder="Passport Number" formControlName="passportNumber"/>
+                              </div>
+                              <div *ngIf="bookingForm.controls.travellers.controls[i].controls.passportNumber.errors && bookingForm.controls.travellers.controls[i].controls.passportNumber.touched" class="has-error">
+                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls.passportNumber.hasError('required')">You have to fill in Passport Number to continue .</div>
+                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls.passportNumber.hasError('minlength')">Min 7 characters required.</div>
+                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls.passportNumber.hasError('maxlength')">Max 15 characters allowed.</div>
+                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls.passportNumber.hasError('validatePassportNum')">Invalid Passport Number.</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                              <label [for]="'Request'+i">Speacial Request</label>
+                              <div class="input-wrap">
+                                <textarea class="form-control" [id]="'Request'+i" placeholder="Enter any other extra request for your booking" formControlName="specialRequest"></textarea>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="tour-header" *ngIf="i==0">
+                      <h3>Billing Address</h3>
+                    </div>
+                    <div class="steps step1-form no-border" *ngIf="i==0">
+                      <div class="form-inner">
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <div class="form-group">
+                              <label for="address">ADDRESS LINE 1 *</label>
+                              <div class="input-wrap">
+                                <input class="form-control" id="address" placeholder="Address Line 1" type="text" >
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <div class="form-group">
+                              <label for="address">ADDRESS LINE 2</label>
+                              <div class="input-wrap">
+                                <input class="form-control" id="address" placeholder="Address Line 2" type="text" >
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="SUBURB">SUBURB/TOWN *</label>
+                              <div class="input-wrap">
+                                <input class="form-control" id="SUBURB" placeholder="Suburb" type="text" >
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="state">STATE/PROVINCE *</label>
+                              <div class="form-group">
+                                <div class="select-style">
+                                  <select class="select" >
+                                    <option>Select State</option>
                                     <option value="Value 1">Value 1</option>
                                     <option value="Value 2">Value 2</option>
                                     <option value="Value 3">Value 3</option>
@@ -394,92 +326,110 @@
                               </div>
                             </div>
                           </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="postCode">POST CODE *</label>
+                              <div class="input-wrap">
+                                <input class="form-control" id="postCode" placeholder="Post Code" type="number" >
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="Country">COUNTRY *</label>
+                              <div class="form-group">
+                                <div class="select-style">
+                                  <select class="select" >
+                                    <option value="Australia">Australia</option>
+                                    <option value="London">Algeria</option>
+                                    <option value="Las Vegas">Cambodia</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                </div>
+
+                <section class="right-wrap payment-wrap">
+                  <h3>Payment Method</h3>
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="radio-wrap">
+                        <input id="radio-a" class="radio-custom" name="radio-group" checked="" type="radio">
+                        <label for="radio-a" class="radio-custom-label"><img src="images/paypal.png" alt=""/></label>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="radio-wrap">
+                        <input id="radio-b" class="radio-custom" name="radio-group" checked="" type="radio">
+                        <label for="radio-b" class="radio-custom-label">Visa / Master</label>
+                      </div>
+                      <div class="payment-form">
+                        <div class="row">
+                          <div class="col-sm-9">
+                            <div class="form-group">
+                              <label for="fname">Name on card</label>
+                              <div class="input-wrap">
+                                <input type="text" name="" class="form-control" id="fname" placeholder="Name on card" formControlName="nameOnCard">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-9">
+
+                            <div class="form-group">
+                              <label for="fname">Card Number</label>
+                              <div class="input-wrap">
+                                <input type="text" name="" class="form-control" id="fname" placeholder="Credit number" formControlName="cardNumber">
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-2">
+                            <div class="side-img">
+                              <img src="images/visa.png" alt=""/>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
                           <div class="col-sm-6">
                             <div class="form-group">
-                              <label for="Passport">Passport Number *</label>
+                              <label for="exDate">Expiry Date</label>
                               <div class="input-wrap">
-                                <input type="text" class="form-control" id="Passport" placeholder="Passport Number"/>
+                                <input type="text" name="" class="form-control" id="exDate" placeholder="MM/YY" formControlName="expiryDate">
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                              <label for="cvv">CVV <span></span></label>
+                              <div class="input-wrap">
+                                <input type="number" name="" class="form-control" id="cvv" placeholder="CVV" formControlName="cvvNumber">
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                  </section>
-                  <section class="right-wrap payment-wrap">
-                    <h3>Payment Method</h3>
-                    <div class="row">
-                      <div class="col-12">
-                        <div class="radio-wrap">
-                          <input id="radio-a" class="radio-custom" name="radio-group" checked="" type="radio">
-                          <label for="radio-a" class="radio-custom-label"><img src="images/paypal.png" alt=""/></label>
-                        </div>
-                      </div>
-                      <div class="col-12">
-                        <div class="radio-wrap">
-                          <input id="radio-b" class="radio-custom" name="radio-group" checked="" type="radio">
-                          <label for="radio-b" class="radio-custom-label">Visa / Master</label>
-                        </div>
-                        <div class="payment-form">
-                          <div class="row">
-                            <div class="col-sm-9">
-                              <div class="form-group">
-                                <label for="fname">Name on card</label>
-                                <div class="input-wrap">
-                                  <input type="text" name="" class="form-control" id="fname" placeholder="Name on card" formControlName="nameOnCard">
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-9">
-                              <div class="form-group">
-                                <label for="fname">Card Number</label>
-                                <div class="input-wrap">
-                                  <input type="number" name="" class="form-control" id="fname" placeholder="Credit number" formControlName="cardNumber">
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-2">
-                              <div class="side-img">
-                                <img src="images/visa.png" alt=""/>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-sm-6">
-                              <div class="form-group">
-                                <label for="exDate">Expiry Date</label>
-                                <div class="input-wrap">
-                                  <input type="text" name="" class="form-control" id="exDate" placeholder="MM/YY" formControlName="expiryDate">
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-sm-6">
-                              <div class="form-group">
-                                <label for="cvv">CVV <span></span></label>
-                                <div class="input-wrap">
-                                  <input type="number" name="" class="form-control" id="cvv" placeholder="CVV" formControlName="cvvNumber">
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </section>
-                  <div class="form-group signup-option">
-                    <div class="row">
-                      <div class="col-sm-8">
-                        <p>By clicking the 'Next' button below, you have read and agreed width our <a href="javascript:void(0)"> Terms & Conditions</a> and <a href="javascript:void(0)"> Privacy Policy</a>for us to process your tour booking.</p>
-                      </div>
-                      <div class="col-sm-4">
-                        <button type="button" class="btn green-btn" (click)="book()">Next<span><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
                       </div>
                     </div>
                   </div>
+                </section>
+                <div class="form-group signup-option">
+                  <div class="row">
+                    <div class="col-sm-8">
+                      <p>By clicking the 'Next' button below, you have read and agreed width our <a href="javascript:void(0)"> Terms & Conditions</a> and <a href="javascript:void(0)"> Privacy Policy</a>for us to process your tour booking.</p>
+                    </div>
+                    <div class="col-sm-4">
+                      <button type="button" class="btn green-btn" (click)="book()">Next<span><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
+                    </div>
+                  </div>
+                </div>
 
-                </form>
               </div>
             </div>
           </div>

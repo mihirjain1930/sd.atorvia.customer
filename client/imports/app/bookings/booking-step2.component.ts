@@ -7,6 +7,8 @@ import { Meteor } from 'meteor/meteor';
 import { MeteorComponent } from 'angular2-meteor';
 import { LocalStorageService, SessionStorageService } from 'ng2-webstorage';
 import { validateEmail, validatePassword } from "../../validators/common";
+import { Booking } from "../../../../both/models/booking.model";
+import { Tour } from "../../../../both/models/tour.model";
 import { showAlert } from "../shared/show-alert";
 import template from './booking-step2.component.html';
 
@@ -15,6 +17,8 @@ import template from './booking-step2.component.html';
   template
 })
 export class BookingStep2Component extends MeteorComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy  {
+  booking: Booking;
+  tour: Tour;
 
   constructor(private router: Router, private zone: NgZone, private formBuilder: FormBuilder, private localStorage: LocalStorageService, private sessionStorage: SessionStorageService) {
     super();
@@ -24,7 +28,7 @@ export class BookingStep2Component extends MeteorComponent implements OnInit, Af
   }
 
   ngOnInit() {
-    
+    this.booking = <Booking>this.sessionStorage.retrieve("bookingDetails");
   }
 
   ngAfterViewInit() {
@@ -38,6 +42,10 @@ export class BookingStep2Component extends MeteorComponent implements OnInit, Af
     }, 500);
   }
 
+  get bookingDetails() {
+    return this.booking;
+  }
+  
   ngOnDestroy() {
   }
 }

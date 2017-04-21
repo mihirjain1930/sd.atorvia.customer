@@ -5,7 +5,14 @@ export interface Booking extends CollectionObject {
     tourId: string;
     supplierId: string;
     tour: {
-      title: string;
+      name: string;
+      departure: string;
+      destination: string;
+      featuredImage: {
+        id: string;
+        url: string;
+        name: string;
+      };
     };
     contactDetails: {
       firstName: string;
@@ -40,7 +47,8 @@ export interface Booking extends CollectionObject {
         passport: {
           country: string;
           number: string;
-        }
+        };
+        specialReq: string;
       }
     ];
     cardDetails: {
