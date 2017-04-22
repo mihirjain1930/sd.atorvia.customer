@@ -14,22 +14,6 @@ export interface Booking extends CollectionObject {
         name: string;
       };
     };
-    contactDetails: {
-      firstName: string;
-      middleName: string;
-      lastName: string;
-      email: string;
-      phoneNum: string;
-      specialReq: string;
-    };
-    billingAddress: {
-      addressLine1: string;
-      addressLine2: string;
-      town: string;
-      state: string;
-      postcode: string;
-      country: string;
-    };
     numOfTravellers: number;
     startDate: Date;
     endDate: Date;
@@ -43,12 +27,18 @@ export interface Booking extends CollectionObject {
         middleName: string;
         lastName: string;
         email: string;
-        phoneNum: string;
+        contact: string;
+        addressLine1: string;
+        addressLine2: string;
+        town: string;
+        state: string;
+        postCode: string;
+        country: string;
         passport: {
           country: string;
           number: string;
         };
-        specialReq: string;
+        specialRequest: string;
       }
     ];
     cardDetails: {

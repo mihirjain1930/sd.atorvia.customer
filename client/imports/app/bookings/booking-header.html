@@ -1,0 +1,72 @@
+<div class="detail-summary">
+    <div class="container">
+        <div class="row">
+        <div class="col-sm-7">
+            <div class="tour-details">
+            <h4>Tour Details</h4>
+            <div class="row">
+                <div class="col-md-2">
+                <div class="img-wrp">
+                    <span *ngIf="bookingDetails.tour.featuredImage?.url"><img [src]="bookingDetails.tour.featuredImage?.url" /></span>
+                </div>
+                </div>
+                <div class="col-md-10">
+                <h5>{{bookingDetails.tour.name}}</h5>
+                <p>
+                    <span><i class="fa fa-map-marker" aria-hidden="true"></i></span>{{bookingDetails.tour.departure}} &amp; {{bookingDetails.tour.destination}}
+                    <span class="rating">
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star-half-o" aria-hidden="true"></i>
+                    </span>
+                </p>
+                </div>
+            </div>
+            <div class="row">
+                <ul>
+                <li class="col-md-4">
+                    <h6>Departure</h6>
+                    <p>{{bookingDetails.startDate | date}}</p>
+                </li>
+                <li class="col-md-4">
+                    <h6>Return</h6>
+                    <p>{{bookingDetails.startDate | date}}</p>
+                </li>
+                <li class="col-md-4">
+                    <h6>Travellers</h6>
+                    <p>{{bookingDetails.numOfTravellers}}</p>
+                </li>
+                </ul>
+            </div>
+            </div>
+        </div>
+        <div class="col-sm-5">
+            <div class="fee-summary">
+            <h4>Fees Summary</h4>
+            <ul>
+                <li>
+                <div class="left-content">
+                    <h5>{{bookingDetails.tour.name}}</h5>
+                    <p>Travellers: {{bookingDetails.numOfTravellers}}</p>
+                </div>
+                <div class="right-content">
+                    <h5>A$ {{bookingDetails.pricePerAdult}}</h5>
+                    <p>Tax Inclusive</p>
+                </div>
+                </li>
+                <li>
+                <div class="left-content">
+                    <h5>Total purchases</h5>
+                </div>
+                <div class="right-content">
+                    <h2>AU$ {{bookingDetails.totalPrice}}</h2>
+                </div>
+                </li>
+            </ul>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>

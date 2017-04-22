@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, AfterViewChecked, OnDestroy, NgZone } from '@angular/core';
-import { FormBuilder, FormGroup, Validators as Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators as Validators } from '@angular/forms';
 import { CustomValidators as CValidators } from "ng2-validation";
 import { Router } from '@angular/router';
 import { Accounts } from 'meteor/accounts-base';
@@ -29,12 +29,6 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
     this.bookingForm = this.formBuilder.group({
       travellers: this.formBuilder.array([
       ]),
-      // addressLine1: ['', Validators.compose([Validators.required])],
-      // addressLine2: ['', Validators.compose([])],
-      // suburb: ['', Validators.compose([Validators.required])],
-      // postcode: ['', Validators.compose([Validators.required])],
-      // state: ['', Validators.compose([Validators.required])],
-      // country: ['', Validators.compose([Validators.required])],
       nameOnCard: ['', Validators.compose([Validators.required])],
       cardNumber: ['', Validators.compose([Validators.required, CValidators.creditCard])],
       expiryDate: ['', Validators.compose([Validators.required])],
@@ -75,7 +69,9 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
   private initTraveller(i) {
     let travellers = this.booking.travellers;
     if (typeof travellers[i] == "undefined") {
-      travellers[i] = {};
+      travellers[i] = {
+        passport: {}
+      };
     }
 
     return this.formBuilder.group({
@@ -84,9 +80,15 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
       lastName: [travellers[i].lastName, Validators.compose([Validators.required, validateFirstName, Validators.minLength(2), Validators.maxLength(30)])],
       email: [travellers[i].email, Validators.compose([Validators.required, validateEmail, Validators.minLength(5), Validators.maxLength(50)])],
       contact: [travellers[i].contact, Validators.compose([Validators.required, validatePhoneNum, Validators.minLength(7), Validators.maxLength(15)])],
-      passportCountry: [travellers[i].passportCountry, Validators.compose([Validators.required])],
-      passportNumber: [travellers[i].passportNumber, Validators.compose([Validators.required, validatePassportNum, Validators.minLength(7), Validators.maxLength(15)])],
-      specialRequest: [travellers[i].specialRequest, Validators.compose([])]
+      addressLine1: [travellers[i].addressLine1, Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(50)])],
+      addressLine2: [travellers[i].addressLine2, Validators.compose([Validators.minLength(2), Validators.maxLength(50)])],
+      suburb: [travellers[i].state, Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(30)])],
+      postCode: [travellers[i].postCode, Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(12)])],
+      state: [travellers[i].state, Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(30)])],
+      country: [travellers[i].country, Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(30)])],
+      passportCountry: [travellers[i].passport.country, Validators.compose([Validators.required])],
+      passportNumber: [travellers[i].passport.number, Validators.compose([Validators.required, validatePassportNum, Validators.minLength(7), Validators.maxLength(15)])],
+      specialRequest: [travellers[i].specialRequest, Validators.compose([])],
     });
   }
 
@@ -95,23 +97,34 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
     control.push(this.initTraveller(i));
   }
 
+  resetStateValue() {
+    this.bookingForm.controls['travellers'].controls[0].controls["state"].setValue(null);
+  }
+
   book() {
     let travellers = this.bookingForm.value.travellers;
-    let paymentData = {
+    let cardDetails = {
       nameOnCard: this.bookingForm.value.nameOnCard,
       cardNumber: this.bookingForm.value.cardNumber,
       expiryDate: this.bookingForm.value.expiryDate,
       cvvNumber:  this.bookingForm.value.cvvNumber,
     }
-    // let billingAddress = {
-    //   addressLine1: this.bookingForm.value.addressLine1,
-    //   addressLine2: this.bookingForm.value.addressLine2,
-    //   suburb: this.bookingForm.value.suburb,
-    //   state: this.bookingForm.value.state,
-    //   postcode: this.bookingForm.value.postcode,
-    //   country: this.bookingForm.value.country
-    // }
-    console.log("paymentData",paymentData);
-    this.router.navigate(['/booking/step2']);
+    let booking = this.booking;
+    booking.travellers = travellers;
+
+    // save booking data into session
+    this.sessionStorage.store("bookingDetails", this.booking);
+    this.call("bookings.insert", booking, (err, res) => {
+      if (err) {
+        showAlert(err.reason, "danger");
+        return;
+      }
+
+      this.zone.run(() => {
+        showAlert("Thank you for booking your trip with us. You will receive confirmation email very soon.", "success")
+        this.router.navigate(['/booking/step2']);
+      });
+    });
+    
   }
 }

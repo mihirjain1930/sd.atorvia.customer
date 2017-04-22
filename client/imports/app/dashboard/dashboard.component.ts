@@ -24,8 +24,6 @@ export class DashboardComponent extends MeteorComponent implements OnInit, After
   user: User;
   isUploading: boolean = false;
   isUploaded: boolean = false;
-  imageId: string;
-  image: Image;
   searchString: string;
 
   constructor(private router: Router, private zone: NgZone, private formBuilder: FormBuilder) {
@@ -80,7 +78,7 @@ export class DashboardComponent extends MeteorComponent implements OnInit, After
                 greedy: false,
                 definitions: { '#': { validator: "[0-9]", cardinality: 1}} });
       })
-    })
+    }, 500);
   }
   //update user from dashboard
   update() {
@@ -137,13 +135,11 @@ export class DashboardComponent extends MeteorComponent implements OnInit, After
         .then((res) => {
             this.isUploading = false;
             this.isUploaded = true;
-            this.image = res;
-            this.imageId = res._id;
             let userData = {
                 "profile.image":{
-                  id: this.imageId,
-                  url: this.image.url,
-                  name: this.image.name
+                  id: res._id,
+                  url: res.url,
+                  name: res.name
                 }
             };
             this.call("users.update", userData, (err, res) => {
@@ -152,7 +148,7 @@ export class DashboardComponent extends MeteorComponent implements OnInit, After
                     return;
                 }
                 $("#inputFile").val("");
-                this.user.profile.image.url = this.image.url;
+                this.user.profile.image.url = res.url;
                 showAlert("Profile picture updated successfully.", "success");
             });
         })

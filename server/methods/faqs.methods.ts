@@ -1,7 +1,7 @@
 import { Meteor } from "meteor/meteor";
 import { Accounts } from 'meteor/accounts-base';
 import { Roles } from 'meteor/alanning:roles';
-import {check} from "meteor/check";
+import { check } from "meteor/check";
 import { FAQs, FAQCategories } from "../../both/collections/faqs.collection";
 import { FAQ, FAQCategory } from "../../both/models/faqs.model";
 

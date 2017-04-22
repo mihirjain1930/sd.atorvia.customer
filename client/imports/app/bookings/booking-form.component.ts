@@ -86,13 +86,15 @@ export class BookingFormComponent extends MeteorComponent implements OnInit, Aft
     if (changes['tour']) {
       let tour = changes["tour"].currentValue;
       if (typeof tour !== "undefined") {
-        this.tour = tour;
+        this.tour = <Tour>tour;
         booking.tour = {
           name: tour.name,
           departure: tour.departure,
           destination: tour.destination,
           featuredImage: tour.featuredImage
         };
+        booking.tourId = tour._id;
+        booking.supplierId = tour.owner.id;
       }
 
     }
