@@ -131,6 +131,7 @@ export class BookingFormComponent extends MeteorComponent implements OnInit, Aft
 
     booking.numOfAdults = numOfAdults;
     booking.numOfChild = numOfChild;
+    booking.numOfTravellers = numOfAdults + numOfChild;
     booking.pricePerAdult = selPrice.adult;
     booking.pricePerChild = selPrice2.child;
     booking.totalPrice = (numOfAdults * selPrice.adult) + (numOfChild * selPrice2.child);

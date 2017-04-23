@@ -7,7 +7,17 @@ import * as _ from 'underscore';
 
 Meteor.methods({
     "bookings.insert": (booking: Booking) => {
-        booking.userId = Meteor.userId();
+        let user = Meteor.user();
+        booking.user = {
+            id: user._id,
+            firstName: user.profile.firstName,
+            middleName: user.profile.middleName,
+            lastName: user.profile.lastName,
+            email: user.emails[0].address,
+            contact: user.profile.contact,
+            image: user.profile.image
+        };
+        booking.bookingDate = new Date();
         booking.paymentDate = new Date();
         booking.createdAt = new Date();
         booking.active = true;
@@ -19,6 +29,7 @@ Meteor.methods({
         try {
             Bookings.collection.insert(booking);
         } catch (err) {
+            console.log(err.message);
             throw new Meteor.Error(500, "Error while creating new booking. Please resubmit after checking details.");
         }
 

@@ -166,7 +166,7 @@
                               <label [for]="'country'+i">Passport Country *</label>
                               <div class="form-group">
                                 <div class="select-style">
-                                  <select class="select" [id]="'country'+i" formControlName="passportCountry">
+                                  <select class="select" [id]="'country'+i" formControlName="passport.country">
                                     <option value="India">India</option>
                                     <option value="Australia">Australia</option>
                                     <option value="China">China</option>
@@ -174,8 +174,8 @@
                                     <option value="New Zealand">New Zealand</option>
                                   </select>
                                 </div>
-                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls.passportCountry.errors && bookingForm.controls.travellers.controls[i].controls.passportCountry.touched" class="has-error">
-                                  <div *ngIf="bookingForm.controls.travellers.controls[i].controls.passportCountry.hasError('required')">You have to choose Country to proceed.</div>
+                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls['passport.country'].errors && bookingForm.controls.travellers.controls[i].controls['passport.country'].touched" class="has-error">
+                                  <div *ngIf="bookingForm.controls.travellers.controls[i].controls['passport.country'].hasError('required')">You have to choose Country to proceed.</div>
                                 </div>
                               </div>
                             </div>
@@ -184,13 +184,13 @@
                             <div class="form-group">
                               <label [for]="'Passport'+i">Passport Number *</label>
                               <div class="input-wrap">
-                                <input type="text" class="form-control" [id]="'Passport'+i" placeholder="Passport Number" formControlName="passportNumber"/>
+                                <input type="text" class="form-control" [id]="'Passport'+i" placeholder="Passport Number" formControlName="passport.number"/>
                               </div>
-                              <div *ngIf="bookingForm.controls.travellers.controls[i].controls.passportNumber.errors && bookingForm.controls.travellers.controls[i].controls.passportNumber.touched" class="has-error">
-                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls.passportNumber.hasError('required')">You have to fill in Passport Number to continue .</div>
-                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls.passportNumber.hasError('minlength')">Min 7 characters required.</div>
-                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls.passportNumber.hasError('maxlength')">Max 15 characters allowed.</div>
-                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls.passportNumber.hasError('validatePassportNum')">Invalid Passport Number.</div>
+                              <div *ngIf="bookingForm.controls.travellers.controls[i].controls['passport.number'].errors && bookingForm.controls.travellers.controls[i].controls['passport.number'].touched" class="has-error">
+                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls['passport.number'].hasError('required')">You have to fill in Passport Number to continue .</div>
+                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls['passport.number'].hasError('minlength')">Min 7 characters required.</div>
+                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls['passport.number'].hasError('maxlength')">Max 15 characters allowed.</div>
+                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls['passport.number'].hasError('validatePassportNum')">Invalid Passport Number.</div>
                               </div>
                             </div>
                           </div>

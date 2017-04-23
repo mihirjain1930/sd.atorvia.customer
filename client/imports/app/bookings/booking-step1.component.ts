@@ -70,8 +70,11 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
     let travellers = this.booking.travellers;
     if (typeof travellers[i] == "undefined") {
       travellers[i] = {
-        passport: {}
       };
+    }
+
+    if (typeof travellers[i] ["passport"] == "undefined") {
+      travellers[i] ["passport"] = {};
     }
 
     return this.formBuilder.group({
@@ -86,8 +89,8 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
       postCode: [travellers[i].postCode, Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(12)])],
       state: [travellers[i].state, Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(30)])],
       country: [travellers[i].country, Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(30)])],
-      passportCountry: [travellers[i].passport.country, Validators.compose([Validators.required])],
-      passportNumber: [travellers[i].passport.number, Validators.compose([Validators.required, validatePassportNum, Validators.minLength(7), Validators.maxLength(15)])],
+      "passport.country": [travellers[i].passport.country, Validators.compose([Validators.required])],
+      "passport.number": [travellers[i].passport.number, Validators.compose([Validators.required, validatePassportNum, Validators.minLength(7), Validators.maxLength(15)])],
       specialRequest: [travellers[i].specialRequest, Validators.compose([])],
     });
   }
@@ -103,6 +106,14 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
 
   book() {
     let travellers = this.bookingForm.value.travellers;
+    travellers.map((item) => {
+      item.passport = {
+        number: item["passport.number"],
+        country: item["passport.country"]
+      };
+      delete item["passport.number"];
+      delete item["passport.country"];
+    })
     let cardDetails = {
       nameOnCard: this.bookingForm.value.nameOnCard,
       cardNumber: this.bookingForm.value.cardNumber,

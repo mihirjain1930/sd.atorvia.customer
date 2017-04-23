@@ -1,7 +1,6 @@
 import { CollectionObject } from "./collection-object.model";
 
 export interface Booking extends CollectionObject {
-    userId: string;
     tour: {
       id: string;
       supplierId: string;
@@ -14,6 +13,19 @@ export interface Booking extends CollectionObject {
         name: string;
       };
       dateRangeId?: string;
+    };
+    user: {
+      id: string;
+      firstName: string;
+      middleName: string;
+      lastName: string;
+      email: string;
+      contact: string;
+      image: {
+        id: string;
+        url: string;
+        name: string;
+      };
     };
     numOfTravellers: number;
     startDate: Date;
@@ -49,6 +61,7 @@ export interface Booking extends CollectionObject {
       expiry: Date;
     };
     totalPrice: number;
+    bookingDate: Date;
     paymentDate: Date;
     active: boolean;
     confirmed: boolean;
