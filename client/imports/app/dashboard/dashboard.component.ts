@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, AfterViewInit, NgZone } from '@angular/core';
 import { Meteor } from "meteor/meteor";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomValidators as CValidators } from "ng2-validation";
@@ -73,13 +73,15 @@ export class DashboardComponent extends MeteorComponent implements OnInit, After
     Meteor.setTimeout(() => {
       jQuery(function($){
         var phones = [{ "mask": "(###) ###-####"}];
-            $('#phoneNum').inputmask({
-                mask: phones,
-                greedy: false,
-                definitions: { '#': { validator: "[0-9]", cardinality: 1}} });
+        $('#phoneNum').inputmask({
+          mask: phones,
+          greedy: false,
+          definitions: { '#': { validator: "[0-9]", cardinality: 1}} 
+        });
       })
     }, 500);
   }
+
   //update user from dashboard
   update() {
     let fullName = this.accountForm.value.firstName;

@@ -13,6 +13,7 @@ import template from './booking-form.html';
 import * as _ from 'underscore';
 
 interface DateRange {
+  _id: string;
   startDate: Date;
   endDate: Date;
   price?: [{
@@ -88,13 +89,13 @@ export class BookingFormComponent extends MeteorComponent implements OnInit, Aft
       if (typeof tour !== "undefined") {
         this.tour = <Tour>tour;
         booking.tour = {
+          id: tour._id,
+          supplierId: tour.owner.id,
           name: tour.name,
           departure: tour.departure,
           destination: tour.destination,
           featuredImage: tour.featuredImage
         };
-        booking.tourId = tour._id;
-        booking.supplierId = tour.owner.id;
       }
 
     }
@@ -139,7 +140,9 @@ export class BookingFormComponent extends MeteorComponent implements OnInit, Aft
   }
 
   doBooking() {
-    this.booking.numOfTravellers = this.booking.numOfAdults + this.booking.numOfChild;
+    let booking = this.booking;
+    booking.numOfTravellers = booking.numOfAdults + booking.numOfChild;
+    booking.tour.dateRangeId = this.selDateRange._id;
     this.sessionStorage.store("bookingDetails", this.booking);
     let bookingDetails = this.sessionStorage.retrieve("bookingDetails");
       if (bookingDetails) {

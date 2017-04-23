@@ -20,6 +20,7 @@ interface Options extends Pagination {
 }
 
 interface DateRange {
+  _id: string;
   startDate: Date;
   endDate: Date;
   price?: [{

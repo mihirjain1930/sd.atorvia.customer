@@ -32,7 +32,7 @@ Meteor.methods({
         Accounts.sendVerificationEmail(user._id);
       }, 500);
     },
-    "users.update": (userData: {"profile" : any }, email: {oldAddress: string, newAddress: string}={}): any => {
+    "users.update": (userData: {"profile" : any }, email: {oldAddress?: string, newAddress?: string}={}): any => {
       if (! Meteor.userId()) {
         throw new Meteor.Error(403, "Not authorized!");
       }

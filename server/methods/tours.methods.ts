@@ -42,7 +42,7 @@ Meteor.methods({
         let cursor = Tours.collection.find({$and: where}, options);
         return {count: cursor.count(), data: cursor.fetch()};
     },
-    "tours.findOne": (criteria: any, options?: {with?: {owner: boolean}} ) => {
+    "tours.findOne": (criteria: any, options: {with?: {owner: boolean}} = {} ) => {
       let where:any = [];
       where.push({
           "$or": [{deleted: false}, {deleted: {$exists: false} }]

@@ -12,7 +12,14 @@ declare module "meteor/jalik:ufs" {
 
 declare module "meteor/alanning:roles" {
   export module Roles {
-    function userIsInRole(id?: any,value?: any): boolean{  }
-    function addUsersToRoles(id?: any,value?: any): boolean{ }
+    function userIsInRole(id?: any,value?: any): boolean
+    function addUsersToRoles(id?: any,value?: any): boolean
   }
+}
+
+interface JQuery {
+    datepicker(options: any): any;
+    slick: any;
+    prettyPhoto: any;
+    inputmask: any;
 }
