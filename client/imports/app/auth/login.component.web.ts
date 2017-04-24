@@ -51,7 +51,7 @@ export class LoginComponent extends MeteorComponent implements OnInit {
           this.sessionStorage.store("Meteor.userId", Meteor.userId());
           let redirectUrl = this.sessionStorage.retrieve("redirectUrl");
           if (!redirectUrl) {
-            let redirectUrl = ['/dashboard'];
+            redirectUrl = ['/dashboard'];
           } else {
             this.sessionStorage.clear("redirectUrl");
           }
