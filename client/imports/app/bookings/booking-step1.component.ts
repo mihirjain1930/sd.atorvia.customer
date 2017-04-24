@@ -22,6 +22,7 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
   bookingForm: FormGroup
   booking: Booking;
   tour: Tour;
+  isProcessing: boolean = false;
   constructor(private router: Router, private zone: NgZone, private formBuilder: FormBuilder, private localStorage: LocalStorageService, private sessionStorage: SessionStorageService) {
     super();
   }
@@ -108,6 +109,11 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
   }
 
   doBooking() {
+    if (this.isProcessing === true) {
+      showAlert("Your previous request is under processing. Please wait for a while.", "info");
+      return;
+    }
+    this.isProcessing = true;
     let travellers = this.bookingForm.value.travellers;
     travellers.map((item) => {
       item.passport = {
@@ -136,10 +142,7 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
       }
       booking._id = res;
       this.processPayment(booking, cardDetails);
-      this.zone.run(() => {
-        showAlert("Thank you for booking your trip with us. You will receive confirmation email very soon.", "success")
-        this.router.navigate(['/booking/step2']);
-      });
+
     });
 
   }
@@ -191,13 +194,19 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
 
     paypal.payment.create(create_payment_json, function (error, payment) {
         if (error) {
+            self.isProcessing = false;
             showAlert("Payment processing failed at server. Please recheck your details and try again.", "danger");
         } else {
             self.call("bookings.insertpayment", booking._id, payment, (err, res) => {
+              self.isProcessing = false;
               if (err) {
                 showAlert(err.reason, "danger");
                 return;
               }
+              self.zone.run(() => {
+                showAlert("Thank you for booking your trip with us. You will receive confirmation email very soon.", "success")
+                self.router.navigate(['/booking/step2']);
+              });
             })
         }
     });
