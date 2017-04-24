@@ -4,6 +4,7 @@ import { CustomValidators as CValidators } from "ng2-validation";
 import { Router } from '@angular/router';
 import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
+import { InjectUser } from "angular2-meteor-accounts-ui";
 import { MeteorComponent } from 'angular2-meteor';
 import { LocalStorageService, SessionStorageService } from 'ng2-webstorage';
 import { validateEmail, validatePhoneNum, validateFirstName, validatePassportNum } from "../../validators/common";
@@ -16,6 +17,7 @@ import template from './booking-step1.component.html';
   selector: '',
   template
 })
+@InjectUser('user')
 export class BookingStep1Component extends MeteorComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy  {
   bookingForm: FormGroup
   booking: Booking;
@@ -105,6 +107,7 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
   }
 
   book() {
+
     let travellers = this.bookingForm.value.travellers;
     travellers.map((item) => {
       item.passport = {
@@ -130,12 +133,74 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
         showAlert(err.reason, "danger");
         return;
       }
-
+      booking._id = res;
+      this.processPayment(booking, cardDetails);
       this.zone.run(() => {
         showAlert("Thank you for booking your trip with us. You will receive confirmation email very soon.", "success")
         this.router.navigate(['/booking/step2']);
       });
     });
-    
+
   }
+
+  processPayment(booking, cardDetails) {
+    var paypal = require('paypal-rest-sdk');
+    let res = cardDetails.nameOnCard.split(" ");
+    let first_name = res[0];
+    let last_name = res[1];
+    paypal.configure({
+      'mode': 'sandbox', //sandbox or live
+      'client_id': 'AeNIxZgtK5ybDTEbj8kOwsC-apBuG6fs_eRgtyIq4qS5SzDOtTsBla2FIl3StvVhJHltFFf-RBSAyp7c',
+      'client_secret': 'EJkxMwNb1sfofwhXEgDf-epl-3qDmrwDIdRGoL0SD6iMJsFk4jn5r3ZDpAnvg7LRE5Xjcre-zlRvTHiA'
+    });
+
+    var create_payment_json = {
+          "intent": "sale",
+          "payer": {
+              "payment_method": "credit_card",
+              "funding_instruments": [{
+                  "credit_card": {
+                      "type": "visa",
+                      "number": cardDetails.cardNumber,
+                      "expire_month": "11",
+                      "expire_year": "2018",
+                      "cvv2": cardDetails.cvvNumber,
+                      "first_name": first_name,
+                      "last_name": last_name,
+                      "billing_address": {
+                          "line1": booking.travellers[0].addressLine1,
+                          "city": booking.travellers[0].suburb,
+                          "state": booking.travellers[0].state,
+                          "postal_code": booking.travellers[0].postCode,
+                          "country_code": "IN"
+                      }
+                  }
+              }]
+          },
+          "transactions": [{
+              "amount": {
+                  "total": booking.totalPrice,
+                  "currency": "AUD"
+              },
+              "description": "This is the payment transaction description."
+          }]
+      };
+
+    let self = this;
+
+    paypal.payment.create(create_payment_json, function (error, payment) {
+        if (error) {
+            throw error;
+        } else {
+            console.log("Create Payment Response");
+            console.log(payment);
+            self.call("bookings.insertpayment", booking._id,payment, (err, res) => {
+              if (err) {
+                showAlert(err.reason, "danger");
+                return;
+              }
+            })
+        }
+    });
+}
 }

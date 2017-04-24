@@ -94,7 +94,9 @@ export class BookingFormComponent extends MeteorComponent implements OnInit, Aft
           name: tour.name,
           departure: tour.departure,
           destination: tour.destination,
-          featuredImage: tour.featuredImage
+          featuredImage: tour.featuredImage,
+          noOfNights: tour.noOfNights,
+          totalMeals: tour.totalMeals
         };
       }
 

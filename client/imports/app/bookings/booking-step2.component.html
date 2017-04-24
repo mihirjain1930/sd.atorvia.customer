@@ -1,53 +1,4 @@
-<header class="user-header useracc-header">
-  <div class="container-fluid">
-    <nav class="navbar navbar-toggleable-md">
-      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"><i class="fa fa-bars" aria-hidden="true"></i></span>
-      </button>
-      <a class="navbar-brand" href="#"><img src="images/logo.png" alt=""/></a>
-      <div class="collapse navbar-collapse" id="navbarText">
-        <ul class="navbar-nav mr-auto">
-
-          <li class="user-drop">
-            <span class="navbar-text">
-              <ul class="pull-right">
-
-                <li>
-                  <span class="user-img"><img src="images/flag.png" alt=""/></span>
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      AUD
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right">
-                      <button class="dropdown-item" type="button">Action</button>
-                      <button class="dropdown-item" type="button">Another action</button>
-                      <button class="dropdown-item" type="button">Something else here</button>
-                    </div>
-                  </div>
-                </li>
-                <li>
-
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-secondary dropdown-toggle menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <span><i class="fa fa-bars" aria-hidden="true"></i></span>Menu
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right">
-                      <button class="dropdown-item" type="button">Action</button>
-                      <button class="dropdown-item" type="button">Another action</button>
-                      <button class="dropdown-item" type="button">Something else here</button>
-                    </div>
-                  </div>
-                </li>
-
-              </ul>
-            </span>
-          </li>
-        </ul>
-
-      </div>
-    </nav>
-  </div>
-</header>
+<header-main *ngIf="!!user"></header-main>
 <main class="payment confirmation">
   <booking-header [booking]="bookingDetails"></booking-header>
   <div class="grey-bg step-1">
@@ -111,13 +62,13 @@
                         <dd class="col-8">AS0000000001</dd>
 
                         <dt class="col-4">Booking Date</dt>
-                        <dd class="col-8">30/10/2016</dd>
+                        <dd class="col-8">{{bookingDetails.startDate | date}}</dd>
 
                         <dt class="col-4">Contact Person</dt>
-                        <dd class="col-8">John Doe</dd>
+                        <dd class="col-8">{{bookingDetails.travellers[0].firstName}} {{bookingDetails.travellers[0].lastName}}</dd>
 
                         <dt class="col-4">Billing Address</dt>
-                        <dd class="col-8">U1/1 ABC Street, Inala QLD 4071</dd>
+                        <dd class="col-8">{{bookingDetails.travellers[0].addressLine1}} {{bookingDetails.travellers[0].suburb}} {{bookingDetails.travellers[0].state}} {{bookingDetails.travellers[0].country}} {{bookingDetails.travellers[0].postCode}}</dd>
 
                         <dt class="col-sm-4">Payment Method</dt>
                         <dd class="col-sm-8">Paypal</dd>
@@ -131,9 +82,9 @@
                             </div>
                           </div>
                           <div class="col-lg-10">
-                            <h5>Japan and Taiwan 12 Days Super Easter Highlight</h5>
+                            <h5>{{bookingDetails.tour.name}}</h5>
                             <p>
-                              <span><i class="fa fa-map-marker" aria-hidden="true"></i></span>Osaka, Japan &amp; Taipei, Taiwan
+                              <span><i class="fa fa-map-marker" aria-hidden="true"></i></span>{{bookingDetails.tour.departure}} &amp; {{bookingDetails.tour.destination}}
                               <span class="rating">
                                 <i class="fa fa-star" aria-hidden="true"></i>
                                 <i class="fa fa-star" aria-hidden="true"></i>
@@ -155,18 +106,20 @@
                               </div>
                               <div class="col-lg-8">
                                 <h5>Departure Date</h5>
-                                <p>01/12/2016</p>
+                                <p>{{bookingDetails.startDate | date}}</p>
                               </div>
                             </div>
                           </div>
                           <div class="col-sm-4">
                             <div class="row">
                               <div class="col-lg-4">
-                                <img src="images/rd.png" alt="" />
+                                <div class="img-wrp">
+                                    <span *ngIf="bookingDetails.tour.featuredImage?.url"><img [src]="bookingDetails.tour.featuredImage?.url" /></span>
+                                </div>
                               </div>
                               <div class="col-lg-8">
                                 <h5>Return Date</h5>
-                                <p>13/12/2016</p>
+                                <p>{{bookingDetails.endDate | date}}</p>
                               </div>
                             </div>
                           </div>
@@ -176,8 +129,8 @@
                                 <img src="images/adult.png" alt="" />
                               </div>
                               <div class="col-lg-8">
-                                <h5>Travelers</h5>
-                                <p>2 Adults</p>
+                                <h5>Travellers</h5>
+                                <p>{{bookingDetails.numOfAdults}} Adults</p>
                               </div>
                             </div>
                           </div>
@@ -188,7 +141,7 @@
                               </div>
                               <div class="col-lg-8">
                                 <h5>Hotels</h5>
-                                <p>10 Nights</p>
+                                <p>{{bookingDetails.tour.noOfNights}} Nights</p>
                               </div>
                             </div>
                           </div>
@@ -199,7 +152,7 @@
                               </div>
                               <div class="col-lg-8">
                                 <h5>Meals</h5>
-                                <p>24</p>
+                                <p>{{bookingDetails.tour.totalMeals}}</p>
                               </div>
                             </div>
                           </div>
@@ -210,7 +163,7 @@
                               </div>
                               <div class="col-lg-8">
                                 <h5>Total Price</h5>
-                                <p>AUD $9, 980</p>
+                                <p>AUD ${{bookingDetails.totalPrice}}</p>
                               </div>
                             </div>
                           </div>

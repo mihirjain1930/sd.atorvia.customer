@@ -7,6 +7,8 @@ export interface Booking extends CollectionObject {
       name: string;
       departure: string;
       destination: string;
+      totalMeals: number;
+      noOfNights: number;
       featuredImage: {
         id: string;
         url: string;

@@ -1,48 +1,4 @@
-<header class="user-header useracc-header">
-  <div class="container-fluid">
-    <nav class="navbar navbar-toggleable-md">
-      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"><i class="fa fa-bars" aria-hidden="true"></i></span>
-      </button>
-      <a class="navbar-brand" href="#"><img src="images/logo.png" alt=""/></a>
-      <div class="collapse navbar-collapse" id="navbarText">
-        <ul class="navbar-nav mr-auto">
-          <li class="user-drop">
-            <span class="navbar-text">
-              <ul class="pull-right">
-                <li>
-                  <span class="user-img"><img src="images/flag.png" alt=""/></span>
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      AUD
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right">
-                      <button class="dropdown-item" type="button">Action</button>
-                      <button class="dropdown-item" type="button">Another action</button>
-                      <button class="dropdown-item" type="button">Something else here</button>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-secondary dropdown-toggle menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <span><i class="fa fa-bars" aria-hidden="true"></i></span>Menu
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right">
-                      <button class="dropdown-item" type="button">Action</button>
-                      <button class="dropdown-item" type="button">Another action</button>
-                      <button class="dropdown-item" type="button">Something else here</button>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </span>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  </div>
-</header>
+<header-main *ngIf="!!user"></header-main>
 <main class="payment">
   <booking-header [booking]="bookingDetails"></booking-header>
   <div class="grey-bg step-1">
@@ -324,17 +280,6 @@
                 <section class="right-wrap payment-wrap">
                   <h3>Payment Method</h3>
                   <div class="row">
-                    <div class="col-12">
-                      <div class="radio-wrap">
-                        <input id="radio-a" class="radio-custom" name="radio-group" checked="" type="radio">
-                        <label for="radio-a" class="radio-custom-label"><img src="images/paypal.png" alt=""/></label>
-                      </div>
-                    </div>
-                    <div class="col-12">
-                      <div class="radio-wrap">
-                        <input id="radio-b" class="radio-custom" name="radio-group" checked="" type="radio">
-                        <label for="radio-b" class="radio-custom-label">Visa / Master</label>
-                      </div>
                       <div class="payment-form">
                         <div class="row">
                           <div class="col-sm-9">

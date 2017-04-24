@@ -4,6 +4,7 @@ import { CustomValidators as CValidators } from "ng2-validation";
 import { Router } from '@angular/router';
 import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
+import { InjectUser } from "angular2-meteor-accounts-ui";
 import { MeteorComponent } from 'angular2-meteor';
 import { LocalStorageService, SessionStorageService } from 'ng2-webstorage';
 import { validateEmail, validatePassword } from "../../validators/common";
@@ -16,6 +17,7 @@ import template from './booking-step2.component.html';
   selector: '',
   template
 })
+@InjectUser('user')
 export class BookingStep2Component extends MeteorComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy  {
   booking: Booking;
   tour: Tour;
@@ -45,7 +47,7 @@ export class BookingStep2Component extends MeteorComponent implements OnInit, Af
   get bookingDetails() {
     return this.booking;
   }
-  
+
   ngOnDestroy() {
   }
 }
