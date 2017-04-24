@@ -30,7 +30,7 @@ export class LandingComponent extends MeteorComponent implements OnInit, AfterVi
 
   constructor(private zone: NgZone, private router: Router, private completerService: CompleterService) {
     super();
-    this.dataService = completerService.remote('/api/1.0/tours/search?searchString=', 'name,destination', 'name');
+    this.dataService = completerService.remote('/api/1.0/tours/search?searchString=', 'name,departure,destination', 'name');
   }
 
   ngOnInit() {
