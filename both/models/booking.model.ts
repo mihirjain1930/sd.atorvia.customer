@@ -15,6 +15,16 @@ export interface Booking extends CollectionObject {
         name: string;
       };
       dateRangeId?: string;
+      cancellationPolicy: {
+        id: string;
+        name: string;
+        url: string;
+      };
+      refundPolicy: {
+        id: string;
+        name: string;
+        url: string;
+      };
     };
     user: {
       id: string;

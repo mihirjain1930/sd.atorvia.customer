@@ -31,10 +31,11 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
     this.bookingForm = this.formBuilder.group({
       travellers: this.formBuilder.array([
       ]),
-      nameOnCard: ['', Validators.compose([Validators.required])],
-      cardNumber: ['', Validators.compose([Validators.required, CValidators.creditCard])],
-      expiryDate: ['', Validators.compose([Validators.required])],
-      cvvNumber:  ['', Validators.compose([Validators.required,Validators.minLength(3),Validators.maxLength(3)])]
+      nameOnCard: ['', Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(30), validateFirstName])],
+      cardNumber: ['', Validators.compose([Validators.required, CValidators.creditCard, Validators.minLength(15), Validators.maxLength(19)])],
+      expiryMonth: ['', Validators.compose([Validators.required])],
+      expiryYear: ['', Validators.compose([Validators.required])],
+      cvvNumber:  ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(3)])]
     });
     this.loadTravellers();
   }
@@ -106,8 +107,7 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
     this.bookingForm.controls['travellers'].controls[0].controls["state"].setValue(null);
   }
 
-  book() {
-
+  doBooking() {
     let travellers = this.bookingForm.value.travellers;
     travellers.map((item) => {
       item.passport = {
@@ -120,8 +120,9 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
     let cardDetails = {
       nameOnCard: this.bookingForm.value.nameOnCard,
       cardNumber: this.bookingForm.value.cardNumber,
-      expiryDate: this.bookingForm.value.expiryDate,
-      cvvNumber:  this.bookingForm.value.cvvNumber,
+      expiryMonth: this.bookingForm.value.expiryMonth,
+      expiryYear: this.bookingForm.value.expiryYear,
+      cvvNumber: this.bookingForm.value.cvvNumber
     }
     let booking = this.booking;
     booking.travellers = travellers;
@@ -162,8 +163,8 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
                   "credit_card": {
                       "type": "visa",
                       "number": cardDetails.cardNumber,
-                      "expire_month": "11",
-                      "expire_year": "2018",
+                      "expire_month": cardDetails.expiryMonth,
+                      "expire_year": cardDetails.expiryYear,
                       "cvv2": cardDetails.cvvNumber,
                       "first_name": first_name,
                       "last_name": last_name,
@@ -190,11 +191,9 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
 
     paypal.payment.create(create_payment_json, function (error, payment) {
         if (error) {
-            throw error;
+            showAlert("Payment processing failed at server. Please recheck your details and try again.", "danger");
         } else {
-            console.log("Create Payment Response");
-            console.log(payment);
-            self.call("bookings.insertpayment", booking._id,payment, (err, res) => {
+            self.call("bookings.insertpayment", booking._id, payment, (err, res) => {
               if (err) {
                 showAlert(err.reason, "danger");
                 return;

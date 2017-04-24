@@ -79,6 +79,7 @@
                         <div class="row">
                           <div class="col-lg-2">
                             <div class="img-wrp">
+                                <span *ngIf="bookingDetails.tour.featuredImage?.url"><img [src]="bookingDetails.tour.featuredImage?.url" /></span>
                             </div>
                           </div>
                           <div class="col-lg-10">
@@ -113,9 +114,7 @@
                           <div class="col-sm-4">
                             <div class="row">
                               <div class="col-lg-4">
-                                <div class="img-wrp">
-                                    <span *ngIf="bookingDetails.tour.featuredImage?.url"><img [src]="bookingDetails.tour.featuredImage?.url" /></span>
-                                </div>
+                                <img src="images/rd.png" alt="" />
                               </div>
                               <div class="col-lg-8">
                                 <h5>Return Date</h5>
@@ -188,8 +187,8 @@
                     <div class="signup-option">
                       <div class="row">
                         <div class="col-lg-8">
-                          <p><a href="javascript:void(0)">Download tour cancellation policy</a></p>
-                          <p><a href="javascript:void(0)">Download Atorvia refund policy</a></p>
+                          <p><a *ngIf="bookingDetails.tour?.cancellationPolicy?.url" [href]="bookingDetails.tour.cancellationPolicy.url" download>Download tour cancellation policy</a></p>
+                          <p><a *ngIf="bookingDetails.tour?.refundPolicy?.url" [href]="bookingDetails.tour.refundPolicy.url" download>Download Atorvia refund policy</a></p>
                         </div>
                         <div class="col-lg-4">
                           <button type="button" class="btn green-btn">Print Summary</button>

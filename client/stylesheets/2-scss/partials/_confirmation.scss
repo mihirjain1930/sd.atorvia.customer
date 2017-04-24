@@ -67,7 +67,7 @@
 						height: 80px;
 						width: 80px;
 						@include border-radius(3px, 3px, 3px, 3px);
-						background: $grey-4;
+						/*background: $grey-4;*/
 						@media (max-width: $laptop) {
 							margin: 0 auto;
 							float: none;

@@ -121,8 +121,8 @@
 												</div>
 											</div>
 											<div class="col-sm-5 col-md-12 col-lg-5">
-												<button type="button" class="btn green-btn" *ngIf="owner.profile.supplier?.agentCertificate?.verified"><span><i class="fa fa-check" aria-hidden="true"></i></span>Verified</button>
-												<button type="button" class="btn" *ngIf="!owner.profile.supplier?.agentCertificate?.verified"><span><i class="fa fa-close" aria-hidden="true"></i></span>Verified</button>
+												<button type="button" class="btn green-btn" *ngIf="owner.profile.supplier?.agentCertificate?.verified"><span><i class="fa fa-check" aria-hidden="true"></i></span> Verified</button>
+												<button type="button" class="btn" *ngIf="!owner.profile.supplier?.agentCertificate?.verified"><span><i class="fa fa-close" aria-hidden="true"></i></span> Pending</button>
 											</div>
 										</div>
 									</li>
@@ -138,8 +138,8 @@
 												</div>
 											</div>
 											<div class="col-sm-5 col-md-12 col-lg-5">
-												<button type="button" class="btn green-btn" *ngIf="owner.profile.supplier?.agentIdentity?.verified"><span><i class="fa fa-check" aria-hidden="true"></i></span>Verified</button>
-												<button type="button" class="btn" *ngIf="!owner.profile.supplier?.agentIdentity?.verified"><span><i class="fa fa-close" aria-hidden="true"></i></span>Verified</button>
+												<button type="button" class="btn green-btn" *ngIf="owner.profile.supplier?.agentIdentity?.verified"><span><i class="fa fa-check" aria-hidden="true"></i></span> Verified</button>
+												<button type="button" class="btn" *ngIf="!owner.profile.supplier?.agentIdentity?.verified"><span><i class="fa fa-close" aria-hidden="true"></i></span> Pending</button>
 											</div>
 										</div>
 									</li>
@@ -302,7 +302,10 @@
 											A${{row.price[0]?.adult}}
 											<a href="javascript:void(0)" (click)="selDateRange=row; detectChanges();" data-toggle="modal" data-target="#myModal">see all pricing</a>
 										</td>
-										<td><button type="button" class="btn green-btn" (click)="selDateRange=row; detectChanges();" data-toggle="modal" data-target="#bookTour">BOOK</button></td>
+										<td>
+											<button *ngIf="!user" type="button" class="btn green-btn" (click)="redirectToLogin()">BOOK</button>
+											<button *ngIf="!!user" type="button" class="btn green-btn" (click)="selDateRange=row; detectChanges();" data-toggle="modal" data-target="#bookTour">BOOK</button>
+										</td>
 									</tr>
 								</tbody>
 							</table>

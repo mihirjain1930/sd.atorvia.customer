@@ -63,10 +63,12 @@ export interface Tour extends CollectionObject {
     exclusions: string;
     cancellationPolicy: {
       id: string;
+      name: string;
       url: string;
     };
     refundPolicy: {
       id: string;
+      name: string;
       url: string;
     };
     /*  default */

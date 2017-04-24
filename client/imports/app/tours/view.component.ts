@@ -5,6 +5,8 @@ import { Meteor } from 'meteor/meteor';
 import { MeteorComponent } from 'angular2-meteor';
 import { Observable, Subscription, Subject, BehaviorSubject } from "rxjs";
 import { ChangeDetectorRef } from "@angular/core";
+import { InjectUser } from "angular2-meteor-accounts-ui";
+import { SessionStorageService } from 'ng2-webstorage';
 import { Tour } from "../../../../both/models/tour.model";
 import { User } from "../../../../both/models/user.model";
 import { showAlert } from "../shared/show-alert";
@@ -37,6 +39,7 @@ interface DateRange {
   selector: '',
   template
 })
+@InjectUser('user')
 export class TourViewComponent extends MeteorComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
   paramsSub: Subscription;
   query: string;
@@ -49,7 +52,7 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
   activeTab: string = "overview";
   selDateRange: DateRange = null;
 
-  constructor(private zone: NgZone, private router: Router, private route: ActivatedRoute, private changeDetectorRef: ChangeDetectorRef) {
+  constructor(private zone: NgZone, private router: Router, private route: ActivatedRoute, private changeDetectorRef: ChangeDetectorRef, private sessionStorage: SessionStorageService) {
     super();
   }
 
@@ -169,5 +172,12 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
     this.changeDetectorRef.detectChanges();
   }
 
+  redirectToLogin() {
+    let tour = this.item;
+    let redirectUrl = ['/tours', tour.slug];
+    this.sessionStorage.store("redirectUrl", redirectUrl);
+
+    this.router.navigate(['/login']);
+  }
 
 }

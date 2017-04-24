@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, NgZone, OnInit, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { InjectUser } from "angular2-meteor-accounts-ui";
 import { MeteorComponent } from 'angular2-meteor';
@@ -14,7 +14,7 @@ import {showAlert} from "../shared/show-alert";
 @InjectUser('user')
 export class HeaderMainComponent extends MeteorComponent implements OnInit, AfterViewInit {
     pages: Page[];
-    constructor(private router: Router, private localStorage: LocalStorageService, private sessionStorage: SessionStorageService) {
+    constructor(private zone: NgZone, private router: Router, private localStorage: LocalStorageService, private sessionStorage: SessionStorageService) {
       super();
     }
 
@@ -40,7 +40,9 @@ export class HeaderMainComponent extends MeteorComponent implements OnInit, Afte
         this.sessionStorage.clear("Meteor.userId");
         Meteor.logout();
         showAlert("You have been logged out successfully.", "success");
-        this.router.navigate( ['/login'] );
+        this.zone.run(() => {
+          this.router.navigate( ['/login'] );
+        });
     }
 
     ngAfterViewInit() {

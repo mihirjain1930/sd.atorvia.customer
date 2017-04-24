@@ -49,7 +49,13 @@ export class LoginComponent extends MeteorComponent implements OnInit {
           showAlert("You have been logged in successfully.", "success");
           this.localStorage.store("rememberMeNot", !this.rememberMe);
           this.sessionStorage.store("Meteor.userId", Meteor.userId());
-          this.router.navigate(['/dashboard']);
+          let redirectUrl = this.sessionStorage.retrieve("redirectUrl");
+          if (!redirectUrl) {
+            let redirectUrl = ['/dashboard'];
+          } else {
+            this.sessionStorage.clear("redirectUrl");
+          }
+          this.router.navigate(redirectUrl);
         }
       });
     });

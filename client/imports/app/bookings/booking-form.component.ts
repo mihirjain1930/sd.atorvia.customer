@@ -53,7 +53,6 @@ export class BookingFormComponent extends MeteorComponent implements OnInit, Aft
     });
 
     this.booking = booking;
-    // console.log(booking);
   }
 
   ngAfterViewChecked() {
@@ -96,7 +95,9 @@ export class BookingFormComponent extends MeteorComponent implements OnInit, Aft
           destination: tour.destination,
           featuredImage: tour.featuredImage,
           noOfNights: tour.noOfNights,
-          totalMeals: tour.totalMeals
+          totalMeals: tour.totalMeals,
+          cancellationPolicy: tour.cancellationPolicy,
+          refundPolicy: tour.refundPolicy
         };
       }
 
