@@ -28,7 +28,7 @@ Meteor.methods({
         booking.deleted = false;
 
         try {
-           let bookingId = Bookings.collection.insert(booking);
+           var bookingId = Bookings.collection.insert(booking);
         } catch (err) {
             console.log(err.message);
             throw new Meteor.Error(500, "Error while creating new booking. Please resubmit after checking details.");
@@ -60,7 +60,7 @@ Meteor.methods({
       payment.userId = user._id;
       payment.bookingId = id;
       try {
-         let transactionId = Transactions.collection.insert(payment);
+         var transactionId = Transactions.collection.insert(payment);
       } catch (err) {
           console.log(err.message);
           throw new Meteor.Error(500, "Error while creating new booking. Please resubmit after checking details.");
