@@ -34,6 +34,9 @@ export class BookingStep2Component extends MeteorComponent implements OnInit, Af
   }
 
   ngAfterViewInit() {
+    window.onbeforeunload = function() {
+      return "You work will be lost.";
+    };
     Meteor.setTimeout(() => {
       jQuery(function($){
         var leftImage = $(".tour-details").parent().height();
@@ -48,6 +51,9 @@ export class BookingStep2Component extends MeteorComponent implements OnInit, Af
     return this.booking;
   }
 
+  printOption() {
+    window.print();
+  }
   ngOnDestroy() {
   }
 }

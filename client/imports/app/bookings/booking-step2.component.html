@@ -191,7 +191,7 @@
                           <p><a *ngIf="bookingDetails.tour?.refundPolicy?.url" [href]="bookingDetails.tour.refundPolicy.url" download>Download Atorvia refund policy</a></p>
                         </div>
                         <div class="col-lg-4">
-                          <button type="button" class="btn green-btn">Print Summary</button>
+                          <button type="button" class="btn green-btn" (click)="printOption()">Print Summary</button>
                         </div>
                       </div>
                     </div>

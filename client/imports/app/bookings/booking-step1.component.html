@@ -151,7 +151,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="row">
+                        <div class="row" *ngIf="i==0">
                           <div class="col-sm-12">
                             <div class="form-group">
                               <label [for]="'Request'+i">Speacial Request</label>
@@ -201,22 +201,14 @@
                         <div class="row">
                           <div class="col-md-6">
                             <div class="form-group">
-                              <label for="Country">COUNTRY *</label>
-                              <div class="form-group">
-                                <div class="select-style">
-                                  <select class="select" formControlName="country" #country (change)="resetStateValue()">
-                                    <option value="India">India</option>
-                                    <option value="Australia">Australia</option>
-                                    <option value="China">China</option>
-                                    <option value="Vietnam">Vietnam</option>
-                                    <option value="New Zealand">New Zealand</option>
-                                  </select>
-                                </div>
-                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls.country.errors && bookingForm.controls.travellers.controls[i].controls.country.touched" class="has-error">
-                                  <div *ngIf="bookingForm.controls.travellers.controls[i].controls.country.hasError('required')">You have to select Country to continue.</div>
-                                  <div *ngIf="bookingForm.controls.travellers.controls[i].controls.country.hasError('minlength')">Min 2 characters required.</div>
-                                  <div *ngIf="bookingForm.controls.travellers.controls[i].controls.country.hasError('maxlength')">Max 30 characters allowed.</div>
-                                </div>
+                              <label for="SUBURB">SUBURB/TOWN *</label>
+                              <div class="input-wrap">
+                                <input class="form-control" id="SUBURB" placeholder="Suburb" type="text" formControlName="suburb" >
+                              </div>
+                              <div *ngIf="bookingForm.controls.travellers.controls[i].controls.suburb.errors && bookingForm.controls.travellers.controls[i].controls.suburb.touched" class="has-error">
+                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls.suburb.hasError('required')">You have to fill in Suburb to continue.</div>
+                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls.suburb.hasError('minlength')">Min 2 characters required.</div>
+                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls.suburb.hasError('maxlength')">Max 30 characters allowed.</div>
                               </div>
                             </div>
                           </div>
@@ -247,19 +239,6 @@
                         <div class="row">
                           <div class="col-md-6">
                             <div class="form-group">
-                              <label for="SUBURB">SUBURB/TOWN *</label>
-                              <div class="input-wrap">
-                                <input class="form-control" id="SUBURB" placeholder="Suburb" type="text" formControlName="suburb" >
-                              </div>
-                              <div *ngIf="bookingForm.controls.travellers.controls[i].controls.suburb.errors && bookingForm.controls.travellers.controls[i].controls.suburb.touched" class="has-error">
-                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls.suburb.hasError('required')">You have to fill in Suburb to continue.</div>
-                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls.suburb.hasError('minlength')">Min 2 characters required.</div>
-                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls.suburb.hasError('maxlength')">Max 30 characters allowed.</div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="form-group">
                               <label for="postCode">POST CODE *</label>
                               <div class="input-wrap">
                                 <input class="form-control" id="postCode" placeholder="Post Code" type="text" formControlName="postCode">
@@ -268,6 +247,27 @@
                                 <div *ngIf="bookingForm.controls.travellers.controls[i].controls.postCode.hasError('required')">You have to fill in Post Code to continue.</div>
                                 <div *ngIf="bookingForm.controls.travellers.controls[i].controls.postCode.hasError('minlength')">Min 4 characters required.</div>
                                 <div *ngIf="bookingForm.controls.travellers.controls[i].controls.postCode.hasError('maxlength')">Max 12 characters allowed.</div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="Country">COUNTRY *</label>
+                              <div class="form-group">
+                                <div class="select-style">
+                                  <select class="select" formControlName="country" #country (change)="resetStateValue()">
+                                    <option value="India">India</option>
+                                    <option value="Australia">Australia</option>
+                                    <option value="China">China</option>
+                                    <option value="Vietnam">Vietnam</option>
+                                    <option value="New Zealand">New Zealand</option>
+                                  </select>
+                                </div>
+                                <div *ngIf="bookingForm.controls.travellers.controls[i].controls.country.errors && bookingForm.controls.travellers.controls[i].controls.country.touched" class="has-error">
+                                  <div *ngIf="bookingForm.controls.travellers.controls[i].controls.country.hasError('required')">You have to select Country to continue.</div>
+                                  <div *ngIf="bookingForm.controls.travellers.controls[i].controls.country.hasError('minlength')">Min 2 characters required.</div>
+                                  <div *ngIf="bookingForm.controls.travellers.controls[i].controls.country.hasError('maxlength')">Max 30 characters allowed.</div>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -384,7 +384,7 @@
                     </div>
                   </div>
                 </section>
-                <p *ngIf="isProcessing" class="process-wrap">Your previous request is under processing. Please wait for a while.</p>
+                <p *ngIf="isProcessing" class="process-wrap">Your request is under processing. Please wait for a while.</p>
                 <div class="form-group signup-option">
                   <div class="row">
                     <div class="col-sm-8">

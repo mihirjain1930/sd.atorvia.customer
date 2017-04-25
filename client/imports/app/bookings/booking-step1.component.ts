@@ -80,13 +80,10 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
     if (typeof travellers[i] ["passport"] == "undefined") {
       travellers[i] ["passport"] = {};
     }
-
-    return this.formBuilder.group({
+    let formFields = {
       firstName: [travellers[i].firstName, Validators.compose([Validators.required, validateFirstName, Validators.minLength(2), Validators.maxLength(30)])],
       middleName: [travellers[i].middleName, Validators.compose([validateFirstName, Validators.minLength(2), Validators.maxLength(30)])],
       lastName: [travellers[i].lastName, Validators.compose([Validators.required, validateFirstName, Validators.minLength(2), Validators.maxLength(30)])],
-      email: [travellers[i].email, Validators.compose([Validators.required, validateEmail, Validators.minLength(5), Validators.maxLength(50)])],
-      contact: [travellers[i].contact, Validators.compose([Validators.required, validatePhoneNum, Validators.minLength(7), Validators.maxLength(15)])],
       addressLine1: [travellers[i].addressLine1, Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(50)])],
       addressLine2: [travellers[i].addressLine2, Validators.compose([Validators.minLength(2), Validators.maxLength(50)])],
       suburb: [travellers[i].state, Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(30)])],
@@ -94,9 +91,18 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
       state: [travellers[i].state, Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(30)])],
       country: [travellers[i].country, Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(30)])],
       "passport.country": [travellers[i].passport.country, Validators.compose([Validators.required])],
-      "passport.number": [travellers[i].passport.number, Validators.compose([Validators.required, validatePassportNum, Validators.minLength(7), Validators.maxLength(15)])],
+      "passport.number": [travellers[i].passport.number, Validators.compose([Validators.required, Validators.minLength(7), Validators.maxLength(15)])],
       specialRequest: [travellers[i].specialRequest, Validators.compose([])],
-    });
+    }
+
+    if (i==0) {
+      formFields['email'] = [travellers[i].email, Validators.compose([Validators.required, validateEmail, Validators.minLength(5), Validators.maxLength(50)])];
+      formFields['contact'] = [travellers[i].contact, Validators.compose([Validators.required, validatePhoneNum, Validators.minLength(7), Validators.maxLength(15)])];
+    } else {
+      formFields['email'] = [travellers[i].email, Validators.compose([validateEmail, Validators.minLength(5), Validators.maxLength(50)])];
+      formFields['contact'] = [travellers[i].contact, Validators.compose([validatePhoneNum, Validators.minLength(7), Validators.maxLength(15)])];
+    }
+    return this.formBuilder.group(formFields);
   }
 
   private addTraveller(i) {
