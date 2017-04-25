@@ -28,6 +28,8 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
 
   constructor(private router: Router, private zone: NgZone, private formBuilder: FormBuilder, private localStorage: LocalStorageService, private sessionStorage: SessionStorageService) {
     super();
+
+    window['BookingStep1Component'] = {component: this, zone: zone};
   }
 
   ngOnInit() {
@@ -55,10 +57,65 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
 
         $(".tour-details").css("height", rightImage +"px");
       });
+      paypal.Button.render({
+
+       // Set your environment
+
+       env: 'sandbox', // sandbox | production
+
+       // PayPal Client IDs - replace with your own
+       // Create a PayPal app: https://developer.paypal.com/developer/applications/create
+
+       client: {
+           sandbox:    'AeNIxZgtK5ybDTEbj8kOwsC-apBuG6fs_eRgtyIq4qS5SzDOtTsBla2FIl3StvVhJHltFFf-RBSAyp7c',
+           production: 'EJkxMwNb1sfofwhXEgDf-epl-3qDmrwDIdRGoL0SD6iMJsFk4jn5r3ZDpAnvg7LRE5Xjcre-zlRvTHiA'
+       },
+
+       // Wait for the PayPal button to be clicked
+       style: {
+          label: 'checkout', // checkout || credit
+          size:  'small',    // tiny | small | medium
+          shape: 'pill',     // pill | rect
+          color: 'blue'      // gold | blue | silver
+      },
+
+       payment: function() {
+
+          alert("process payment for amount " + window['BookingStep1Component'].component.booking.totalPrice);
+
+           // Make a client-side call to the REST api to create the payment
+           return paypal.rest.payment.create(this.props.env, this.props.client, {
+               transactions: [
+                   {
+                       amount: { total: window['BookingStep1Component'].component.booking.totalPrice, currency: 'AUD' }
+                   }
+               ]
+           });
+       },
+
+       // Wait for the payment to be authorized by the customer
+
+       onAuthorize: function(data, actions) {
+
+           // Execute the payment
+           return actions.payment.execute().then(function(data) {
+               console.log(data);
+               document.querySelector('#paypal-button-container').innerText = '';
+               window['BookingStep1Component'].component.doBooking(()=>{});
+           });
+       }
+
+      }, '#paypal-button-container');
     }, 500);
   }
 
   ngOnDestroy() {
+  }
+
+  public doPayment() {
+    this.zone.run(() => {
+    console.log('inside do payment method test');
+    });
   }
 
   get bookingDetails() {
@@ -160,7 +217,7 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
       this.cardError = "Invalid card number.";
       return false;
     }
-    
+
     if (today > expiryDate) {
       this.cardError = "Invalid expiry date.";
       return false;
@@ -187,7 +244,7 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
     return true;
   }
 
-  doBooking() {
+  doCreditCardPayment() {
     if (this.isProcessing === true) {
       showAlert("Your previous request is under processing. Please wait for a while.", "info");
       return;
@@ -199,6 +256,12 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
     }
 
     this.isProcessing = true;
+    this.doBooking((booking) => {
+      this.processPayment(booking);
+    });
+  }
+
+  doBooking(callback) {
     let travellers = this.bookingForm.value.travellers;
     travellers.map((item) => {
       item.passport = {
@@ -208,13 +271,7 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
       delete item["passport.number"];
       delete item["passport.country"];
     })
-    let cardDetails = {
-      nameOnCard: this.bookingForm.value.nameOnCard,
-      cardNumber: this.bookingForm.value.cardNumber,
-      expiryMonth: this.bookingForm.value.expiryMonth,
-      expiryYear: this.bookingForm.value.expiryYear,
-      cvvNumber: this.bookingForm.value.cvvNumber
-    }
+
     let booking = this.booking;
     booking.travellers = travellers;
 
@@ -226,13 +283,20 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
         return;
       }
       booking._id = res;
-      this.processPayment(booking, cardDetails);
+      callback(booking);
     });
 
   }
 
-  processPayment(booking, cardDetails) {
-    var paypal = require('paypal-rest-sdk');
+  processPayment(booking) {
+    let paypal = require('paypal-rest-sdk');
+    let cardDetails = {
+      nameOnCard: this.bookingForm.value.nameOnCard,
+      cardNumber: this.bookingForm.value.cardNumber,
+      expiryMonth: this.bookingForm.value.expiryMonth,
+      expiryYear: this.bookingForm.value.expiryYear,
+      cvvNumber: this.bookingForm.value.cvvNumber
+    }
     let res = cardDetails.nameOnCard.split(" ");
     let first_name = res[0];
     let last_name = res[1];
@@ -294,5 +358,7 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
             })
         }
     });
-}
+  }
+
+
 }

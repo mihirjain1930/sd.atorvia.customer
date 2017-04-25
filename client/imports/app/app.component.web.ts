@@ -57,7 +57,7 @@ export class AppComponent extends MeteorComponent implements OnInit, AfterViewIn
 
     ngAfterViewInit() {
         jQuery(function($){
-             var link = `<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+             var link = `<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
              <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.min.css">`;
              $('head').prepend(link);
         })

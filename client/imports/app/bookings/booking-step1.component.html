@@ -281,6 +281,18 @@
                   <h3>Payment Method</h3>
                   <div class="row">
                     <div class="col-12">
+                      <div class="radio-wrap">
+                        <input id="radio-a" class="radio-custom" name="radio-group" checked type="radio" #payByPaypal>
+                        <label for="radio-a" class="radio-custom-label"><img src="images/paypal.png" alt=""></label>
+                      </div>
+                      <div class="radio-wrap">
+                        <input id="radio-b" class="radio-custom" name="radio-group" type="radio" #payByCard>
+                        <label for="radio-b" class="radio-custom-label">Visa / Master</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row" *ngIf="payByCard.checked">
+                    <div class="col-12">
                       <div class="payment-form">
                         <div class="row">
                           <div class="col-sm-9">
@@ -290,11 +302,11 @@
                                 <input type="text" name="" class="form-control" id="nameOnCard" placeholder="Name on card" formControlName="nameOnCard">
                               </div>
                               <div *ngIf="bookingForm.controls['nameOnCard'].errors && bookingForm.controls['nameOnCard'].touched" class="has-error">
-              									<div *ngIf="bookingForm.controls.nameOnCard.hasError('required')">You have to fill in Name to continue.</div>
+                                <div *ngIf="bookingForm.controls.nameOnCard.hasError('required')">You have to fill in Name to continue.</div>
                                 <div *ngIf="bookingForm.controls.nameOnCard.hasError('minlength')">Min characters required is 2.</div>
                                 <div *ngIf="bookingForm.controls.nameOnCard.hasError('maxlength')">Max characters allowed is 30.</div>
                                 <div *ngIf="bookingForm.controls.nameOnCard.hasError('validateFirstName')">Please type valid Name to continue.</div>
-              								</div>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -307,11 +319,11 @@
                                 <input type="text" name="" class="form-control" id="cardNumber" placeholder="Credit number" formControlName="cardNumber" (keyup)="setCardType(cardNumber.value)" #cardNumber>
                               </div>
                               <div *ngIf="bookingForm.controls['cardNumber'].errors && bookingForm.controls['cardNumber'].touched" class="has-error">
-              									<div *ngIf="bookingForm.controls.cardNumber.hasError('required')">You have to fill in Card Number to continue.</div>
+                                <div *ngIf="bookingForm.controls.cardNumber.hasError('required')">You have to fill in Card Number to continue.</div>
                                 <div *ngIf="bookingForm.controls.cardNumber.hasError('minlength')">Min characters required is 12.</div>
                                 <div *ngIf="bookingForm.controls.cardNumber.hasError('maxlength')">Max characters allowed is 19.</div>
                                 <div *ngIf="bookingForm.controls.cardNumber.hasError('creditCard')">Please type valid Card Number.</div>
-              								</div>
+                              </div>
                             </div>
                           </div>
                           <div class="col-2">
@@ -344,8 +356,8 @@
                                 </select>
                               </div>
                               <div *ngIf="bookingForm.controls['expiryMonth'].errors && bookingForm.controls['expiryMonth'].touched" class="has-error">
-              									<div *ngIf="bookingForm.controls.expiryMonth.hasError('required')">You have to select Expiry Year to continue.</div>
-              								</div>
+                                <div *ngIf="bookingForm.controls.expiryMonth.hasError('required')">You have to select Expiry Year to continue.</div>
+                              </div>
                             </div>
                           </div>
                           <div class="col-sm-6">
@@ -363,8 +375,8 @@
                                 </select>
                               </div>
                               <div *ngIf="bookingForm.controls['expiryYear'].errors && bookingForm.controls['expiryYear'].touched" class="has-error">
-              									<div *ngIf="bookingForm.controls.expiryYear.hasError('required')">You have to select Expiry Year to continue.</div>
-              								</div>
+                                <div *ngIf="bookingForm.controls.expiryYear.hasError('required')">You have to select Expiry Year to continue.</div>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -376,10 +388,10 @@
                                 <input type="text" name="" class="form-control" id="cvv" placeholder="CVV" formControlName="cvvNumber">
                               </div>
                               <div *ngIf="bookingForm.controls['cvvNumber'].errors && bookingForm.controls['cvvNumber'].touched" class="has-error">
-              									<div *ngIf="bookingForm.controls.cvvNumber.hasError('required')">You have to fill in CVV Number to continue.</div>
+                                <div *ngIf="bookingForm.controls.cvvNumber.hasError('required')">You have to fill in CVV Number to continue.</div>
                                 <div *ngIf="bookingForm.controls.cvvNumber.hasError('minlength')">Min characters required is 3.</div>
                                 <div *ngIf="bookingForm.controls.cvvNumber.hasError('maxlength')">Max characters allowed is 4.</div>
-              								</div>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -387,6 +399,7 @@
                     </div>
                   </div>
                 </section>
+
                 <p *ngIf="!!cardError" class="process-wrap has-error">{{cardError}}</p>
                 <p *ngIf="isProcessing" class="process-wrap">Your request is under processing. Please wait for a while.</p>
                 <div class="form-group signup-option">
@@ -395,7 +408,8 @@
                       <p>By clicking the 'Next' button below, you have read and agreed width our <a href="javascript:void(0)"> Terms & Conditions</a> and <a href="javascript:void(0)"> Privacy Policy</a>for us to process your tour booking.</p>
                     </div>
                     <div class="col-sm-4">
-                      <button type="button" class="btn green-btn" (click)="doBooking()">Next<span><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
+                      <button [hidden]="!payByCard.checked" type="button" class="btn green-btn" (click)="doCreditCardPayment()">Next<span><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
+                      <span [hidden]="!payByPaypal.checked" id="paypal-button-container"></span>
                     </div>
                   </div>
                 </div>
