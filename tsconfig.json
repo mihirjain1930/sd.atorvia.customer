@@ -11,8 +11,13 @@
     "emitDecoratorMetadata": true,
     "sourceMap": true
   },
+  "include": [
+    "**/*.ts"
+  ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "**/*.spec.ts",
+    "public"
   ],
   "files": [
     "typings.d.ts",

@@ -55,7 +55,7 @@ export interface Booking extends CollectionObject {
         contact: string;
         addressLine1: string;
         addressLine2: string;
-        town: string;
+        suburb: string;
         state: string;
         postCode: string;
         country: string;

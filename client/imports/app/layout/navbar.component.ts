@@ -15,7 +15,7 @@ import template from './navbar.html';
 @InjectUser('user')
 export class NavbarComponent extends MeteorComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
 
-  constructor(private zone: NgZone, private route: ActivatedRoute, private localStorage: LocalStorageService, private sessionStorage: SessionStorageService) {
+  constructor(private zone: NgZone, private router: Router, private route: ActivatedRoute, private localStorage: LocalStorageService, private sessionStorage: SessionStorageService) {
     super();
   }
 

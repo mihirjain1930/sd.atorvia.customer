@@ -57,55 +57,41 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
 
         $(".tour-details").css("height", rightImage +"px");
       });
+      // Render the PayPal button
+
       paypal.Button.render({
 
-       // Set your environment
+        // Set your environment
 
-       env: 'sandbox', // sandbox | production
+        env: 'sandbox', // sandbox | production
 
-       // PayPal Client IDs - replace with your own
-       // Create a PayPal app: https://developer.paypal.com/developer/applications/create
+        // Wait for the PayPal button to be clicked
 
-       client: {
-           sandbox:    'AeNIxZgtK5ybDTEbj8kOwsC-apBuG6fs_eRgtyIq4qS5SzDOtTsBla2FIl3StvVhJHltFFf-RBSAyp7c',
-           production: 'EJkxMwNb1sfofwhXEgDf-epl-3qDmrwDIdRGoL0SD6iMJsFk4jn5r3ZDpAnvg7LRE5Xjcre-zlRvTHiA'
-       },
+        payment: function() {
 
-       // Wait for the PayPal button to be clicked
-       style: {
-          label: 'checkout', // checkout || credit
-          size:  'small',    // tiny | small | medium
-          shape: 'pill',     // pill | rect
-          color: 'blue'      // gold | blue | silver
-      },
+            // Make a call to the merchant server to set up the payment
 
-       payment: function() {
+            return paypal.request.post('/api/1.0/paypal/payment/create/').then(function(res) {
+                return res.payToken;
+            });
+        },
 
-          alert("process payment for amount " + window['BookingStep1Component'].component.booking.totalPrice);
+        // Wait for the payment to be authorized by the customer
 
-           // Make a client-side call to the REST api to create the payment
-           return paypal.rest.payment.create(this.props.env, this.props.client, {
-               transactions: [
-                   {
-                       amount: { total: window['BookingStep1Component'].component.booking.totalPrice, currency: 'AUD' }
-                   }
-               ]
-           });
-       },
+        onAuthorize: function(data, actions) {
 
-       // Wait for the payment to be authorized by the customer
+            // Make a call to the merchant server to execute the payment
 
-       onAuthorize: function(data, actions) {
+            return paypal.request.post('/api/1.0/paypal/payment/execute/', {
+                payToken: data.paymentID,
+                payerId: data.payerID
+            }).then(function (res) {
 
-           // Execute the payment
-           return actions.payment.execute().then(function(data) {
-               console.log(data);
-               document.querySelector('#paypal-button-container').innerText = '';
-               window['BookingStep1Component'].component.doBooking(()=>{});
-           });
-       }
-
+                document.querySelector('#paypal-button-container').innerHTML = 'Payment Complete!';
+            });
+        }
       }, '#paypal-button-container');
+
     }, 500);
   }
 
@@ -138,7 +124,10 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
     }
 
     if (typeof travellers[i] ["passport"] == "undefined") {
-      travellers[i] ["passport"] = {};
+      travellers[i] ["passport"] = {
+        number: null,
+        country: null
+      };
     }
     let formFields = {
       firstName: [travellers[i].firstName, Validators.compose([Validators.required, validateFirstName, Validators.minLength(2), Validators.maxLength(30)])],
@@ -244,7 +233,7 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
     return true;
   }
 
-  doCreditCardPayment() {
+  doCardPayment() {
     if (this.isProcessing === true) {
       showAlert("Your previous request is under processing. Please wait for a while.", "info");
       return;
@@ -259,6 +248,13 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
     this.doBooking((booking) => {
       this.processPayment(booking);
     });
+  }
+
+  doPaypalPayment() {
+    if (! this.bookingForm.valid) {
+      showAlert("Invalid FormData supplied.", "danger");
+      return false;
+    }
   }
 
   doBooking(callback) {
@@ -301,9 +297,9 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
     let first_name = res[0];
     let last_name = res[1];
     paypal.configure({
-      'mode': 'sandbox', //sandbox or live
-      'client_id': 'AeNIxZgtK5ybDTEbj8kOwsC-apBuG6fs_eRgtyIq4qS5SzDOtTsBla2FIl3StvVhJHltFFf-RBSAyp7c',
-      'client_secret': 'EJkxMwNb1sfofwhXEgDf-epl-3qDmrwDIdRGoL0SD6iMJsFk4jn5r3ZDpAnvg7LRE5Xjcre-zlRvTHiA'
+     'mode': 'sandbox', //sandbox or live
+     'client_id': 'AeNIxZgtK5ybDTEbj8kOwsC-apBuG6fs_eRgtyIq4qS5SzDOtTsBla2FIl3StvVhJHltFFf-RBSAyp7c',
+     'client_secret': 'EJkxMwNb1sfofwhXEgDf-epl-3qDmrwDIdRGoL0SD6iMJsFk4jn5r3ZDpAnvg7LRE5Xjcre-zlRvTHiA'
     });
 
     var create_payment_json = {

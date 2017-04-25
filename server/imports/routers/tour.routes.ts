@@ -1,4 +1,6 @@
 import { Meteor } from "meteor/meteor";
+import * as bodyParser from "body-parser";
+
 declare var Picker: any;
 interface Pagination {
   limit: number;
@@ -8,7 +10,6 @@ interface Options extends Pagination {
   [key: string]: any
 };
 
-let bodyParser = require("body-parser");
 // Define our middleware using the Picker.middleware() method.
 Picker.middleware( bodyParser.json() );
 Picker.middleware( bodyParser.urlencoded( { extended: false } ) );

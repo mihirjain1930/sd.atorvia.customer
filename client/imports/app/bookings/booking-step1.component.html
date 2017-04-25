@@ -408,8 +408,8 @@
                       <p>By clicking the 'Next' button below, you have read and agreed width our <a href="javascript:void(0)"> Terms & Conditions</a> and <a href="javascript:void(0)"> Privacy Policy</a>for us to process your tour booking.</p>
                     </div>
                     <div class="col-sm-4">
-                      <button [hidden]="!payByCard.checked" type="button" class="btn green-btn" (click)="doCreditCardPayment()">Next<span><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
-                      <span [hidden]="!payByPaypal.checked" id="paypal-button-container"></span>
+                      <button [hidden]="!payByCard.checked" type="button" class="btn green-btn" (click)="doCardPayment()">Next<span><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
+                      <div [hidden]="!payByPaypal.checked" id="paypal-button-container"></div>
                     </div>
                   </div>
                 </div>

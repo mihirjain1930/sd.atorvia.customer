@@ -1,6 +1,7 @@
+import * as bodyParser from "body-parser";
+
 declare var Picker: any;
 
-let bodyParser = require("body-parser");
 // Define our middleware using the Picker.middleware() method.
 Picker.middleware( bodyParser.json() );
 Picker.middleware( bodyParser.urlencoded( { extended: false } ) );
