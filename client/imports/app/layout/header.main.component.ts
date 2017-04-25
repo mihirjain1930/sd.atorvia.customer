@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit, AfterViewInit } from '@angular/core';
+import { Component, Input, NgZone, OnInit, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { InjectUser } from "angular2-meteor-accounts-ui";
 import { MeteorComponent } from 'angular2-meteor';
@@ -14,6 +14,7 @@ import {showAlert} from "../shared/show-alert";
 @InjectUser('user')
 export class HeaderMainComponent extends MeteorComponent implements OnInit, AfterViewInit {
     pages: Page[];
+    @Input() displayMenu: boolean = true;
     constructor(private zone: NgZone, private router: Router, private localStorage: LocalStorageService, private sessionStorage: SessionStorageService) {
       super();
     }

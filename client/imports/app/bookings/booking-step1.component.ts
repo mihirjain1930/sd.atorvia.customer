@@ -22,7 +22,10 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
   bookingForm: FormGroup
   booking: Booking;
   tour: Tour;
+  cardType: string;
   isProcessing: boolean = false;
+  cardError: string = null;
+
   constructor(private router: Router, private zone: NgZone, private formBuilder: FormBuilder, private localStorage: LocalStorageService, private sessionStorage: SessionStorageService) {
     super();
   }
@@ -33,10 +36,10 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
       travellers: this.formBuilder.array([
       ]),
       nameOnCard: ['', Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(30), validateFirstName])],
-      cardNumber: ['', Validators.compose([Validators.required, CValidators.creditCard, Validators.minLength(15), Validators.maxLength(19)])],
+      cardNumber: ['', Validators.compose([Validators.required, CValidators.creditCard, Validators.minLength(12), Validators.maxLength(19)])],
       expiryMonth: ['', Validators.compose([Validators.required])],
       expiryYear: ['', Validators.compose([Validators.required])],
-      cvvNumber:  ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(3)])]
+      cvvNumber:  ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(4)])]
     });
     this.loadTravellers();
   }
@@ -114,11 +117,87 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
     this.bookingForm.controls['travellers'].controls[0].controls["state"].setValue(null);
   }
 
+  setCardType(number) {
+      this.cardType = null;
+
+      var re = new RegExp("^4");
+      if (number.match(re) != null) {
+       this.cardType = "visa";
+      }
+
+      // Mastercard
+      re = new RegExp("^5[1-5]");
+      if (number.match(re) != null) {
+       this.cardType = "mastercard";
+      }
+
+      // AMEX
+      re = new RegExp("^3[47]");
+      if (number.match(re) != null) {
+       this.cardType = "amex";
+      }
+
+      // Discover
+      re = new RegExp("^(6011|622(12[6-9]|1[3-9][0-9]|[2-8][0-9]{2}|9[0-1][0-9]|92[0-5]|64[4-9])|65)");
+      if (number.match(re) != null) {
+       this.cardType = "discover";
+      }
+  }
+
+  validateCard() {
+    let cardNumber = this.bookingForm.value.cardNumber;
+    let expiryMonth = this.bookingForm.value.expiryMonth;
+    let expiryYear = this.bookingForm.value.expiryYear;
+    let cvv = this.bookingForm.value.cvvNumber;
+    let today = new Date();
+    let expiryDate = new Date(`${expiryMonth}-01-${expiryYear}`)
+
+    this.cardError = null;
+
+    var cardno = /^([0-9]{12,19})$/;
+    if(! cardNumber.match(cardno))
+    {
+      this.cardError = "Invalid card number.";
+      return false;
+    }
+    
+    if (today > expiryDate) {
+      this.cardError = "Invalid expiry date.";
+      return false;
+    }
+
+    let month = /^([0-9]{2})$/;
+    if (! expiryMonth.match(month)) {
+      this.cardError = "Invalid expiry month.";
+      return false;
+    }
+
+    let year = /^([0-9]{4})$/;
+    if (! expiryYear.match(year)) {
+      this.cardError = "Invalid expiry year.";
+      return false;
+    }
+
+    let cvvNum = /^([0-9]{3,4})$/;
+    if (! cvv.match(cvvNum)) {
+      this.cardError = "Invalid CVV number.";
+      return false;
+    }
+
+    return true;
+  }
+
   doBooking() {
     if (this.isProcessing === true) {
       showAlert("Your previous request is under processing. Please wait for a while.", "info");
       return;
     }
+
+    if (! this.validateCard()) {
+      showAlert("Invalid card details", "danger");
+      return;
+    }
+
     this.isProcessing = true;
     let travellers = this.bookingForm.value.travellers;
     travellers.map((item) => {
@@ -148,7 +227,6 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
       }
       booking._id = res;
       this.processPayment(booking, cardDetails);
-
     });
 
   }
@@ -170,7 +248,7 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
               "payment_method": "credit_card",
               "funding_instruments": [{
                   "credit_card": {
-                      "type": "visa",
+                      "type": this.cardType,
                       "number": cardDetails.cardNumber,
                       "expire_month": cardDetails.expiryMonth,
                       "expire_year": cardDetails.expiryYear,

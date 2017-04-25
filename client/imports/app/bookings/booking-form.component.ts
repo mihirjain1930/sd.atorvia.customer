@@ -44,12 +44,12 @@ export class BookingFormComponent extends MeteorComponent implements OnInit, Aft
   ngOnInit() {
     let booking = <Booking> {};
     booking.numOfAdults = 1;
-    booking.numOfChild = 1;
+    booking.numOfChild = 0;
     booking.travellers = [];
 
     this.bookingForm = this.formBuilder.group({
       numOfAdults: [booking.numOfAdults, Validators.compose([Validators.required, CValidators.min(1), CValidators.max(30) ] ) ],
-      numOfChild: [booking.numOfChild, Validators.compose([CValidators.min(1), CValidators.max(30) ] ) ],
+      numOfChild: [booking.numOfChild, Validators.compose([CValidators.max(30) ] ) ],
     });
 
     this.booking = booking;

@@ -1,4 +1,4 @@
-<header-main *ngIf="!!user"></header-main>
+<header-main *ngIf="!!user" [displayMenu]="false"></header-main>
 <main class="payment">
   <booking-header [booking]="bookingDetails"></booking-header>
   <div class="grey-bg step-1">
@@ -304,11 +304,11 @@
                             <div class="form-group">
                               <label for="cardNumber">Card Number</label>
                               <div class="input-wrap">
-                                <input type="text" name="" class="form-control" id="cardNumber" placeholder="Credit number" formControlName="cardNumber">
+                                <input type="text" name="" class="form-control" id="cardNumber" placeholder="Credit number" formControlName="cardNumber" (keyup)="setCardType(cardNumber.value)" #cardNumber>
                               </div>
                               <div *ngIf="bookingForm.controls['cardNumber'].errors && bookingForm.controls['cardNumber'].touched" class="has-error">
               									<div *ngIf="bookingForm.controls.cardNumber.hasError('required')">You have to fill in Card Number to continue.</div>
-                                <div *ngIf="bookingForm.controls.cardNumber.hasError('minlength')">Min characters required is 15.</div>
+                                <div *ngIf="bookingForm.controls.cardNumber.hasError('minlength')">Min characters required is 12.</div>
                                 <div *ngIf="bookingForm.controls.cardNumber.hasError('maxlength')">Max characters allowed is 19.</div>
                                 <div *ngIf="bookingForm.controls.cardNumber.hasError('creditCard')">Please type valid Card Number.</div>
               								</div>
@@ -316,7 +316,10 @@
                           </div>
                           <div class="col-2">
                             <div class="side-img">
-                              <img src="images/visa.png" alt=""/>
+                              <span class="fa fa-cc-visa fa-2x" *ngIf="cardType=='visa'"></span>
+                              <span class="fa fa-cc-mastercard fa-2x" *ngIf="cardType=='mastercard'"></span>
+                              <span class="fa fa-cc-amex fa-2x" *ngIf="cardType=='amex'"></span>
+                              <span class="fa fa-cc-discover fa-2x" *ngIf="cardType=='discover'"></span>
                             </div>
                           </div>
                         </div>
@@ -375,7 +378,7 @@
                               <div *ngIf="bookingForm.controls['cvvNumber'].errors && bookingForm.controls['cvvNumber'].touched" class="has-error">
               									<div *ngIf="bookingForm.controls.cvvNumber.hasError('required')">You have to fill in CVV Number to continue.</div>
                                 <div *ngIf="bookingForm.controls.cvvNumber.hasError('minlength')">Min characters required is 3.</div>
-                                <div *ngIf="bookingForm.controls.cvvNumber.hasError('maxlength')">Max characters allowed is 3.</div>
+                                <div *ngIf="bookingForm.controls.cvvNumber.hasError('maxlength')">Max characters allowed is 4.</div>
               								</div>
                             </div>
                           </div>
@@ -384,6 +387,7 @@
                     </div>
                   </div>
                 </section>
+                <p *ngIf="!!cardError" class="process-wrap has-error">{{cardError}}</p>
                 <p *ngIf="isProcessing" class="process-wrap">Your request is under processing. Please wait for a while.</p>
                 <div class="form-group signup-option">
                   <div class="row">
