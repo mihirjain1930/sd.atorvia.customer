@@ -91,8 +91,8 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
         number: item["passport.number"],
         country: item["passport.country"]
       };
-      delete item["passport.number"];
-      delete item["passport.country"];
+      /*delete item["passport.number"];
+      delete item["passport.country"];*/
     })
 
     let booking = this.booking;
