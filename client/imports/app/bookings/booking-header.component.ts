@@ -12,12 +12,17 @@ import template from './booking-header.html';
 export class BookingHeaderComponent extends MeteorComponent {
     @Input() tour: Tour;
     @Input() booking: Booking;
-    
+    tax: number;
     constructor() {
         super();
     }
 
     get bookingDetails() {
-        return this.booking;
+      let booking = this.booking;
+      let taxPrice = booking.totalPrice;
+      let tax = (10/100) * taxPrice;
+      booking.tax = tax;
+      this.booking = booking;
+      return this.booking;
     }
 }

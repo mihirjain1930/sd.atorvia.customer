@@ -47,7 +47,7 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
     if (! this.bookingDetails) {
       return;
     }
-    
+
     this.bookingForm = this.formBuilder.group({
       travellers: this.formBuilder.array([
       ])

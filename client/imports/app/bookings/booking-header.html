@@ -36,7 +36,7 @@
                 </li>
                 <li class="col-md-4">
                     <h6>Travellers</h6>
-                    <p>{{bookingDetails.numOfTravellers}}</p>
+                    <p>{{bookingDetails.numOfTravellers}}[Adult: {{bookingDetails.numOfAdults}}, Child: {{bookingDetails.numOfChild}}]</p>
                 </li>
                 </ul>
             </div>
@@ -52,16 +52,18 @@
                     <p>Travellers: {{bookingDetails.numOfTravellers}}</p>
                 </div>
                 <div class="right-content">
-                    <h5>A$ {{bookingDetails.pricePerAdult}}</h5>
+                    <h5>AUD$ {{bookingDetails.pricePerAdult}}</h5>
                     <p>Tax Inclusive</p>
                 </div>
                 </li>
                 <li>
                 <div class="left-content">
                     <h5>Total purchases</h5>
+                    <h5>Taxes</h5>
                 </div>
                 <div class="right-content">
-                    <h2>AU$ {{bookingDetails.totalPrice}}</h2>
+                    <h2>AUD$ {{bookingDetails.totalPrice}}</h2>
+                    <p>AUD$ {{bookingDetails.tax}}</p>
                 </div>
                 </li>
             </ul>
