@@ -1,4 +1,4 @@
-<header-main *ngIf="!!user"></header-main>
+<header-main *ngIf="!! user" [displayMenu]="false"></header-main>
 <main class="payment confirmation" *ngIf="!! bookingDetails">
   <booking-header [booking]="bookingDetails"></booking-header>
   <div class="grey-bg step-1">
@@ -62,7 +62,7 @@
                         <dd class="col-8">AS0000000001</dd>
 
                         <dt class="col-4">Booking Date</dt>
-                        <dd class="col-8">{{bookingDetails.startDate | date}}</dd>
+                        <dd class="col-8">{{bookingDetails.bookingDate | date}}</dd>
 
                         <dt class="col-4">Contact Person</dt>
                         <dd class="col-8">{{bookingDetails.travellers[0].firstName}} {{bookingDetails.travellers[0].lastName}}</dd>
@@ -71,7 +71,8 @@
                         <dd class="col-8">{{bookingDetails.travellers[0].addressLine1}} {{bookingDetails.travellers[0].suburb}} {{bookingDetails.travellers[0].state}} {{bookingDetails.travellers[0].country}} {{bookingDetails.travellers[0].postCode}}</dd>
 
                         <dt class="col-sm-4">Payment Method</dt>
-                        <dd class="col-sm-8">Paypal</dd>
+                        <dd class="col-sm-8" *ngIf="bookingDetails.paymentInfo?.method=='express_checkout'">Paypal</dd>
+                        <dd class="col-sm-8" *ngIf="bookingDetails.paymentInfo?.method=='credit_card'">Credit Card</dd>
                       </dl>
                     </div>
                     <div class="travel-detail">

@@ -177,7 +177,9 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
     let redirectUrl = ['/tours', tour.slug];
     this.sessionStorage.store("redirectUrl", redirectUrl);
 
-    this.router.navigate(['/login']);
+    this.zone.run(() => {
+      this.router.navigate(['/login']);
+    });
   }
 
 }

@@ -140,11 +140,11 @@ Picker.route( '/api/1.0/paypal/payment/execute/', function( params, request, res
             html = `<html>
                 <head>
                     <title>Payment Successful</title>
-                    <meta http-equiv="refresh" content="5;url=${rootUrl}" >
+                    <meta http-equiv="refresh" content="5;url=${rootUrl}/booking/confirm" >
                 </head>
                 <body>
                   <p>Your payment was successful. Please wait, you are being redirected to main application.</p>
-                  <p><a href="/">Click here</a>, If you are not redirected automatically.</p>
+                  <p><a href="${rootUrl}/booking/confirm">Click here</a>, If you are not redirected automatically.</p>
                 </body>
             </html>`;
           }

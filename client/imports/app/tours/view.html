@@ -304,7 +304,7 @@
 										</td>
 										<td>
 											<button *ngIf="!user" type="button" class="btn green-btn" (click)="redirectToLogin()">BOOK</button>
-											<button *ngIf="!!user" type="button" class="btn green-btn" (click)="selDateRange=row; detectChanges();" data-toggle="modal" data-target="#bookTour">BOOK</button>
+											<button *ngIf="!!user && row.availableSeats>0" type="button" class="btn green-btn" (click)="selDateRange=row; detectChanges();" data-toggle="modal" data-target="#bookTour">BOOK</button>
 										</td>
 									</tr>
 								</tbody>
