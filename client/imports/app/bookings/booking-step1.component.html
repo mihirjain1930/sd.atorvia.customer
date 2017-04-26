@@ -33,9 +33,10 @@
             </ul>
           </div>
           <div class="col-md-8">
-            <form [formGroup]="bookingForm" #f="ngForm">
-              <div formArrayName="travellers">
-                <section class="right-wrap" *ngFor="let row of bookingForm.controls.travellers.controls; let i=index">
+            <form >
+              <div >
+                <div [formGroup]="bookingForm" #f="ngForm">
+                  <section  formArrayName="travellers" class="right-wrap" *ngFor="let row of bookingForm.controls.travellers.controls; let i=index">
                   <div class="tour-header">
                     <h3>Traveller {{i+1}}<span>* Required Fields</span>
                       <span class="pull-right">
@@ -276,8 +277,8 @@
                     </div>
                   </section>
                 </div>
-
-                <section class="right-wrap payment-wrap">
+                </div>
+                <section class="right-wrap payment-wrap" [formGroup]="cardForm">
                   <h3>Payment Method</h3>
                   <div class="row">
                     <div class="col-12">
@@ -301,11 +302,11 @@
                               <div class="input-wrap">
                                 <input type="text" name="" class="form-control" id="nameOnCard" placeholder="Name on card" formControlName="nameOnCard">
                               </div>
-                              <div *ngIf="bookingForm.controls['nameOnCard'].errors && bookingForm.controls['nameOnCard'].touched" class="has-error">
-                                <div *ngIf="bookingForm.controls.nameOnCard.hasError('required')">You have to fill in Name to continue.</div>
-                                <div *ngIf="bookingForm.controls.nameOnCard.hasError('minlength')">Min characters required is 2.</div>
-                                <div *ngIf="bookingForm.controls.nameOnCard.hasError('maxlength')">Max characters allowed is 30.</div>
-                                <div *ngIf="bookingForm.controls.nameOnCard.hasError('validateFirstName')">Please type valid Name to continue.</div>
+                              <div *ngIf="cardForm.controls['nameOnCard'].errors && cardForm.controls['nameOnCard'].touched" class="has-error">
+                                <div *ngIf="cardForm.controls.nameOnCard.hasError('required')">You have to fill in Name to continue.</div>
+                                <div *ngIf="cardForm.controls.nameOnCard.hasError('minlength')">Min characters required is 2.</div>
+                                <div *ngIf="cardForm.controls.nameOnCard.hasError('maxlength')">Max characters allowed is 30.</div>
+                                <div *ngIf="cardForm.controls.nameOnCard.hasError('validateFirstName')">Please type valid Name to continue.</div>
                               </div>
                             </div>
                           </div>
@@ -318,11 +319,11 @@
                               <div class="input-wrap">
                                 <input type="text" name="" class="form-control" id="cardNumber" placeholder="Credit number" formControlName="cardNumber" (keyup)="setCardType(cardNumber.value)" #cardNumber>
                               </div>
-                              <div *ngIf="bookingForm.controls['cardNumber'].errors && bookingForm.controls['cardNumber'].touched" class="has-error">
-                                <div *ngIf="bookingForm.controls.cardNumber.hasError('required')">You have to fill in Card Number to continue.</div>
-                                <div *ngIf="bookingForm.controls.cardNumber.hasError('minlength')">Min characters required is 12.</div>
-                                <div *ngIf="bookingForm.controls.cardNumber.hasError('maxlength')">Max characters allowed is 19.</div>
-                                <div *ngIf="bookingForm.controls.cardNumber.hasError('creditCard')">Please type valid Card Number.</div>
+                              <div *ngIf="cardForm.controls['cardNumber'].errors && cardForm.controls['cardNumber'].touched" class="has-error">
+                                <div *ngIf="cardForm.controls.cardNumber.hasError('required')">You have to fill in Card Number to continue.</div>
+                                <div *ngIf="cardForm.controls.cardNumber.hasError('minlength')">Min characters required is 12.</div>
+                                <div *ngIf="cardForm.controls.cardNumber.hasError('maxlength')">Max characters allowed is 19.</div>
+                                <div *ngIf="cardForm.controls.cardNumber.hasError('creditCard')">Please type valid Card Number.</div>
                               </div>
                             </div>
                           </div>
@@ -355,8 +356,8 @@
                                   <option>12</option>
                                 </select>
                               </div>
-                              <div *ngIf="bookingForm.controls['expiryMonth'].errors && bookingForm.controls['expiryMonth'].touched" class="has-error">
-                                <div *ngIf="bookingForm.controls.expiryMonth.hasError('required')">You have to select Expiry Year to continue.</div>
+                              <div *ngIf="cardForm.controls['expiryMonth'].errors && cardForm.controls['expiryMonth'].touched" class="has-error">
+                                <div *ngIf="cardForm.controls.expiryMonth.hasError('required')">You have to select Expiry Year to continue.</div>
                               </div>
                             </div>
                           </div>
@@ -374,8 +375,8 @@
                                   <option>2023</option>
                                 </select>
                               </div>
-                              <div *ngIf="bookingForm.controls['expiryYear'].errors && bookingForm.controls['expiryYear'].touched" class="has-error">
-                                <div *ngIf="bookingForm.controls.expiryYear.hasError('required')">You have to select Expiry Year to continue.</div>
+                              <div *ngIf="cardForm.controls['expiryYear'].errors && cardForm.controls['expiryYear'].touched" class="has-error">
+                                <div *ngIf="cardForm.controls.expiryYear.hasError('required')">You have to select Expiry Year to continue.</div>
                               </div>
                             </div>
                           </div>
@@ -387,10 +388,10 @@
                               <div class="input-wrap">
                                 <input type="text" name="" class="form-control" id="cvv" placeholder="CVV" formControlName="cvvNumber">
                               </div>
-                              <div *ngIf="bookingForm.controls['cvvNumber'].errors && bookingForm.controls['cvvNumber'].touched" class="has-error">
-                                <div *ngIf="bookingForm.controls.cvvNumber.hasError('required')">You have to fill in CVV Number to continue.</div>
-                                <div *ngIf="bookingForm.controls.cvvNumber.hasError('minlength')">Min characters required is 3.</div>
-                                <div *ngIf="bookingForm.controls.cvvNumber.hasError('maxlength')">Max characters allowed is 4.</div>
+                              <div *ngIf="cardForm.controls['cvvNumber'].errors && cardForm.controls['cvvNumber'].touched" class="has-error">
+                                <div *ngIf="cardForm.controls.cvvNumber.hasError('required')">You have to fill in CVV Number to continue.</div>
+                                <div *ngIf="cardForm.controls.cvvNumber.hasError('minlength')">Min characters required is 3.</div>
+                                <div *ngIf="cardForm.controls.cvvNumber.hasError('maxlength')">Max characters allowed is 4.</div>
                               </div>
                             </div>
                           </div>
@@ -409,7 +410,7 @@
                     </div>
                     <div class="col-sm-4">
                       <button [hidden]="!payByCard.checked" type="button" class="btn green-btn" (click)="doCardPayment()">Next<span><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
-                      <div [hidden]="!payByPaypal.checked" id="paypal-button-container"></div>
+                      <div [hidden]="!payByPaypal.checked || !bookingForm.valid" id="paypal-button-container"></div>
                     </div>
                   </div>
                 </div>

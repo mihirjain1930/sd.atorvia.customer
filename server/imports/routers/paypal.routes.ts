@@ -26,14 +26,16 @@ Picker.route( '/api/1.0/paypal/token/create', function( params, request, respons
 });
 
 Picker.route( '/api/1.0/paypal/payment/create', function( params, request, response, next ) {
+  let body = request.body;
+  console.log(body.booking.tour.name);
   let create_payment_json = {
     "intent": "sale",
     "payer": {
         "payment_method": "paypal"
     },
     "redirect_urls": {
-        "return_url": "http://localhost:8082/booking/step2",
-        "cancel_url": "http://localhost:8082/tours/search"
+        "return_url": "http://localhost:8081/booking/step2",
+        "cancel_url": "http://localhost:8081/tours/search"
     },
     "transactions": [{
         "item_list": {

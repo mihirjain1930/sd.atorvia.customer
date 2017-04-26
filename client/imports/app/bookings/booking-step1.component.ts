@@ -19,7 +19,8 @@ import template from './booking-step1.component.html';
 })
 @InjectUser('user')
 export class BookingStep1Component extends MeteorComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy  {
-  bookingForm: FormGroup
+  bookingForm: FormGroup;
+  cardForm: FormGroup;
   booking: Booking;
   tour: Tour;
   cardType: string;
@@ -29,21 +30,23 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
   constructor(private router: Router, private zone: NgZone, private formBuilder: FormBuilder, private localStorage: LocalStorageService, private sessionStorage: SessionStorageService) {
     super();
 
-    window['BookingStep1Component'] = {component: this, zone: zone};
+    window['BookingStep1Component'] = {component: this};
   }
 
   ngOnInit() {
     this.booking = <Booking>this.sessionStorage.retrieve("bookingDetails");
     this.bookingForm = this.formBuilder.group({
       travellers: this.formBuilder.array([
-      ]),
+      ])
+    });
+    this.loadTravellers();
+    this.cardForm = this.formBuilder.group({
       nameOnCard: ['', Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(30), validateFirstName])],
       cardNumber: ['', Validators.compose([Validators.required, CValidators.creditCard, Validators.minLength(12), Validators.maxLength(19)])],
       expiryMonth: ['', Validators.compose([Validators.required])],
       expiryYear: ['', Validators.compose([Validators.required])],
       cvvNumber:  ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(4)])]
-    });
-    this.loadTravellers();
+    })
   }
 
   ngAfterViewChecked() {
@@ -71,7 +74,9 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
 
             // Make a call to the merchant server to set up the payment
 
-            return paypal.request.post('/api/1.0/paypal/payment/create/').then(function(res) {
+            return paypal.request.post('/api/1.0/paypal/payment/create/', {
+              booking: window['BookingStep1Component'].component.bookingDetails
+            }).then(function(res) {
                 return res.payToken;
             });
         },
@@ -86,7 +91,6 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
                 payToken: data.paymentID,
                 payerId: data.payerID
             }).then(function (res) {
-
                 document.querySelector('#paypal-button-container').innerHTML = 'Payment Complete!';
             });
         }
@@ -105,7 +109,19 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
   }
 
   get bookingDetails() {
-    return this.booking;
+    let travellers = this.bookingForm.value.travellers;
+    travellers.map((item) => {
+      item.passport = {
+        number: item["passport.number"],
+        country: item["passport.country"]
+      };
+      delete item["passport.number"];
+      delete item["passport.country"];
+    })
+
+    let booking = this.booking;
+    booking.travellers = travellers;
+    return booking;
   }
 
   private loadTravellers() {
@@ -191,10 +207,10 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
   }
 
   validateCard() {
-    let cardNumber = this.bookingForm.value.cardNumber;
-    let expiryMonth = this.bookingForm.value.expiryMonth;
-    let expiryYear = this.bookingForm.value.expiryYear;
-    let cvv = this.bookingForm.value.cvvNumber;
+    let cardNumber = this.cardForm.value.cardNumber;
+    let expiryMonth = this.cardForm.value.expiryMonth;
+    let expiryYear = this.cardForm.value.expiryYear;
+    let cvv = this.cardForm.value.cvvNumber;
     let today = new Date();
     let expiryDate = new Date(`${expiryMonth}-01-${expiryYear}`)
 
@@ -234,6 +250,11 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
   }
 
   doCardPayment() {
+    if (! this.bookingForm.valid || ! this.cardForm.valid) {
+      showAlert("Invalid FormData supplied.", "danger");
+      return;
+    }
+
     if (this.isProcessing === true) {
       showAlert("Your previous request is under processing. Please wait for a while.", "info");
       return;
@@ -258,21 +279,10 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
   }
 
   doBooking(callback) {
-    let travellers = this.bookingForm.value.travellers;
-    travellers.map((item) => {
-      item.passport = {
-        number: item["passport.number"],
-        country: item["passport.country"]
-      };
-      delete item["passport.number"];
-      delete item["passport.country"];
-    })
-
-    let booking = this.booking;
-    booking.travellers = travellers;
+    let booking = this.bookingDetails;
 
     // save booking data into session
-    this.sessionStorage.store("bookingDetails", this.booking);
+    this.sessionStorage.store("bookingDetails", booking);
     this.call("bookings.insert", booking, (err, res) => {
       if (err) {
         showAlert(err.reason, "danger");
@@ -287,11 +297,11 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
   processPayment(booking) {
     let paypal = require('paypal-rest-sdk');
     let cardDetails = {
-      nameOnCard: this.bookingForm.value.nameOnCard,
-      cardNumber: this.bookingForm.value.cardNumber,
-      expiryMonth: this.bookingForm.value.expiryMonth,
-      expiryYear: this.bookingForm.value.expiryYear,
-      cvvNumber: this.bookingForm.value.cvvNumber
+      nameOnCard: this.cardForm.value.nameOnCard,
+      cardNumber: this.cardForm.value.cardNumber,
+      expiryMonth: this.cardForm.value.expiryMonth,
+      expiryYear: this.cardForm.value.expiryYear,
+      cvvNumber: this.cardForm.value.cvvNumber
     }
     let res = cardDetails.nameOnCard.split(" ");
     let first_name = res[0];
