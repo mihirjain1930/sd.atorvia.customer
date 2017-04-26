@@ -1,5 +1,5 @@
 <header-main *ngIf="!!user"></header-main>
-<main class="payment confirmation">
+<main class="payment confirmation" *ngIf="!! bookingDetails">
   <booking-header [booking]="bookingDetails"></booking-header>
   <div class="grey-bg step-1">
     <div class="container">

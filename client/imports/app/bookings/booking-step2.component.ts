@@ -19,7 +19,7 @@ import template from './booking-step2.component.html';
 })
 @InjectUser('user')
 export class BookingStep2Component extends MeteorComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy  {
-  booking: Booking;
+  booking: Booking = null;
   tour: Tour;
 
   constructor(private router: Router, private zone: NgZone, private formBuilder: FormBuilder, private localStorage: LocalStorageService, private sessionStorage: SessionStorageService) {
@@ -30,7 +30,14 @@ export class BookingStep2Component extends MeteorComponent implements OnInit, Af
   }
 
   ngOnInit() {
-    this.booking = <Booking>this.sessionStorage.retrieve("bookingDetails");
+    let bookingId = this.sessionStorage.retrieve("bookingId");
+    this.call("bookings.findOne", {_id: bookingId}, (err, result) => {
+      if (err) {
+        showAlert(err.reason, "danger");
+        return;
+      }
+      this.booking = <Booking>result;
+    })
   }
 
   ngAfterViewInit() {

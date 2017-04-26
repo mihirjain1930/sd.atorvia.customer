@@ -124,11 +124,10 @@
                               <div class="form-group">
                                 <div class="select-style">
                                   <select class="select" [id]="'country'+i" formControlName="passport.country">
-                                    <option value="India">India</option>
-                                    <option value="Australia">Australia</option>
-                                    <option value="China">China</option>
-                                    <option value="Vietnam">Vietnam</option>
-                                    <option value="New Zealand">New Zealand</option>
+                                    <option value="IN">India</option>
+                                    <option value="AU">Australia</option>
+                                    <option value="CN">China</option>
+                                    <option value="NZ">New Zealand</option>
                                   </select>
                                 </div>
                                 <div *ngIf="bookingForm.controls.travellers.controls[i].controls['passport.country'].errors && bookingForm.controls.travellers.controls[i].controls['passport.country'].touched" class="has-error">
@@ -218,7 +217,7 @@
                               <label for="state">STATE/PROVINCE *</label>
                               <div class="form-group">
                                 <div class="select-style">
-                                  <select *ngIf="country.value == 'Australia'" class="select" formControlName="state" id="stateSelect">
+                                  <select *ngIf="country.value == 'AU'" class="select" formControlName="state" id="stateSelect">
                                     <option>New South Wales</option>
                                     <option>Queensland</option>
                                     <option>Victoria</option>
@@ -226,7 +225,7 @@
                                     <option>Western Australia</option>
                                     <option>South Australia</option>
                                   </select>
-                                  <input *ngIf="country.value != 'Australia'" type="text" class="form-control" id="state" placeholder="State" formControlName="state" #stateValue/>
+                                  <input *ngIf="country.value != 'AU'" type="text" class="form-control" id="state" placeholder="State" formControlName="state" #stateValue/>
                                 </div>
                                 <div *ngIf="bookingForm.controls.travellers.controls[i].controls.state.errors && bookingForm.controls.travellers.controls[i].controls.state.touched" class="has-error">
                                   <div *ngIf="bookingForm.controls.travellers.controls[i].controls.state.hasError('required')">You have to fill in State to continue.</div>
@@ -256,12 +255,11 @@
                               <label for="Country">COUNTRY *</label>
                               <div class="form-group">
                                 <div class="select-style">
-                                  <select class="select" formControlName="country" #country (change)="resetStateValue()">
-                                    <option value="India">India</option>
-                                    <option value="Australia">Australia</option>
-                                    <option value="China">China</option>
-                                    <option value="Vietnam">Vietnam</option>
-                                    <option value="New Zealand">New Zealand</option>
+                                  <select class="select" formControlName="country" #country (change)="resetStateValue(country.value)">
+                                    <option value="IN">India</option>
+                                    <option value="AU">Australia</option>
+                                    <option value="CN">China</option>
+                                    <option value="NZ">New Zealand</option>
                                   </select>
                                 </div>
                                 <div *ngIf="bookingForm.controls.travellers.controls[i].controls.country.errors && bookingForm.controls.travellers.controls[i].controls.country.touched" class="has-error">
@@ -283,11 +281,11 @@
                   <div class="row">
                     <div class="col-12">
                       <div class="radio-wrap">
-                        <input id="radio-a" class="radio-custom" name="radio-group" checked type="radio" #payByPaypal>
+                        <input id="radio-a" class="radio-custom" name="radio-group" checked type="radio" #payByPaypal (click)="detectChanges()">
                         <label for="radio-a" class="radio-custom-label"><img src="images/paypal.png" alt=""></label>
                       </div>
                       <div class="radio-wrap">
-                        <input id="radio-b" class="radio-custom" name="radio-group" type="radio" #payByCard>
+                        <input id="radio-b" class="radio-custom" name="radio-group" type="radio" #payByCard (click)="detectChanges()">
                         <label for="radio-b" class="radio-custom-label">Visa / Master</label>
                       </div>
                     </div>
@@ -329,10 +327,10 @@
                           </div>
                           <div class="col-2">
                             <div class="side-img">
-                              <span class="fa fa-cc-visa fa-2x" *ngIf="cardType=='visa'"></span>
-                              <span class="fa fa-cc-mastercard fa-2x" *ngIf="cardType=='mastercard'"></span>
-                              <span class="fa fa-cc-amex fa-2x" *ngIf="cardType=='amex'"></span>
-                              <span class="fa fa-cc-discover fa-2x" *ngIf="cardType=='discover'"></span>
+                              <span class="fa fa-cc-visa fa-2x" *ngIf="cardForm.value.cardType=='visa'"></span>
+                              <span class="fa fa-cc-mastercard fa-2x" *ngIf="cardForm.value.cardType=='mastercard'"></span>
+                              <span class="fa fa-cc-amex fa-2x" *ngIf="cardForm.value.cardType=='amex'"></span>
+                              <span class="fa fa-cc-discover fa-2x" *ngIf="cardForm.value.cardType=='discover'"></span>
                             </div>
                           </div>
                         </div>
@@ -409,8 +407,8 @@
                       <p>By clicking the 'Next' button below, you have read and agreed width our <a href="javascript:void(0)"> Terms & Conditions</a> and <a href="javascript:void(0)"> Privacy Policy</a>for us to process your tour booking.</p>
                     </div>
                     <div class="col-sm-4">
-                      <button [hidden]="!payByCard.checked" type="button" class="btn green-btn" (click)="doCardPayment()">Next<span><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
-                      <div [hidden]="!payByPaypal.checked || !bookingForm.valid" id="paypal-button-container"></div>
+                      <button [hidden]="!payByCard.checked" [disabled]="!bookingForm.valid || !cardForm.valid" type="button" class="btn green-btn" (click)="doCardPayment()">Next<span><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
+                      <button [hidden]="!payByPaypal.checked" [disabled]="!bookingForm.valid" type="button" class="btn green-btn" (click)="doPaypalPayment()">Next<span><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
                     </div>
                   </div>
                 </div>

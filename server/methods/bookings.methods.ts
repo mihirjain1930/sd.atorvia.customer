@@ -19,7 +19,6 @@ Meteor.methods({
             image: user.profile.image
         };
         booking.bookingDate = new Date();
-        booking.paymentDate = new Date();
         booking.createdAt = new Date();
         booking.active = true;
         booking.confirmed = false;
@@ -55,26 +54,19 @@ Meteor.methods({
         }
         return bookingId;
     },
-    "bookings.insertpayment": (id:string, payment: any) => {
-      let user = Meteor.user();
-      payment.userId = user._id;
-      payment.bookingId = id;
-      try {
-         var transactionId = Transactions.collection.insert(payment);
-      } catch (err) {
-          console.log(err.message);
-          throw new Meteor.Error(500, "Error while creating new booking. Please resubmit after checking details.");
+    "bookings.findOne": (criteria: any) => {
+      let where:any = [];
+      where.push({
+          "$or": [{deleted: false}, {deleted: {$exists: false} }]
+      }, {
+        "$or": [{active: true}, {active: {$exists: false} }]
+      });
+      if (_.isEmpty(criteria)) {
+        criteria = { };
       }
+      where.push(criteria);
 
-      try {
-          Bookings.collection.update({_id: id}, {$set: {
-              paymentDate: new Date(),
-              transactionId: transactionId,
-              paypaltransactionId: payment.id
-          } });
-      } catch (err) {
-          console.log("Error while updating payment details in booking object.")
-          console.log(err.message);
-      }
-    }
+      return Bookings.collection.findOne({$and: where});
+    },
+    
 })

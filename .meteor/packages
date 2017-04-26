@@ -36,3 +36,4 @@ service-configuration
 meteorhacks:picker
 jalik:ufs
 jalik:ufs-local
+http

@@ -1,9 +1,10 @@
-import { Component, OnInit, AfterViewInit, AfterViewChecked, OnDestroy, NgZone } from '@angular/core';
+import { Component, OnInit, AfterViewInit, AfterViewChecked, OnDestroy, NgZone, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators as Validators } from '@angular/forms';
 import { CustomValidators as CValidators } from "ng2-validation";
 import { Router } from '@angular/router';
 import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
+import { HTTP } from "meteor/http";
 import { InjectUser } from "angular2-meteor-accounts-ui";
 import { MeteorComponent } from 'angular2-meteor';
 import { LocalStorageService, SessionStorageService } from 'ng2-webstorage';
@@ -12,6 +13,7 @@ import { Booking } from "../../../../both/models/booking.model";
 import { Tour } from "../../../../both/models/tour.model";
 import { showAlert } from "../shared/show-alert";
 import template from './booking-step1.component.html';
+import * as _ from 'underscore';
 
 @Component({
   selector: '',
@@ -23,14 +25,18 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
   cardForm: FormGroup;
   booking: Booking;
   tour: Tour;
-  cardType: string;
   isProcessing: boolean = false;
   cardError: string = null;
 
-  constructor(private router: Router, private zone: NgZone, private formBuilder: FormBuilder, private localStorage: LocalStorageService, private sessionStorage: SessionStorageService) {
+  constructor(private router: Router,
+    private zone: NgZone,
+    private formBuilder: FormBuilder,
+    private localStorage: LocalStorageService,
+    private sessionStorage: SessionStorageService,
+    private changeDetectorRef: ChangeDetectorRef) {
     super();
 
-    window['BookingStep1Component'] = {component: this};
+    window['BookingStep1Component'] = {component: this, zone: this.zone};
   }
 
   ngOnInit() {
@@ -45,7 +51,8 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
       cardNumber: ['', Validators.compose([Validators.required, CValidators.creditCard, Validators.minLength(12), Validators.maxLength(19)])],
       expiryMonth: ['', Validators.compose([Validators.required])],
       expiryYear: ['', Validators.compose([Validators.required])],
-      cvvNumber:  ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(4)])]
+      cvvNumber:  ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(4)])],
+      cardType: ['']
     })
   }
 
@@ -60,51 +67,18 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
 
         $(".tour-details").css("height", rightImage +"px");
       });
-      // Render the PayPal button
-
-      paypal.Button.render({
-
-        // Set your environment
-
-        env: 'sandbox', // sandbox | production
-
-        // Wait for the PayPal button to be clicked
-
-        payment: function() {
-
-            // Make a call to the merchant server to set up the payment
-
-            return paypal.request.post('/api/1.0/paypal/payment/create/', {
-              booking: window['BookingStep1Component'].component.bookingDetails
-            }).then(function(res) {
-                return res.payToken;
-            });
-        },
-
-        // Wait for the payment to be authorized by the customer
-
-        onAuthorize: function(data, actions) {
-
-            // Make a call to the merchant server to execute the payment
-
-            return paypal.request.post('/api/1.0/paypal/payment/execute/', {
-                payToken: data.paymentID,
-                payerId: data.payerID
-            }).then(function (res) {
-                document.querySelector('#paypal-button-container').innerHTML = 'Payment Complete!';
-            });
-        }
-      }, '#paypal-button-container');
-
     }, 500);
   }
 
   ngOnDestroy() {
   }
 
-  public doPayment() {
+  detectChanges() {
+    this.changeDetectorRef.detectChanges();
+  }
+
+  set bookingId(value: string) {
     this.zone.run(() => {
-    console.log('inside do payment method test');
     });
   }
 
@@ -175,35 +149,39 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
     control.push(this.initTraveller(i));
   }
 
-  resetStateValue() {
-    this.bookingForm.controls['travellers'].controls[0].controls["state"].setValue(null);
+  resetStateValue(country) {
+    if (country == "AU") {
+      this.bookingForm.controls['travellers'] ["controls"] [0].controls["state"].setValue(null);
+    }
   }
 
   setCardType(number) {
-      this.cardType = null;
+      let cardType = null;
 
       var re = new RegExp("^4");
       if (number.match(re) != null) {
-       this.cardType = "visa";
+       cardType = "visa";
       }
 
       // Mastercard
       re = new RegExp("^5[1-5]");
       if (number.match(re) != null) {
-       this.cardType = "mastercard";
+       cardType = "mastercard";
       }
 
       // AMEX
       re = new RegExp("^3[47]");
       if (number.match(re) != null) {
-       this.cardType = "amex";
+       cardType = "amex";
       }
 
       // Discover
       re = new RegExp("^(6011|622(12[6-9]|1[3-9][0-9]|[2-8][0-9]{2}|9[0-1][0-9]|92[0-5]|64[4-9])|65)");
       if (number.match(re) != null) {
-       this.cardType = "discover";
+       cardType = "discover";
       }
+
+      this.cardForm.controls.cardType.setValue(cardType);
   }
 
   validateCard() {
@@ -267,104 +245,115 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
 
     this.isProcessing = true;
     this.doBooking((booking) => {
-      this.processPayment(booking);
+      this.processCardPayment(booking);
     });
   }
 
   doPaypalPayment() {
-    if (! this.bookingForm.valid) {
+    if (! this.bookingForm.valid ) {
       showAlert("Invalid FormData supplied.", "danger");
-      return false;
+      return;
     }
+
+    if (this.isProcessing === true) {
+      showAlert("Your previous request is under processing. Please wait for a while.", "info");
+      return;
+    }
+
+    this.isProcessing = true;
+    this.doBooking((booking) => {
+      this.processPaypalPayment(booking);
+    });
   }
 
   doBooking(callback) {
     let booking = this.bookingDetails;
 
-    // save booking data into session
-    this.sessionStorage.store("bookingDetails", booking);
     this.call("bookings.insert", booking, (err, res) => {
       if (err) {
         showAlert(err.reason, "danger");
         return;
       }
       booking._id = res;
+      booking.user = <any>{
+        id: Meteor.userId()
+      }
+      this.sessionStorage.store("bookingId", res);
       callback(booking);
     });
 
   }
 
-  processPayment(booking) {
-    let paypal = require('paypal-rest-sdk');
-    let cardDetails = {
+  processCardPayment(booking) {
+    let cardDetails: any = {
       nameOnCard: this.cardForm.value.nameOnCard,
       cardNumber: this.cardForm.value.cardNumber,
       expiryMonth: this.cardForm.value.expiryMonth,
       expiryYear: this.cardForm.value.expiryYear,
-      cvvNumber: this.cardForm.value.cvvNumber
+      cvvNumber: this.cardForm.value.cvvNumber,
+      cardType: this.cardForm.value.cardType
     }
     let res = cardDetails.nameOnCard.split(" ");
-    let first_name = res[0];
-    let last_name = res[1];
-    paypal.configure({
-     'mode': 'sandbox', //sandbox or live
-     'client_id': 'AeNIxZgtK5ybDTEbj8kOwsC-apBuG6fs_eRgtyIq4qS5SzDOtTsBla2FIl3StvVhJHltFFf-RBSAyp7c',
-     'client_secret': 'EJkxMwNb1sfofwhXEgDf-epl-3qDmrwDIdRGoL0SD6iMJsFk4jn5r3ZDpAnvg7LRE5Xjcre-zlRvTHiA'
+    cardDetails.firstName = res[0];
+    if ( res[1] ) {
+      cardDetails.lastName = res[1];
+    } else {
+      cardDetails.lastName = res[0];
+    }
+
+    HTTP.call("POST", "/api/1.0/paypal/card-payment/create", {
+      data: {
+        cardDetails: cardDetails,
+        booking: booking
+      }
+    }, (error, result) => {
+      this.isProcessing = false;
+      console.log(result);
+      let response = JSON.parse(result.content);
+      if (! response.success) {
+        showAlert("Payment processing failed at server. Please recheck your details and try again.", "danger");
+        return;
+      } else {
+        this.zone.run(() => {
+          showAlert("Thank you for booking your trip with us. You will receive confirmation email very soon.", "success")
+          this.router.navigate(['/booking/step2']);
+        });
+      }
     });
 
-    var create_payment_json = {
-          "intent": "sale",
-          "payer": {
-              "payment_method": "credit_card",
-              "funding_instruments": [{
-                  "credit_card": {
-                      "type": this.cardType,
-                      "number": cardDetails.cardNumber,
-                      "expire_month": cardDetails.expiryMonth,
-                      "expire_year": cardDetails.expiryYear,
-                      "cvv2": cardDetails.cvvNumber,
-                      "first_name": first_name,
-                      "last_name": last_name,
-                      "billing_address": {
-                          "line1": booking.travellers[0].addressLine1,
-                          "city": booking.travellers[0].suburb,
-                          "state": booking.travellers[0].state,
-                          "postal_code": booking.travellers[0].postCode,
-                          "country_code": "IN"
-                      }
-                  }
-              }]
-          },
-          "transactions": [{
-              "amount": {
-                  "total": booking.totalPrice,
-                  "currency": "AUD"
-              },
-              "description": "This is the payment transaction description."
-          }]
-      };
-
-    let self = this;
-
-    paypal.payment.create(create_payment_json, function (error, payment) {
-        if (error) {
-            self.isProcessing = false;
-            showAlert("Payment processing failed at server. Please recheck your details and try again.", "danger");
-        } else {
-            self.call("bookings.insertpayment", booking._id, payment, (err, res) => {
-              self.isProcessing = false;
-              if (err) {
-                showAlert(err.reason, "danger");
-                return;
-              }
-              self.zone.run(() => {
-                showAlert("Thank you for booking your trip with us. You will receive confirmation email very soon.", "success")
-                self.router.navigate(['/booking/step2']);
-              });
-            })
-        }
-    });
   }
 
+  processPaypalPayment(booking) {
+    HTTP.call("POST", "/api/1.0/paypal/payment/create", {
+      data: {
+        booking: booking
+      }
+    }, (error, result) => {
+      if (error) {
+        console.log(error);
+      } else {
+        let response = JSON.parse(result.content);
+
+        // check whether redirect url exists in response.
+        if (! response.links || ! response.links.length) {
+          this.isProcessing = false;
+          showAlert("Error while initialization of payment request. Please try again after rechecking the details.");
+          return;
+        }
+
+        // redirect to paypal website to complete payment
+        alert("Payment initialization has been done. You will be redirected now to complete the payment.")
+        let approvalUrl = <any>_.find(response.links, {rel: "approval_url"});
+        window.location.href = approvalUrl.href;
+      }
+    })
+  }
+
+  goToStep2() {
+    this.sessionStorage.store("bookingId", this.booking._id);
+    this.zone.run(() => {
+      this.router.navigate(["/booking/step2"]);
+    });
+  }
 
 }
