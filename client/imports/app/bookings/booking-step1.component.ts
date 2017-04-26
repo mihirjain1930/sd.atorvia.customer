@@ -10,9 +10,8 @@ import { MeteorComponent } from 'angular2-meteor';
 import { LocalStorageService, SessionStorageService } from 'ng2-webstorage';
 import { validateEmail, validatePhoneNum, validateFirstName, validatePassportNum } from "../../validators/common";
 import { Booking } from "../../../../both/models/booking.model";
-import { Tour } from "../../../../both/models/tour.model";
 import { showAlert } from "../shared/show-alert";
-import template from './booking-step1.component.html';
+import template from './booking-step1.html';
 import * as _ from 'underscore';
 
 @Component({
@@ -24,9 +23,9 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
   bookingForm: FormGroup;
   cardForm: FormGroup;
   booking: Booking;
-  tour: Tour;
   isProcessing: boolean = false;
   cardError: string = null;
+  hideCardForm: boolean = true;
 
   constructor(private router: Router,
     private zone: NgZone,
@@ -36,11 +35,19 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
     private changeDetectorRef: ChangeDetectorRef) {
     super();
 
-    window['BookingStep1Component'] = {component: this, zone: this.zone};
+    this.booking = <Booking>this.sessionStorage.retrieve("bookingDetails");
+    if (! this.booking) {
+      this.zone.run(() => {
+        this.router.navigate(['/tours/search']);
+      });
+    }
   }
 
   ngOnInit() {
-    this.booking = <Booking>this.sessionStorage.retrieve("bookingDetails");
+    if (! this.bookingDetails) {
+      return;
+    }
+    
     this.bookingForm = this.formBuilder.group({
       travellers: this.formBuilder.array([
       ])
@@ -77,12 +84,11 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
     this.changeDetectorRef.detectChanges();
   }
 
-  set bookingId(value: string) {
-    this.zone.run(() => {
-    });
-  }
-
   get bookingDetails() {
+    if (! this.booking) {
+      return null;
+    }
+
     let travellers = this.bookingForm.value.travellers;
     travellers.map((item) => {
       item.passport = {
@@ -129,9 +135,12 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
       postCode: [travellers[i].postCode, Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(12)])],
       state: [travellers[i].state, Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(30)])],
       country: [travellers[i].country, Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(30)])],
-      "passport.country": [travellers[i].passport.country, Validators.compose([Validators.required])],
-      "passport.number": [travellers[i].passport.number, Validators.compose([Validators.required, Validators.minLength(7), Validators.maxLength(15)])],
       specialRequest: [travellers[i].specialRequest, Validators.compose([])],
+    }
+
+    if (this.bookingDetails.tour.hasFlight) {
+      formFields["passport.country"] = [travellers[i].passport.country, Validators.compose([Validators.required])];
+      formFields["passport.number"] = [travellers[i].passport.number, Validators.compose([Validators.required, Validators.minLength(7), Validators.maxLength(15)])];
     }
 
     if (i==0) {
@@ -279,6 +288,7 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
         id: Meteor.userId()
       }
       this.sessionStorage.store("bookingId", res);
+      this.sessionStorage.clear("bookingDetails");
       callback(booking);
     });
 
@@ -316,7 +326,7 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
       } else {
         this.zone.run(() => {
           showAlert("Thank you for booking your trip with us. You will receive confirmation email very soon.", "success")
-          this.router.navigate(['/booking/step2']);
+          this.router.navigate(['/booking/confirm']);
         });
       }
     });
@@ -350,10 +360,17 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
   }
 
   goToStep2() {
-    this.sessionStorage.store("bookingId", this.booking._id);
-    this.zone.run(() => {
-      this.router.navigate(["/booking/step2"]);
+    if (! this.bookingForm.valid) {
+      showAlert("Invalid FormData supplied.", "danger");
+      return;
+    }
+
+    this.isProcessing = true;
+    this.doBooking((booking) => {
+      this.isProcessing = false;
+      this.zone.run(() => {
+        this.router.navigate(['/booking/step2']);
+      });
     });
   }
-
 }

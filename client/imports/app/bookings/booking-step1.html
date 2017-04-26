@@ -1,5 +1,5 @@
-<header-main *ngIf="!!user" [displayMenu]="false"></header-main>
-<main class="payment">
+<header-main *ngIf="!! user" [displayMenu]="false"></header-main>
+<main class="payment" *ngIf="!! bookingDetails">
   <booking-header [booking]="bookingDetails"></booking-header>
   <div class="grey-bg step-1">
     <div class="container">
@@ -15,7 +15,7 @@
                 </div>
               </a>
             </li>
-            <li class="disabled">
+            <li class="disabled" *ngIf="bookingDetails.tour.hasFlight">
               <a href="javascript:void(0)">
                 <span>2</span>
                 <div class="tab-detail">
@@ -24,7 +24,8 @@
               </li>
               <li class="disabled">
                 <a href="javascript:void(0)">
-                  <span>3</span>
+                  <span *ngIf="bookingDetails.tour.hasFlight">3</span>
+                  <span *ngIf="! bookingDetails.tour.hasFlight">2</span>
                   <div class="tab-detail">
                     <h4>Confirmation</h4>
                   </div>
@@ -117,7 +118,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="row">
+                        <div class="row" *ngIf="bookingDetails.tour.hasFlight">
                           <div class="col-sm-6">
                             <div class="form-group">
                               <label [for]="'country'+i">Passport Country *</label>
@@ -276,21 +277,21 @@
                   </section>
                 </div>
                 </div>
-                <section class="right-wrap payment-wrap" [formGroup]="cardForm">
+                <section class="right-wrap payment-wrap" [formGroup]="cardForm" *ngIf="! bookingDetails.tour.hasFlight">
                   <h3>Payment Method</h3>
                   <div class="row">
                     <div class="col-12">
                       <div class="radio-wrap">
-                        <input id="radio-a" class="radio-custom" name="radio-group" checked type="radio" #payByPaypal (click)="detectChanges()">
+                        <input id="radio-a" class="radio-custom" name="radio-group" checked type="radio" (click)="hideCardForm=true; detectChanges()">
                         <label for="radio-a" class="radio-custom-label"><img src="images/paypal.png" alt=""></label>
                       </div>
                       <div class="radio-wrap">
-                        <input id="radio-b" class="radio-custom" name="radio-group" type="radio" #payByCard (click)="detectChanges()">
+                        <input id="radio-b" class="radio-custom" name="radio-group" type="radio" (click)="hideCardForm=false; detectChanges()">
                         <label for="radio-b" class="radio-custom-label">Visa / Master</label>
                       </div>
                     </div>
                   </div>
-                  <div class="row" *ngIf="payByCard.checked">
+                  <div class="row" *ngIf="hideCardForm==false">
                     <div class="col-12">
                       <div class="payment-form">
                         <div class="row">
@@ -401,14 +402,25 @@
 
                 <p *ngIf="!!cardError" class="process-wrap has-error">{{cardError}}</p>
                 <p *ngIf="isProcessing" class="process-wrap">Your request is under processing. Please wait for a while.</p>
-                <div class="form-group signup-option">
+                <div class="form-group signup-option" *ngIf="! bookingDetails.tour.hasFlight">
                   <div class="row">
                     <div class="col-sm-8">
                       <p>By clicking the 'Next' button below, you have read and agreed width our <a href="javascript:void(0)"> Terms & Conditions</a> and <a href="javascript:void(0)"> Privacy Policy</a>for us to process your tour booking.</p>
                     </div>
-                    <div class="col-sm-4">
-                      <button [hidden]="!payByCard.checked" [disabled]="!bookingForm.valid || !cardForm.valid" type="button" class="btn green-btn" (click)="doCardPayment()">Next<span><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
-                      <button [hidden]="!payByPaypal.checked" [disabled]="!bookingForm.valid" type="button" class="btn green-btn" (click)="doPaypalPayment()">Next<span><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
+                    <div class="col-sm-4" >
+                      <button [hidden]="hideCardForm==true" [disabled]="!bookingForm.valid || !cardForm.valid" type="button" class="btn green-btn" (click)="doCardPayment()">Next<span><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
+                      <button [hidden]="hideCardForm==false" [disabled]="!bookingForm.valid" type="button" class="btn green-btn" (click)="doPaypalPayment()">Next<span><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group signup-option" *ngIf="bookingDetails.tour.hasFlight">
+                  <div class="row">
+                    <div class="col-sm-8">
+                      <p>By clicking the 'Next' button below, you have read and agreed width our <a href="javascript:void(0)"> Terms & Conditions</a> and <a href="javascript:void(0)"> Privacy Policy</a>for us to process your tour booking.</p>
+                    </div>
+                    <div class="col-sm-4" >
+                      <button [disabled]="!bookingForm.valid" type="button" class="btn green-btn" (click)="goToStep2()">Next<span><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
                     </div>
                   </div>
                 </div>

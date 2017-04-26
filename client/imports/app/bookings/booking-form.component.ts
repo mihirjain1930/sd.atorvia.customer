@@ -97,7 +97,9 @@ export class BookingFormComponent extends MeteorComponent implements OnInit, Aft
           noOfNights: tour.noOfNights,
           totalMeals: tour.totalMeals,
           cancellationPolicy: tour.cancellationPolicy,
-          refundPolicy: tour.refundPolicy
+          refundPolicy: tour.refundPolicy,
+          hasGuide: tour.hasGuide,
+          hasFlight: tour.hasFlight
         };
       }
 

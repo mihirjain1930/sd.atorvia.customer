@@ -25,6 +25,8 @@ export interface Booking extends CollectionObject {
         name: string;
         url: string;
       };
+      hasGuide: boolean;
+      hasFlight: boolean;
     };
     user: {
       id: string;

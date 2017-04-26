@@ -104,7 +104,7 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
         sort: { "totalAvailableSeats": -1 }
     };
     let item = this.item;
-    let where = {active: true, approved: true, tourType: item.tourType};
+    let where = {active: true, approved: true, tourType: item.tourType, _id: {$ne: item._id}};
 
     this.call("tours.find", options, where, "", (err, res) => {
         if (err) {
