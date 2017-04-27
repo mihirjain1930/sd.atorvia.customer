@@ -9,11 +9,11 @@
 				<div class="col-lg-12 align-self-center">
 					<div class="search-box" *ngIf="isSearchScreen">
 						<h1 *ngIf="!!searchString">Search Results for "{{searchString}}"</h1>
-						<p>We found {{itemsSize}} tours for you.</p>
+						<p *ngIf="itemsSize > 0">We found {{itemsSize}} tours for you.</p>
 					</div>
 					<div class="search-box text-center" *ngIf="! isSearchScreen">
 						<h1>{{searchString}}</h1>
-						<p>{{itemsSize}} Tours</p>
+						<p *ngIf="itemsSize > 0">{{itemsSize}} Tours</p>
 					</div>
 				</div>
 			</div>

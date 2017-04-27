@@ -88,6 +88,11 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
     let travellers = this.bookingForm.value.travellers;
     travellers.map((item) => {
       if (typeof item["passport.number"] !== "undefined") {
+        let passportNum = item["passport.number"];
+        let passportCountry = item["passport.country"];
+        delete item["passport.number"];
+        delete item["passport.country"];
+
         item.passport = {
           number: item["passport.number"],
           country: item["passport.country"]
@@ -276,6 +281,7 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
 
     this.call("bookings.insert", booking, (err, res) => {
       if (err) {
+        this.isProcessing = false;
         showAlert(err.reason, "danger");
         return;
       }
