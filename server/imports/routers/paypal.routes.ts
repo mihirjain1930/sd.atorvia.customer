@@ -67,7 +67,7 @@ Picker.route( '/api/1.0/paypal/payment/create', function( params, request, respo
 
   paypal.payment.create(create_payment_json, Meteor.bindEnvironment( (error, payment) => {
       if (error) {
-          console.log(error.response);
+          //console.log(error.response);
           response.end( JSON.stringify(error) );
       } else {
           console.log("Get Payment Create");
@@ -98,29 +98,52 @@ Picker.route( '/api/1.0/paypal/payment/execute/', function( params, request, res
   let body = request.body;
   let args = params.query;
   let transaction = <any>Transactions.findOne({"id": args.paymentId});
-  console.log(transaction);
 
   let execute_payment_json = {
-      "payer_id": args.PayerID,
-      "transactions": transaction.transactions
+      "payer_id": args.PayerID
   };
+
+  if (typeof transaction !== "undefined") {
+    execute_payment_json["transactions"] = transaction.transactions;
+  }
 
   paypal.payment.execute(args.paymentId, execute_payment_json, Meteor.bindEnvironment( (error, payment) => {
       let html = null;
       html = `<html>
           <head>
               <title>Payment Failed</title>
-              <meta http-equiv="refresh" content="5;url=${rootUrl}" >
+              <meta http-equiv="refresh" content="3;url=${rootUrl}" >
+              <style type="text/css">
+              .loader {
+                  position: absolute;
+                  top: 40%;
+                  left: 43%;
+                  border: 16px solid #f3f3f3; /* Light grey */
+                  border-top: 16px solid #3498db; /* Blue */
+                  border-radius: 50%;
+                  width: 120px;
+                  height: 120px;
+                  animation: spin 2s linear infinite;
+              }
+
+              @keyframes spin {
+                  0% { transform: rotate(0deg); }
+                  100% { transform: rotate(360deg); }
+              }
+              </style>
           </head>
           <body>
-            <p>Payment processing was failed. Please contact customer support for further details.</p>
+            <div class="loader"></div>
+            <div style="position: absolute;left: 32%;top: 70%; text-align: center;">
+            <p><b>Payment Failed</b>. Please contact customer support for further details.</p>
             <p>Please wait, you are being redirected to main application.</p>
             <p><a href="/">Click here</a>, If you are not redirected automatically.</p>
+            </div>
           </body>
       </html>`;
 
       if (error) {
-          console.log(error.response);
+          //console.log(error.response);
 
       } else {
           console.log("Get Payment Response");
@@ -140,11 +163,32 @@ Picker.route( '/api/1.0/paypal/payment/execute/', function( params, request, res
             html = `<html>
                 <head>
                     <title>Payment Successful</title>
-                    <meta http-equiv="refresh" content="5;url=${rootUrl}/booking/confirm" >
+                    <meta http-equiv="refresh" content="3;url=${rootUrl}/booking/confirm" >
+                    <style type="text/css">
+                    .loader {
+                        position: absolute;
+                        top: 40%;
+                        left: 43%;
+                        border: 16px solid #f3f3f3; /* Light grey */
+                        border-top: 16px solid #3498db; /* Blue */
+                        border-radius: 50%;
+                        width: 120px;
+                        height: 120px;
+                        animation: spin 2s linear infinite;
+                    }
+
+                    @keyframes spin {
+                        0% { transform: rotate(0deg); }
+                        100% { transform: rotate(360deg); }
+                    }
+                    </style>
                 </head>
                 <body>
-                  <p>Your payment was successful. Please wait, you are being redirected to main application.</p>
+                  <div class="loader"></div>
+                  <div style="position: absolute;left: 32%;top: 70%; text-align: center;">
+                  <p><b>Payment Successful</b>. Please wait, you are being redirected to main application.</p>
                   <p><a href="${rootUrl}/booking/confirm">Click here</a>, If you are not redirected automatically.</p>
+                  </div>
                 </body>
             </html>`;
           }
@@ -162,7 +206,7 @@ Picker.route( '/api/1.0/paypal/payment/get/', function( params, request, respons
 
   paypal.payment.get(args.paymentId, function (error, payment) {
       if (error) {
-          console.log(error);
+          //console.log(error);
           response.end( JSON.stringify(error) );
       } else {
           console.log("Get Payment Response");

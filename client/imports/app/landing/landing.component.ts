@@ -43,12 +43,21 @@ export class LandingComponent extends MeteorComponent implements OnInit, AfterVi
 
     this.call("tours.find", options, where, "", (err, res) => {
         if (err) {
-            showAlert("Error while fetching pages list.", "danger");
+            console.log("Error while fetching pages list.", "danger");
             return;
         }
 
-        this.topItems = res.data;
         this.hotItems = res.data;
+    });
+
+    let where = {active: true, approved: true};
+    let limit = 8;
+    this.call("tours.findTopDestinations", where, limit, (err, res) => {
+        if (err) {
+            console.log("Error while fetching pages list.", "danger");
+            return;
+        }
+        this.topItems = res;
     })
   }
 

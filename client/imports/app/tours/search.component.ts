@@ -39,6 +39,7 @@ export class SearchComponent extends MeteorComponent implements OnInit, AfterVie
   tourOptions: Subject<any> = new Subject<any>();
   paceOptions: Subject<any> = new Subject<any>();
   paramsSub: Subscription;
+  isSearchScreen: boolean = true;
 
   constructor(private zone: NgZone, private route: ActivatedRoute, private paginationService: PaginationService) {
     super();
@@ -46,16 +47,21 @@ export class SearchComponent extends MeteorComponent implements OnInit, AfterVie
 
   ngOnInit() {
     this.paramsSub = this.route.params
-      .map(params => params['query'])
-      .subscribe(query => {
-          this.searchString = query;
+      .subscribe(params => {
 
-          if (! this.searchString) {
-            //console.log("no page-id supplied");
-          }
+        if (params.slug) {
+          this.searchString = params.slug;
+          this.isSearchScreen = false;
+        } else {
+          this.searchString = params.query;
+        }
 
-          this.setOptions();
-        });
+        if (! this.searchString) {
+          //console.log("no page-id supplied");
+        }
+
+        this.setOptions();
+      });
   }
 
   ngAfterViewChecked() {

@@ -87,12 +87,12 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
 
     let travellers = this.bookingForm.value.travellers;
     travellers.map((item) => {
-      item.passport = {
-        number: item["passport.number"],
-        country: item["passport.country"]
-      };
-      /*delete item["passport.number"];
-      delete item["passport.country"];*/
+      if (typeof item["passport.number"] !== "undefined") {
+        item.passport = {
+          number: item["passport.number"],
+          country: item["passport.country"]
+        };
+      }
     })
 
     let booking = this.booking;
@@ -125,13 +125,6 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
       firstName: [travellers[i].firstName, Validators.compose([Validators.required, validateFirstName, Validators.minLength(2), Validators.maxLength(30)])],
       middleName: [travellers[i].middleName, Validators.compose([validateFirstName, Validators.minLength(2), Validators.maxLength(30)])],
       lastName: [travellers[i].lastName, Validators.compose([Validators.required, validateFirstName, Validators.minLength(2), Validators.maxLength(30)])],
-      addressLine1: [travellers[i].addressLine1, Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(50)])],
-      addressLine2: [travellers[i].addressLine2, Validators.compose([Validators.minLength(2), Validators.maxLength(50)])],
-      suburb: [travellers[i].state, Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(30)])],
-      postCode: [travellers[i].postCode, Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(12)])],
-      state: [travellers[i].state, Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(30)])],
-      country: [travellers[i].country, Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(30)])],
-      specialRequest: [travellers[i].specialRequest, Validators.compose([])],
     }
 
     if (this.bookingDetails.tour.hasFlight) {
@@ -141,10 +134,17 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
 
     if (i==0) {
       formFields['email'] = [travellers[i].email, Validators.compose([Validators.required, validateEmail, Validators.minLength(5), Validators.maxLength(50)])];
-      formFields['contact'] = [travellers[i].contact, Validators.compose([Validators.required, validatePhoneNum, Validators.minLength(7), Validators.maxLength(15)])];
+      formFields['contact'] = [travellers[i].contact, Validators.compose([Validators.required, Validators.minLength(7), Validators.maxLength(15)])];
+      formFields['addressLine1'] = [travellers[i].addressLine1, Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(50)])];
+      formFields['addressLine2'] = [travellers[i].addressLine2, Validators.compose([Validators.minLength(2), Validators.maxLength(50)])];
+      formFields['suburb'] = [travellers[i].state, Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(30)])];
+      formFields['postCode'] = [travellers[i].postCode, Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(12)])];
+      formFields['state'] = [travellers[i].state, Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(30)])];
+      formFields['country'] = [travellers[i].country, Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(30)])];
+      formFields['specialRequest'] = [travellers[i].specialRequest, Validators.compose([])];
     } else {
       formFields['email'] = [travellers[i].email, Validators.compose([validateEmail, Validators.minLength(5), Validators.maxLength(50)])];
-      formFields['contact'] = [travellers[i].contact, Validators.compose([validatePhoneNum, Validators.minLength(7), Validators.maxLength(15)])];
+      formFields['contact'] = [travellers[i].contact, Validators.compose([Validators.minLength(7), Validators.maxLength(15)])];
     }
     return this.formBuilder.group(formFields);
   }
@@ -348,7 +348,7 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
         }
 
         // redirect to paypal website to complete payment
-        alert("Payment initialization has been done. You will be redirected now to complete the payment.")
+        alert("You are now being redirected to PayPal to complete the payment.")
         let approvalUrl = <any>_.find(response.links, {rel: "approval_url"});
         window.location.href = approvalUrl.href;
       }

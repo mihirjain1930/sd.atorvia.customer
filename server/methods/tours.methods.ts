@@ -3,6 +3,7 @@ import { Accounts } from 'meteor/accounts-base';
 import { Roles } from 'meteor/alanning:roles';
 import { check } from "meteor/check";
 import { Tours } from "../../both/collections/tours.collection";
+import { Bookings } from "../../both/collections/bookings.collection";
 import { Tour } from "../../both/models/tour.model";
 import * as _ from 'underscore';
 
@@ -65,5 +66,26 @@ Meteor.methods({
         let numOfTours = Tours.collection.find({"owner.id": tour.owner.id, "approved": true, "active": true, "deleted": false}).count();
         return {tour, owner, numOfTours};
       }
+    },
+    "tours.findTopDestinations": (criteria: any = {}, limit: number = 8) => {
+      let where:any = [];
+      where.push({
+          "$or": [{deleted: false}, {deleted: {$exists: false} }]
+      }, {
+        "$or": [{active: true}, {active: {$exists: false} }]
+      });
+      if (_.isEmpty(criteria)) {
+        criteria = { };
+      }
+      where.push(criteria);
+
+      let result = Tours.collection.aggregate([
+        {"$match": {$and: where}},
+    		{"$group" : {_id: "$destination", count: {$sum: 1}, departure: {"$first": "$departure"}, featuredImage:{"$first": "$featuredImage"}, startPrice: {"$min": "$dateRange.price.adult"} } },
+        {"$sort": {"count": -1, "_id": 1}},
+        {"$limit": limit}
+    	]);
+
+      return result;
     }
 });
