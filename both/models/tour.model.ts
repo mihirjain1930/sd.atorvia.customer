@@ -9,6 +9,7 @@ export interface Tour extends CollectionObject {
     destination: string;
     noOfDays: number;
     noOfNights: number;
+    noOfViews: number;
     tourType: string;
     tourPace: string;
     hasGuide: boolean;

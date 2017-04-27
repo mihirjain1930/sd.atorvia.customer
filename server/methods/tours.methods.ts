@@ -87,5 +87,8 @@ Meteor.methods({
     	]);
 
       return result;
+    },
+    "tours.incrementView": (tourId: string) => {
+      return Tours.collection.update({_id: tourId}, {$inc: {noOfViews: 1}});
     }
 });

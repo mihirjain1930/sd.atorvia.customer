@@ -64,7 +64,7 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
 
           this.call("tours.findOne", {slug: this.query}, {with: {owner: true}}, (err, res) => {
             if (err) {
-              showAlert(err.reason, "danger");
+              console.log(err.reason, "danger");
               return;
             }
 
@@ -73,6 +73,13 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
             this.numOfTours = res.numOfTours;
             this.fetchRelatedItems();
             this.changeDetectorRef.detectChanges();
+            let item = this.item;
+            let tourId = item._id;
+            this.call("tours.incrementView", tourId, (err, res) => {
+              if (err) {
+                console.log(err.reason, "danger");
+              }
+            })
           })
         });
   }
