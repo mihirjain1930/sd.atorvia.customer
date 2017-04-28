@@ -34,7 +34,7 @@ export class SearchComponent extends MeteorComponent implements OnInit, AfterVie
   itemsSize: number = -1;
   searchSubject: Subject<string> = new Subject<string>();
   searchString: string = "";
-  whereCond: any = {"active": true, "approved": true};
+  whereCond: any = {};
   whereSub: Subject<any> = new Subject<any>();
   tourOptions: Subject<any> = new Subject<any>();
   paceOptions: Subject<any> = new Subject<any>();

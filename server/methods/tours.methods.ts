@@ -19,6 +19,8 @@ Meteor.methods({
             "$or": [{deleted: false}, {deleted: {$exists: false} }]
         }, {
           "$or": [{active: true}, {active: {$exists: false} }]
+        }, {
+          "$or": [{approved: true}, {approved: {$exists: false} }]
         });
 
         if (!_.isEmpty(criteria)) {
@@ -49,6 +51,8 @@ Meteor.methods({
           "$or": [{deleted: false}, {deleted: {$exists: false} }]
       }, {
         "$or": [{active: true}, {active: {$exists: false} }]
+      }, {
+        "$or": [{approved: true}, {approved: {$exists: false} }]
       });
       if (_.isEmpty(criteria)) {
         criteria = { };
@@ -73,6 +77,8 @@ Meteor.methods({
           "$or": [{deleted: false}, {deleted: {$exists: false} }]
       }, {
         "$or": [{active: true}, {active: {$exists: false} }]
+      }, {
+        "$or": [{approved: true}, {approved: {$exists: false} }]
       });
       if (_.isEmpty(criteria)) {
         criteria = { };

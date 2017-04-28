@@ -90,16 +90,22 @@ export class BookingFormComponent extends MeteorComponent implements OnInit, Aft
         booking.tour = {
           id: tour._id,
           supplierId: tour.owner.id,
+          supplier: {
+            companyName: tour.owner.companyName
+          },
           name: tour.name,
           departure: tour.departure,
           destination: tour.destination,
           featuredImage: tour.featuredImage,
+          noOfDays: tour.noOfDays,
           noOfNights: tour.noOfNights,
           totalMeals: tour.totalMeals,
           cancellationPolicy: tour.cancellationPolicy,
           refundPolicy: tour.refundPolicy,
           hasGuide: tour.hasGuide,
-          hasFlight: tour.hasFlight
+          hasFlight: tour.hasFlight,
+          tourType: tour.tourType,
+          tourPace: tour.tourPace
         };
       }
 

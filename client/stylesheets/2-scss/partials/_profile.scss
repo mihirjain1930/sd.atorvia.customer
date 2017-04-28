@@ -157,3 +157,87 @@
 		}
 	}
 }
+
+.booking-history {
+	.user-head {
+		height: auto;
+		padding-top: 15px;
+		padding-bottom: 5px;
+		@media (max-width: $ipad) {
+			height: auto;
+    }
+		.sort-bar {
+			input,
+			button {
+				border: none;
+      }
+			@media (max-width: $ipad) {
+				.col-md-2,
+				.col-md-10 {
+					text-align: center;
+        }
+      }
+			.form-group > span {
+				@extend .absolute;
+				top: 3px;
+				@media (max-width: $ipad) {
+					left: 9px;
+					top: 4px;
+        }
+      }
+			.form-group > input {
+				padding: 7px 0 0 25px;
+				@include placeholder();
+				@extend .placholder-font;
+				color: $black;
+      }
+			.green-btn {
+				padding: 6px 0;
+				width: 165px;
+				@extend .pull_right;
+				@media (max-width: $laptop) {
+					width: auto;
+					padding: 6px 15px;
+        }
+				@media (max-width: $phone) {
+					float: none;
+        }
+				i {
+					margin-right: 10px;
+        }
+      }
+			.anchor-icons{
+				position: absolute;
+				left: 2px;
+				top: 2px;
+				a{
+					display: block;
+					line-height: 12px;
+				}
+				a.active {
+					color: $green-color;
+				}
+			}
+			.dropdown-toggle {
+				width: $full;
+				@extend .text-left;
+				color: $black;
+				&:after {
+					@extend .absolute;
+					right: 3px;
+					top : 16px;
+        }
+				&:hover {
+					background: none;
+        }
+				&:focus {
+					box-shadow: none;
+					color: $black;
+        }
+				&:active {
+					background: none;
+        }
+      }
+    }
+  }
+}

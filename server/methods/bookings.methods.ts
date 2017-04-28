@@ -6,6 +6,10 @@ import { Booking } from "../../both/models/booking.model";
 import { Transactions } from "../../both/collections/transactions.collection";
 import * as _ from 'underscore';
 
+interface Options {
+  [key: string]: any;
+}
+
 Meteor.methods({
     "bookings.insert": (booking: Booking) => {
         let user = Meteor.user();
@@ -54,6 +58,37 @@ Meteor.methods({
         }
         return bookingId;
     },
+    "bookings.find": (options: Options, criteria: any, searchString: string) => {
+        let where:any = [];
+        let userId = Meteor.userId();
+        where.push({
+          "user.id": userId
+        }, {
+            "$or": [{deleted: false}, {deleted: {$exists: false} }]
+        });
+
+        if (!_.isEmpty(criteria)) {
+          where.push(criteria);
+        }
+
+        // match search string
+        if (typeof searchString === 'string' && searchString.length) {
+            // allow search on firstName, lastName
+            where.push({
+                "$or": [
+                    { "tour.name": { $regex: `.*${searchString}.*`, $options: 'i' } },
+                    { "tour.departure": { $regex: `.*${searchString}.*`, $options: 'i' } },
+                    { "tour.destination": { $regex: `.*${searchString}.*`, $options: 'i' } },
+                    { "tour.tourType": { $regex: `.*${searchString}.*`, $options: 'i' } },
+                    { "tour.tourPace": { $regex: `.*${searchString}.*`, $options: 'i' } },
+                    { "tour.supplier.companyName": { $regex: `.*${searchString}.*`, $options: 'i' } }
+                ]
+            });
+        }
+
+        let cursor = Bookings.collection.find({$and: where}, options);
+        return {count: cursor.count(), data: cursor.fetch()};
+    },
     "bookings.findOne": (criteria: any) => {
       let where:any = [];
       where.push({
@@ -67,6 +102,5 @@ Meteor.methods({
       where.push(criteria);
 
       return Bookings.collection.findOne({$and: where});
-    },
-    
+    }
 })

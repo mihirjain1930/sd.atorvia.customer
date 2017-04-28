@@ -1,0 +1,223 @@
+<header-main *ngIf="!!user"></header-main>
+<main class="booking-history payment confirmation">
+  <div class="user-head">
+    <div class="container">
+      <div class="row justify-content-sm-center">
+        <div class="col-xl-10">
+          <div class="row sort-bar">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="row">
+                    <div class="col-9">
+                      <div class="form-group">
+                        <span><i class="fa fa-search" aria-hidden="true"></i></span>
+                        <input type="search" class="form-control" #searchtext placeholder="Search Booking ID, tour name or suppliers..." (keyup)="search(searchtext.value)" (keydown)="clearsearch()" [(ngModel)]="searchString" />
+
+                      </div>
+                    </div>
+                    <div class="col-3">
+
+                      <div class="dropdown">
+                        <div class="anchor-icons" *ngIf="false">
+                          <a href="javascript:void(0)" class="top-anchor" [ngClass]="{'active': sortOrder == 1}" (click)="sortOrder=1; changeSortOrder(1);"><i class="fa fa-angle-up" aria-hidden="true"></i></a>
+                          <a href="javascript:void(0)" class="bottom-anchor" [ngClass]="{'active': sortOrder == -1}" (click)="sortOrder=-1; changeSortOrder(-1);"><i class="fa fa-angle-down" aria-hidden="true"></i></a>
+                        </div>
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <span *ngIf="!sortBy">Sort</span>
+                          <span *ngIf="!!sortBy" [innerHTML]="sortBy"></span>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                          <button class="dropdown-item" type="button" (click)="sortBy='Booking Date (ASC)'; sortOrder=1; changeOrderBy('date_asc');">Booking Date (ASC)</button>
+                          <button class="dropdown-item" type="button" (click)="sortBy='Booking Date (DESC)'; sortOrder=-1; changeOrderBy('date_desc');">Booking Date (DESC)</button>
+                          <button class="dropdown-item" type="button" (click)="sortBy='Tour (A-Z)'; sortOrder=1; changeOrderBy('tour_asc');">Tour (A-Z)</button>
+                          <button class="dropdown-item" type="button" (click)="sortBy='Tour (Z-A)'; sortOrder=-1; changeOrderBy('tour_desc');">Tour (Z-A)</button>
+                          <button class="dropdown-item" type="button" (click)="sortBy='Departure Date (ASC)'; sortOrder=1; changeOrderBy('start_asc');">Departure Date (ASC)</button>
+                          <button class="dropdown-item" type="button" (click)="sortBy='Departure Date (DESC)'; sortOrder=-1; changeOrderBy('start_desc');">Departure Date (DESC)</button>
+                          <button class="dropdown-item" type="button" (click)="sortBy='Price (Lowest - Highest)'; sortOrder=1; changeOrderBy('price_asc');">Price (Lowest - Highest)</button>
+                          <button class="dropdown-item" type="button" (click)="sortBy='Price (Highest - Lowest)'; sortOrder=-1; changeOrderBy('price_desc');">Price (Highest - Lowest)</button>
+                          <button class="dropdown-item" type="button" (click)="sortBy='Length (Low - High)'; sortOrder=1; changeOrderBy('length_asc');">Length (Low - High)</button>
+                          <button class="dropdown-item" type="button" (click)="sortBy='Length (High - Low)'; sortOrder=-1; changeOrderBy('length_desc');">Length (High - Low)</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="grey-bg">
+    <div class="container">
+      <div class="row justify-content-sm-center">
+        <div class="col-xl-10">
+          <div class="row">
+            <div class="col-md-7">
+              <div class="right-wrap" *ngFor="let item of items; let i = index;">
+
+                <div class="travel-detail" >
+                  <div class="tarvel-title">
+                    <div class="row">
+                      <div class="col-lg-2">
+                        <div class="img-wrp">
+                            <span *ngIf="item.tour.featuredImage?.url"><img [src]="item.tour.featuredImage?.url" /></span>
+                        </div>
+                      </div>
+                      <div class="col-lg-10">
+                        <h5>{{item.tour.name}}</h5>
+                        <p>
+                          <span><i class="fa fa-map-marker" aria-hidden="true"></i></span>{{item.tour.departure}} &amp; {{item.tour.destination}}
+                          <span class="rating">
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star-half-o" aria-hidden="true"></i>
+
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="travel-desc">
+                    <div class="row">
+                      <div class="col-sm-4">
+                        <div class="row">
+                          <div class="col-lg-4">
+                            <img src="images/dd.png" alt="" />
+                          </div>
+                          <div class="col-lg-8">
+                            <h5>Departure Date</h5>
+                            <p>{{item.startDate | date}}</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <div class="row">
+                          <div class="col-lg-4">
+                            <img src="images/rd.png" alt="" />
+                          </div>
+                          <div class="col-lg-8">
+                            <h5>Return Date</h5>
+                            <p>{{item.endDate | date}}</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <div class="row">
+                          <div class="col-lg-4">
+                            <img src="images/adult.png" alt="" />
+                          </div>
+                          <div class="col-lg-8">
+                            <h5>Travellers</h5>
+                            <p>{{item.numOfAdults}} Adult / {{item.numOfChild}} Child</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <div class="row">
+                          <div class="col-lg-4">
+                            <img src="images/hotels.png" alt="" />
+                          </div>
+                          <div class="col-lg-8">
+                            <h5>Hotels</h5>
+                            <p>{{item.tour.noOfNights}} Nights</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <div class="row">
+                          <div class="col-lg-4">
+                            <img src="images/meal.png" alt="" />
+                          </div>
+                          <div class="col-lg-8">
+                            <h5>Meals</h5>
+                            <p>{{item.tour.totalMeals}}</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <div class="row">
+                          <div class="col-lg-4">
+                            <img src="images/cost.png" alt="" />
+                          </div>
+                          <div class="col-lg-8">
+                            <h5>Total Price</h5>
+                            <p>AUD ${{item.totalPrice}}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="customer-support">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <h3>Customer Support</h3>
+                    <p>Atorvia always provide the best experience for you during your trip. Call our support hotline whenever you need us, 24/7.</p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-7">
+                    <div class="contact-info">
+                      <h4>Business Hour</h4>
+                      <p>Monday to Friday 9am-5pm</p>
+                    </div>
+                  </div>
+                  <div class="col-sm-5">
+                    <div class="contact-detail">
+                      <p>(07) 0000 0000</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-7">
+                    <div class="contact-info">
+                      <h4>Other</h4>
+                    </div>
+                  </div>
+                  <div class="col-sm-5">
+                    <div class="contact-detail">
+                      <p>(07) 0000 0001</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-7">
+                    <div class="contact-info">
+                      <h4>International</h4>
+                    </div>
+                  </div>
+                  <div class="col-sm-5">
+                    <div class="contact-detail">
+                      <p>+61 7 0000 0001</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="give-feedback">
+                <div class="table">
+                  <div class="table-cell">
+                    <h3>Tell us what you think about us</h3>
+                    <p>Your feedback is really important for us to keep improving out platform in order to bring the best tour experience to you.</p>
+                    <button type="button" class="btn green-btn">Leave us a feedback</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

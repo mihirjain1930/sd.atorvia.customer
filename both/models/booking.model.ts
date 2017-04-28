@@ -4,10 +4,20 @@ export interface Booking extends CollectionObject {
     tour: {
       id: string;
       supplierId: string;
+      supplier?: {
+        companyName: string;
+        agentIdentity: {
+          verified: boolean;
+        };
+        agentCertificate: {
+          verified: boolean;
+        };
+      };
       name: string;
       departure: string;
       destination: string;
       totalMeals: number;
+      noOfDays: number;
       noOfNights: number;
       featuredImage: {
         id: string;
@@ -25,6 +35,8 @@ export interface Booking extends CollectionObject {
         name: string;
         url: string;
       };
+      tourType: string;
+      tourPace: string;
       hasGuide: boolean;
       hasFlight: boolean;
     };
