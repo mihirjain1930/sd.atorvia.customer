@@ -61,23 +61,17 @@ export class DashboardComponent extends MeteorComponent implements OnInit, After
   private fetchUser(callback) {
     //console.log("call users.findOne()")
     this.call("users.findOne", (err, res) => {
-        if (err) {
-            return;
-        }
-        //console.log("users.findOne():", res);
-        callback(res);
+      if (err) {
+        return;
+      }
+      //console.log("users.findOne():", res);
+      callback(res);
     });
   }
 
   ngAfterViewInit() {
     Meteor.setTimeout(() => {
       jQuery(function($){
-        var phones = [{ "mask": "(###) ###-####"}];
-        $('#phoneNum').inputmask({
-          mask: phones,
-          greedy: false,
-          definitions: { '#': { validator: "[0-9]", cardinality: 1}} 
-        });
       })
     }, 500);
   }
@@ -105,7 +99,7 @@ export class DashboardComponent extends MeteorComponent implements OnInit, After
     this.call("users.update", userData, emailAddress, (err, res) => {
       this.zone.run(() => {
         if(err) {
-            this.error = err;
+          this.error = err;
         } else {
           this.oldEmailAddress = emailAddress.newAddress;
           showAlert("Your profile has been updated successfully.", "success");
@@ -116,48 +110,48 @@ export class DashboardComponent extends MeteorComponent implements OnInit, After
   }
 
   onFileSelect(event) {
-        var files = event.srcElement.files;
-        this.startUpload(files[0]);
+    var files = event.srcElement.files;
+    this.startUpload(files[0]);
+  }
+
+
+  private startUpload(file: File): void {
+    // check for previous upload
+    if (this.isUploading === true) {
+      console.log("aleady uploading...");
+      return;
     }
 
+    // start uploading
+    this.isUploaded = false;
+    //console.log('file uploading...');
+    this.isUploading = true;
 
-    private startUpload(file: File): void {
-        // check for previous upload
-        if (this.isUploading === true) {
-            console.log("aleady uploading...");
-            return;
+    upload(file)
+    .then((res) => {
+      this.isUploading = false;
+      this.isUploaded = true;
+      let userData = {
+        "profile.image":{
+          id: res._id,
+          url: res.url,
+          name: res.name
         }
-
-        // start uploading
-        this.isUploaded = false;
-        //console.log('file uploading...');
-        this.isUploading = true;
-
-        upload(file)
-        .then((res) => {
-            this.isUploading = false;
-            this.isUploaded = true;
-            let userData = {
-                "profile.image":{
-                  id: res._id,
-                  url: res.url,
-                  name: res.name
-                }
-            };
-            this.call("users.update", userData, (err, res) => {
-                if (err) {
-                    console.log("Error while updating user picture");
-                    return;
-                }
-                $("#inputFile").val("");
-                this.user.profile.image.url = res.url;
-                showAlert("Profile picture updated successfully.", "success");
-            });
-        })
-        .catch((error) => {
-            this.isUploading = false;
-            console.log('Error in file upload:', error);
-            showAlert(error.reason, "danger");
-        });
-    }
+      };
+      this.call("users.update", userData, (err, res) => {
+        if (err) {
+          console.log("Error while updating user picture");
+          return;
+        }
+        $("#inputFile").val("");
+        this.user.profile.image.url = res.url;
+        showAlert("Profile picture updated successfully.", "success");
+      });
+    })
+    .catch((error) => {
+      this.isUploading = false;
+      console.log('Error in file upload:', error);
+      showAlert(error.reason, "danger");
+    });
+  }
 }

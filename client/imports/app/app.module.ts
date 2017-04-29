@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Angular2TokenService } from 'angular2-token';
+// import { Angular2TokenService } from 'angular2-token';
 import { RouterModule } from '@angular/router';
 import { AccountsModule } from 'angular2-meteor-accounts-ui';
 import { Ng2PaginationModule } from 'ng2-pagination';
@@ -19,6 +19,7 @@ import { LANDING_DECLARATIONS } from "./landing/index";
 import { TOURS_DECLARATIONS } from "./tours/index";
 import { DASHBOARD_DECLARATIONS } from "./dashboard/index";
 import { BOOKING_DECLARATIONS } from "./bookings/index";
+import { Services_Providers } from "../services/index";
 
 // Create config options (see ILocalStorageServiceConfigOptions) for deets:
 let localStorageServiceConfig = {
@@ -55,10 +56,7 @@ moduleDefinition = {
   ],
   providers: [
     ...ROUTES_PROVIDERS,
-    /*LocalStorageService,
-      {
-          provide: LOCAL_STORAGE_SERVICE_CONFIG, useValue: localStorageServiceConfig
-      }*/
+    ...Services_Providers
   ],
   bootstrap: [
     AppComponent

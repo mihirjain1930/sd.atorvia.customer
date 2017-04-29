@@ -32,12 +32,12 @@ Meteor.methods({
             // allow search on firstName, lastName
             where.push({
                 "$or": [
-                    { "name": { $regex: `.*${searchString}.*`, $options: 'i' } },
+                    // { "name": { $regex: `.*${searchString}.*`, $options: 'i' } },
                     { "departure": { $regex: `.*${searchString}.*`, $options: 'i' } },
                     { "destination": { $regex: `.*${searchString}.*`, $options: 'i' } },
-                    { "tourType": { $regex: `.*${searchString}.*`, $options: 'i' } },
-                    { "tourPace": { $regex: `.*${searchString}.*`, $options: 'i' } },
-                    { "owner.companyName": { $regex: `.*${searchString}.*`, $options: 'i' } }
+                    // { "tourType": { $regex: `.*${searchString}.*`, $options: 'i' } },
+                    // { "tourPace": { $regex: `.*${searchString}.*`, $options: 'i' } },
+                    // { "owner.companyName": { $regex: `.*${searchString}.*`, $options: 'i' } }
                 ]
             });
         }

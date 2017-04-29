@@ -1,5 +1,6 @@
 import { Route } from '@angular/router';
 import { Meteor } from 'meteor/meteor';
+import { AuthService } from "../services/auth";
 
 import { SignupComponent } from "./auth/singup.component";
 import { RecoverComponent } from "./auth/recover.component";
@@ -17,13 +18,13 @@ import { routes as bookingRoutes } from "./bookings/routes";
 
 
 let mainRoutes = [
-    { path: 'dashboard', component: DashboardComponent, canActivate: ['canActivateForLoggedIn'] },
-    { path: 'login', component: LoginComponent },
-    { path: 'signup', component: SignupComponent },
+    { path: 'dashboard', component: DashboardComponent, canActivate: [AuthService], data: {'state': 'login'} },
+    { path: 'login', component: LoginComponent, canActivate: [AuthService], data: {'state': 'not-login'} },
+    { path: 'signup', component: SignupComponent, canActivate: [AuthService], data: {'state': 'not-login'} },
     { path: 'recover', component: RecoverComponent },
-    { path: 'reset-password/:token',component: ResetPassword },
-    { path: 'verify-email/:token',component: VerifyEmail },
-    { path: 'resend-email', component: ResendEmailComponent },
+    { path: 'reset-password/:token',component: ResetPassword, canActivate: [AuthService], data: {'state': 'not-login'} },
+    { path: 'verify-email/:token',component: VerifyEmail, canActivate: [AuthService], data: {'state': 'not-login'} },
+    { path: 'resend-email', component: ResendEmailComponent, canActivate: [AuthService], data: {'state': 'not-login'} },
 ];
 
 export const routes: Route[] = [

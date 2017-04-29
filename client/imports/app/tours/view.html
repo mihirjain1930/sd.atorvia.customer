@@ -204,7 +204,9 @@
 										<div [ngClass]="{'show-less': !itenerary.showMore}">
 											<div class="sub-head">
 												<h4>Hotel</h4>
-												<p>{{itenerary.hotelName || itenerary.hotelType}}</p>
+												<p *ngIf="!! itenerary.hotelName">{{itenerary.hotelName}}</p>
+                        <p *ngIf="! itenerary.hotelName && !! itenerary.hotelType">{{itenerary.hotelType}}</p>
+                        <p *ngIf="! itenerary.hotelName && ! itenerary.hotelType">0 Nights</p>
 											</div>
 											<div class="sub-head">
 												<h4>Meals</h4>
