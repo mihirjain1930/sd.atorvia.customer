@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Injectable, NgZone } from '@angular/core';
 import { CanActivate } from '@angular/router';
 import { Observable } from "rxjs";
+import { MeteorObservable } from "meteor-rxjs";
 import { Router, ActivatedRoute, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Roles } from 'meteor/alanning:roles';
 import { UserService } from './user';
@@ -26,20 +27,20 @@ export class AuthService implements CanActivate {
     }
   }
 
-  verifyRoles(roles: string[]): boolean {
-    if (! Roles.userIsInRole(Meteor.userId(), roles) ) {
+  verifyRoles(roles: string[]): Observable<boolean>|Promise<boolean>|boolean {
+    return MeteorObservable.subscribe("users").map(() => {
 
-      if (this.user.isLoggedIn()) {
-        this.router.navigate(['/dashboard']);
+      if (! Roles.userIsInRole(Meteor.userId(), roles) ) {
+        if (this.user.isLoggedIn()) {
+          this.router.navigate(['/dashboard']);
+        } else {
+          this.router.navigate(['/login']);
+        }
+        return false;
       } else {
-        this.router.navigate(['/login']);
-        //showAlert("You are not authorized to access this page.", "danger");
+        return true;
       }
-
-      return false;
-    }
-
-    return true;
+    });
   }
 
   verifyState(userState: string): boolean {
