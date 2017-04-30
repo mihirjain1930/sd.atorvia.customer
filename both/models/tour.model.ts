@@ -83,6 +83,11 @@ export interface Tour extends CollectionObject {
       agentCertificate: {
         verified: boolean;
       };
+      image: {
+        id: string;
+        url: string;
+        name: string;
+      }
     };
     active: boolean;
     approved: boolean;

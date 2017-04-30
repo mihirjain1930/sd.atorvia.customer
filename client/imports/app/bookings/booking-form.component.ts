@@ -91,7 +91,10 @@ export class BookingFormComponent extends MeteorComponent implements OnInit, Aft
           id: tour._id,
           supplierId: tour.owner.id,
           supplier: {
-            companyName: tour.owner.companyName
+            companyName: tour.owner.companyName,
+            agentCertificate: tour.owner.agentCertificate,
+            agentIdentity: tour.owner.agentIdentity,
+            image: tour.owner.image
           },
           name: tour.name,
           departure: tour.departure,

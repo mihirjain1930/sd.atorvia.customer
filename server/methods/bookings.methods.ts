@@ -162,15 +162,17 @@ Meteor.methods({
         return;
       }
 
-      Bookings.collection.update({"user.id": userId}, {$set: {
-        "user.firstName": user.profile.firstName,
-        "user.middleName": user.profile.middleName,
-        "user.lastName": user.profile.lastName,
-        "user.fullName": user.profile.fullName,
-        "user.email": user.emails[0].address,
-        "user.contact": user.profile.contact,
-        "user.image": user.profile.image
-      } }, {
+      Bookings.collection.update({"user.id": userId}, {
+        $set: {
+          "user.firstName": user.profile.firstName,
+          "user.middleName": user.profile.middleName,
+          "user.lastName": user.profile.lastName,
+          "user.fullName": user.profile.fullName,
+          "user.email": user.emails[0].address,
+          "user.contact": user.profile.contact,
+          "user.image": user.profile.image
+        }
+      }, {
         multi: true
       });
     }

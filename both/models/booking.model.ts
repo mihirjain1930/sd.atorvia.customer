@@ -12,6 +12,11 @@ export interface Booking extends CollectionObject {
         agentCertificate: {
           verified: boolean;
         };
+        image: {
+          id: string;
+          url: string;
+          name: string;
+        };
       };
       name: string;
       departure: string;
