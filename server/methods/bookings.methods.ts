@@ -102,5 +102,71 @@ Meteor.methods({
       where.push(criteria);
 
       return Bookings.collection.findOne({$and: where});
+    },
+    "bookings.sendConfirmation": (bookingId) => {
+      let booking = Meteor.call("bookings.findOne", {_id: bookingId});
+      if (_.isEmpty(booking)) {
+        return;
+      }
+
+      let from = "atorvia12@gmail.com";
+      let to = booking.user.email;
+      let subject = "New Booking Confirmation";
+      let text = `Hi ${booking.user.firstName}, <br />
+        Your booking order for tour name ${booking.tour.name} has been placed. <br />
+        Please find tour details below: <br />
+        <br />
+        <ul>
+        <li>Departure: ${booking.tour.departure}</li>
+        <li>Destination: ${booking.tour.destination}</li>
+        <li>Start Date: ${getFormattedDate(booking.startDate)} </li>
+        <li>End Date: ${getFormattedDate(booking.endDate)} </li>
+        <li>Num of Travellers: ${booking.numOfTravellers} </li>
+        <li>Total Price: ${booking.totalPrice}</li>
+        </ul>
+        <p>Team Atorvia</p>
+        `;
+      Meteor.setTimeout(() => {
+        Email.send({ to, from, subject, text});
+      }, 0);
+
+      let supplier = Meteor.users.findOne({_id: booking.tour.supplierId});
+      if (_.isEmpty(supplier)) {
+        return;
+      }
+
+      to = supplier.emails[0].address;
+      subject = "New Booking Confirmation";
+      text = `Hi ${supplier.profile.supplier.companyName}, <br />
+      New booking order for tour name ${booking.tour.name} has been placed by ${booking.user.firstName} ${booking.user.lastName}. <br />
+      Please find tour details below: <br />
+      <br />
+      <ul>
+      <li>Departure: ${booking.tour.departure}</li>
+      <li>Destination: ${booking.tour.destination}</li>
+      <li>Start Date: ${getFormattedDate(booking.startDate)} </li>
+      <li>End Date: ${getFormattedDate(booking.endDate)} </li>
+      <li>Num of Travellers: ${booking.numOfTravellers} </li>
+      <li>Total Price: ${booking.totalPrice}</li>
+      </ul>
+      <p>Team Atorvia</p>`;
+
+      Meteor.setTimeout(() => {
+        Email.send({ to, from, subject, text});
+      }, 0);
     }
-})
+});
+
+function getFormattedDate(today) {
+  var dd = today.getDate();
+  var mm = today.getMonth()+1; //January is 0!
+
+  var yyyy = today.getFullYear();
+  if(dd<10){
+      dd='0'+dd;
+  }
+  if(mm<10){
+      mm='0'+mm;
+  }
+  return dd+'/'+mm+'/'+yyyy;
+}

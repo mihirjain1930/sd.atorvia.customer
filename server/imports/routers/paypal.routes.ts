@@ -160,6 +160,10 @@ Picker.route( '/api/1.0/paypal/payment/execute/', function( params, request, res
               paymentDate: new Date()
             } });
 
+            Meteor.setTimeout(() => {
+              Meteor.call("bookings.sendConfirmation", transaction.bookingId);
+            }, 0);
+
             html = `<html>
                 <head>
                     <title>Payment Successful</title>
