@@ -1,6 +1,7 @@
 import { Meteor } from "meteor/meteor";
 import { Accounts } from 'meteor/accounts-base';
 import { Users } from '../../both/collections/users.collection';
+import { isLoggedIn, userIsInRole } from "../imports/services/auth";
 
 Meteor.methods({
     "users.insert": (userData: {email: string, passwd: string, profile?: any}): string => {
@@ -33,9 +34,7 @@ Meteor.methods({
       }, 500);
     },
     "users.update": (userData: {"profile" : any }, email: {oldAddress?: string, newAddress?: string}={}): any => {
-      if (! Meteor.userId()) {
-        throw new Meteor.Error(403, "Not authorized!");
-      }
+      userIsInRole(["customer"]);
 
       let userId = Meteor.userId();
 
@@ -112,10 +111,9 @@ Meteor.methods({
     },
     /* find logged-in user */
     "users.findOne": () => {
+      userIsInRole(["customer"]);
+
       let userId = Meteor.userId();
-      if (! userId) {
-        throw new Meteor.Error(403, "Not authorized!");
-      }
       return Meteor.users.findOne({ _id: userId });
     },
 })

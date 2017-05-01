@@ -4,6 +4,7 @@ import { Tour } from "../../both/models/tour.model";
 import { Bookings } from "../../both/collections/bookings.collection";
 import { Booking } from "../../both/models/booking.model";
 import { Transactions } from "../../both/collections/transactions.collection";
+import { isLoggedIn, userIsInRole } from "../imports/services/auth";
 import * as _ from 'underscore';
 
 interface Options {
@@ -12,6 +13,8 @@ interface Options {
 
 Meteor.methods({
     "bookings.insert": (booking: Booking) => {
+        userIsInRole(["customer"]);
+
         let user = Meteor.user();
         booking.user = {
             id: user._id,
@@ -59,12 +62,16 @@ Meteor.methods({
         return bookingId;
     },
     "bookings.find": (options: Options, criteria: any, searchString: string) => {
-        let where:any = [];
+        userIsInRole(["customer"]);
+
         let userId = Meteor.userId();
+        let where:any = [];
         where.push({
           "user.id": userId
         }, {
             "$or": [{deleted: false}, {deleted: {$exists: false} }]
+        }, {
+          "$or": [{active: true}, {active: {$exists: false} }]
         });
 
         if (!_.isEmpty(criteria)) {
@@ -90,11 +97,16 @@ Meteor.methods({
         return {count: cursor.count(), data: cursor.fetch()};
     },
     "bookings.findOne": (criteria: any) => {
+      userIsInRole(["customer"]);
+
+      let userId = Meteor.userId();
       let where:any = [];
       where.push({
           "$or": [{deleted: false}, {deleted: {$exists: false} }]
       }, {
         "$or": [{active: true}, {active: {$exists: false} }]
+      }, {
+        "user.id": userId
       });
       if (_.isEmpty(criteria)) {
         criteria = { };
