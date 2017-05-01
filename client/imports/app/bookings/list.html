@@ -84,11 +84,11 @@
                           </span>
 
                           <span style="padding-left: 40px; border-left: 1px solid #ccc;">
-                            <img *ngIf="! item.supplier?.image?.url" alt="" src="images/user.png" style="width: 35px;">
-                            <img *ngIf="!! item.supplier?.image?.url" alt="" [src]="item.supplier?.image?.url" style="width: 35px;">
+                            <img *ngIf="! item.tour.supplier?.image?.url" alt="" src="images/user.png" style="width: 35px;">
+                            <img *ngIf="!! item.tour.supplier?.image?.url" alt="" [src]="item.tour.supplier?.image?.url" style="width: 35px;">
 
-                            <span style="padding-left: 5px;" *ngIf="!! item.supplier?.companyName">{{item.supplier?.companyName}}</span>
-                            <span style="padding-left: 5px;" *ngIf="! item.supplier?.companyName">N.A.</span>
+                            <span style="padding-left: 5px;" *ngIf="!! item.tour.supplier?.companyName">{{item.tour.supplier?.companyName}}</span>
+                            <span style="padding-left: 5px;" *ngIf="! item.tour.supplier?.companyName">N.A.</span>
 
                             <span style="padding-left: 5px;"><i aria-hidden="true" class="fa fa-check-circle"></i></span>
                           </span>
