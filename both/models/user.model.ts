@@ -33,6 +33,7 @@ export interface User extends Meteor.User {
             name: string;
             verified: boolean;
           };
+          numOfTours: number;
         };
     },
     active: boolean,

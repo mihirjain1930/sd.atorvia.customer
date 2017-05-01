@@ -96,7 +96,7 @@ Meteor.methods({
         let cursor = Bookings.collection.find({$and: where}, options);
         return {count: cursor.count(), data: cursor.fetch()};
     },
-    "bookings.findOne": (criteria: any) => {
+    "bookings.findOne": (criteria: any, options: {with?: {supplier: boolean, tour: boolean}} = {}) => {
       userIsInRole(["customer"]);
 
       let userId = Meteor.userId();
@@ -113,7 +113,24 @@ Meteor.methods({
       }
       where.push(criteria);
 
-      return Bookings.collection.findOne({$and: where});
+      let booking = Bookings.collection.findOne({$and: where});
+
+      if (_.isEmpty(booking)) {
+        throw new Meteor.Error(404, "Invalid booking-id supplied.");
+      }
+
+      if (typeof options.with == "undefined") {
+        return booking;
+      }
+
+      if (options.with.tour == true) {
+        let data = Meteor.call("tours.findOne", {_id: booking.tour.id}, {with: {owner: true}});
+        return {
+          booking,
+          tour: data.tour,
+          supplier: data.owner,
+        }
+      }
     },
     "bookings.sendConfirmation": (bookingId) => {
       let booking = Meteor.call("bookings.findOne", {_id: bookingId});

@@ -68,7 +68,8 @@ Meteor.methods({
       if (options.with.owner == true) {
         let owner = Meteor.users.findOne({_id: tour.owner.id}, {fields: {profile: 1} });
         let numOfTours = Tours.collection.find({"owner.id": tour.owner.id, "approved": true, "active": true, "deleted": false}).count();
-        return {tour, owner, numOfTours};
+        owner.profile.numOfTours = numOfTours;
+        return {tour, owner};
       }
     },
     "tours.findTopDestinations": (criteria: any = {}, limit: number = 8) => {

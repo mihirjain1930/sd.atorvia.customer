@@ -56,3 +56,14 @@
 .process-wrap {
     font-weight: bold;
 }
+
+.booking2 {
+  .tour-detail {
+    border-bottom: none;
+  }
+  .tour-itinerary, .tour-detail, .gallery-wrap, .inclusive-policy {
+    padding-left: 30px; padding-right: 30px;
+  }
+  .gallery-wrap {
+  }
+}

@@ -65,7 +65,7 @@
                     <div class="">
                       <div class="side-img">
                         <div class="img-wrp">
-                            <span *ngIf="item.tour.featuredImage?.url"><img src="/images/trip.png" /></span>
+                            <a [routerLink]="['/bookings/view', item._id]"><span *ngIf="item.tour.featuredImage?.url"><img src="/images/trip.png" /></span></a>
                         </div>
                       </div>
                       <div class="side-content">

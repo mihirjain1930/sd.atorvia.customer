@@ -46,7 +46,6 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
   error: string;
   item: Tour;
   owner: User;
-  numOfTours: number;
   relatedItems: Tour[] = null;
   slickInitialized: boolean = false;
   activeTab: string = "overview";
@@ -70,7 +69,6 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
 
             this.item = <Tour>res.tour;
             this.owner = <User>res.owner;
-            this.numOfTours = res.numOfTours;
             this.fetchRelatedItems();
             this.changeDetectorRef.detectChanges();
             let item = this.item;
