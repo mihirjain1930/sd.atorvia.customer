@@ -3,9 +3,9 @@ import { Router } from '@angular/router';
 import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
 import { MeteorComponent } from 'angular2-meteor';
-import template from './top-destinations.html';
 import { Tour } from "../../../../both/models/tour.model";
 import { showAlert } from "../shared/show-alert";
+import template from './top-destinations.html';
 
 interface Pagination {
   limit: number;

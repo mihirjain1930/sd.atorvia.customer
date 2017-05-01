@@ -5,10 +5,10 @@ import { Meteor } from 'meteor/meteor';
 import { MeteorComponent } from 'angular2-meteor';
 import { Observable, Subscription, Subject, BehaviorSubject } from "rxjs";
 import { PaginationService } from "ng2-pagination";
-import template from './search.html';
 import { Tour } from "../../../../both/models/tour.model";
 import { isValidEmail } from "../../../../both/validators/index";
 import { showAlert } from "../shared/show-alert";
+import template from './search.html';
 
 declare var jQuery:any;
 interface Pagination {
