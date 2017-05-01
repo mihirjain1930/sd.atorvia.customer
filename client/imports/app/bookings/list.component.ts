@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, NgZone } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, NgZone } from '@angular/core';
 import { Meteor } from "meteor/meteor";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomValidators as CValidators } from "ng2-validation";
@@ -6,6 +6,7 @@ import { InjectUser } from "angular2-meteor-accounts-ui";
 import { Router, ActivatedRoute } from '@angular/router';
 import { MeteorComponent } from 'angular2-meteor';
 import { Observable, Subscription, Subject, BehaviorSubject } from "rxjs";
+import { ChangeDetectorRef } from "@angular/core";
 import { PaginationService } from "ng2-pagination";
 import { User } from "../../../../both/models/user.model";
 import { Booking } from "../../../../both/models/booking.model";
@@ -42,7 +43,7 @@ export class BookingsListComponent extends MeteorComponent implements OnInit, Af
   whereSub: Subject<any> = new Subject<any>();
   searchTimeout: any;
 
-  constructor(private zone: NgZone, private route: ActivatedRoute, private paginationService: PaginationService) {
+  constructor(private zone: NgZone, private route: ActivatedRoute, private paginationService: PaginationService, private changeDetectorRef: ChangeDetectorRef) {
     super();
   }
 
@@ -51,6 +52,15 @@ export class BookingsListComponent extends MeteorComponent implements OnInit, Af
   }
 
   ngAfterViewInit() {
+  }
+
+  ngOnDestroy() {
+    this.pageSize.unsubscribe();
+    this.curPage.unsubscribe();
+    this.orderBy.unsubscribe();
+    this.nameOrder.unsubscribe();
+    this.searchSubject.unsubscribe();
+    this.whereSub.unsubscribe();
   }
 
   private setOptions() {
@@ -108,6 +118,7 @@ export class BookingsListComponent extends MeteorComponent implements OnInit, Af
               this.items = res.data;
               this.itemsSize = res.count;
               this.paginationService.setTotalItems("bookings", this.itemsSize);
+              this.changeDetectorRef.detectChanges();
           })
       });
   }
@@ -174,5 +185,24 @@ export class BookingsListComponent extends MeteorComponent implements OnInit, Af
       this.nameOrder.next(-1);
       break;
     }
+  }
+
+  getBookingStatus(item) {
+    let retVal = null;
+
+    // check completed flag
+    if (new Date(item.startDate) < new Date()) {
+      item.completed = true;
+    }
+
+    if (item.confirmed !== true) {
+        retVal = "Pending";
+    } else if (item.confirmed === true && item.completed !== true) {
+        retVal = "Confirmed";
+    } else if (item.completed === true) {
+        retVal = "Completed";
+    }
+
+    return retVal;
   }
 }

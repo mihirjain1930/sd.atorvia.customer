@@ -4,10 +4,11 @@ import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
 import { MeteorComponent } from 'angular2-meteor';
 import { CompleterService, CompleterData, CompleterItem } from 'ng2-completer';
-import template from './landing.html';
+import { ChangeDetectorRef } from "@angular/core";
 import { Tour } from "../../../../both/models/tour.model";
 import { isValidEmail } from "../../../../both/validators/index";
 import { showAlert } from "../shared/show-alert";
+import template from './landing.html';
 
 interface Pagination {
   limit: number;
@@ -28,7 +29,7 @@ export class LandingComponent extends MeteorComponent implements OnInit, AfterVi
   error: string;
   dataService: CompleterData;
 
-  constructor(private zone: NgZone, private router: Router, private completerService: CompleterService) {
+  constructor(private zone: NgZone, private router: Router, private completerService: CompleterService, private changeDetectorRef: ChangeDetectorRef) {
     super();
     this.dataService = completerService.remote('/api/1.0/tours/search?searchString=', 'name,departure,destination', 'name');
   }
@@ -48,6 +49,7 @@ export class LandingComponent extends MeteorComponent implements OnInit, AfterVi
         }
 
         this.hotItems = res.data;
+        this.changeDetectorRef.detectChanges();
     });
 
     where = {active: true, approved: true};
@@ -58,6 +60,7 @@ export class LandingComponent extends MeteorComponent implements OnInit, AfterVi
             return;
         }
         this.topItems = res;
+        this.changeDetectorRef.detectChanges();
     })
   }
 

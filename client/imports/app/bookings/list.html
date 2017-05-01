@@ -65,13 +65,16 @@
                     <div class="">
                       <div class="side-img">
                         <div class="img-wrp">
-                            <a [routerLink]="['/bookings/view', item._id]"><span *ngIf="item.tour.featuredImage?.url"><img src="/images/trip.png" /></span></a>
+                            <a [routerLink]="['/bookings/view', item._id]">
+                              <span *ngIf="!! item.tour.featuredImage?.url"><img [src]="item.tour.featuredImage?.url" /></span>
+                              <span *ngIf="! item.tour.featuredImage?.url"><img src="/images/trip.png" /></span>
+                            </a>
                         </div>
                       </div>
                       <div class="side-content">
                         <div class="booking-list-desc">
                           <div class="booking-list-top">
-                          <h5 style="margin-bottom: 5px;">{{item.tour.name}}</h5>
+                          <a [routerLink]="['/bookings/view', item._id]"><h5 style="margin-bottom: 5px;">{{item.tour.name}}</h5></a>
 
                           <span style="padding-right: 40px;">
                             <i class="fa fa-map-marker" aria-hidden="true"></i>
@@ -122,8 +125,7 @@
                                 </div>
                                 <div class="icon-desc">
                                   <h5>Status</h5>
-                                  <p *ngIf="item.confirmed == false">Pending</p>
-                                  <p *ngIf="item.confirmed == true">Confirmed</p>
+                                  <p>{{getBookingStatus(item)}}</p>
                                 </div>
                               </div>
                             </div>

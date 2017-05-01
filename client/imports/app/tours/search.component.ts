@@ -49,11 +49,11 @@ export class SearchComponent extends MeteorComponent implements OnInit, AfterVie
     this.paramsSub = this.route.params
       .subscribe(params => {
 
-        if (params.slug) {
-          this.searchString = params.slug;
+        if (params['slug']) {
+          this.searchString = params['slug'];
           this.isSearchScreen = false;
         } else {
-          this.searchString = params.query;
+          this.searchString = params['query'];
         }
 
         if (! this.searchString) {

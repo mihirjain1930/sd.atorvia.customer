@@ -36,8 +36,8 @@ export class DestinationComponent extends MeteorComponent implements OnInit, Aft
     this.paramsSub = this.route.params
       .subscribe(params => {
 
-        if (params.slug) {
-          this.searchString = params.slug;
+        if (params['slug']) {
+          this.searchString = params['slug'];
         }
 
         if (! this.searchString) {

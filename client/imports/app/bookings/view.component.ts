@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, NgZone } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, NgZone } from '@angular/core';
 import { Meteor } from "meteor/meteor";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomValidators as CValidators } from "ng2-validation";
@@ -21,12 +21,13 @@ declare var jQuery:any;
   template
 })
 @InjectUser('user')
-export class BookingViewComponent extends MeteorComponent implements OnInit, AfterViewInit {
+export class BookingViewComponent extends MeteorComponent implements OnInit, AfterViewInit, OnDestroy {
   booking: Booking = null;
   tour: Tour = null;
   supplier: User = null
   error: string = null;
   activeTab: string = "overview";
+  paramsSub: Subscription;
 
   constructor(private zone: NgZone, private route: ActivatedRoute, private changeDetectorRef: ChangeDetectorRef) {
     super();
@@ -43,6 +44,11 @@ export class BookingViewComponent extends MeteorComponent implements OnInit, Aft
           return;
         }
 
+        // check completed flag
+        if (new Date(res.booking.startDate) < new Date()) {
+          res.booking.completed = true;
+        }
+
         this.booking = <Booking>res.booking;
         this.tour = <Tour>res.tour;
         this.supplier = <User>res.supplier;
@@ -54,6 +60,10 @@ export class BookingViewComponent extends MeteorComponent implements OnInit, Aft
   }
 
   ngAfterViewInit() {
+  }
+
+  ngOnDestroy() {
+    this.paramsSub.unsubscribe();
   }
 
   detectChanges() {
@@ -74,9 +84,10 @@ export class BookingViewComponent extends MeteorComponent implements OnInit, Aft
   get bookingStatus() {
     let retVal = null;
     let booking = this.booking;
+
     if (booking.confirmed !== true) {
         retVal = "Pending";
-    } else if (booking.confirmed === true && this.booking.completed !== true) {
+    } else if (booking.confirmed === true && booking.completed !== true) {
         retVal = "Confirmed";
     } else if (booking.completed === true) {
         retVal = "Completed";
