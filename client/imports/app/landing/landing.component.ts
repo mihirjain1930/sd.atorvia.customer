@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
 import { MeteorComponent } from 'angular2-meteor';
-import { CompleterService, CompleterData } from 'ng2-completer';
+import { CompleterService, CompleterData, CompleterItem } from 'ng2-completer';
 import template from './landing.html';
 import { Tour } from "../../../../both/models/tour.model";
 import { isValidEmail } from "../../../../both/validators/index";
@@ -50,7 +50,7 @@ export class LandingComponent extends MeteorComponent implements OnInit, AfterVi
         this.hotItems = res.data;
     });
 
-    let where = {active: true, approved: true};
+    where = {active: true, approved: true};
     let limit = 8;
     this.call("tours.findTopDestinations", where, limit, (err, res) => {
         if (err) {
@@ -100,5 +100,14 @@ export class LandingComponent extends MeteorComponent implements OnInit, AfterVi
         showAlert("Thank you for subscribing to our website.", "success");
       }
     })
+  }
+
+  navigateTour(item: CompleterItem) {
+    console.log(item);
+    if (! item || ! item.originalObject) {
+      return;
+    }
+    let slug = item.originalObject.slug;
+    this.router.navigate(['/tours', slug]);
   }
 }

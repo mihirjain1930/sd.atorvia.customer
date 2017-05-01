@@ -28,7 +28,7 @@ Picker.route( '/api/1.0/tours/search', function( params, request, response, next
       limit: 10,
       skip: 0,
       sort: { "totalAvailableSeats": -1 },
-      fields: {"name": 1, "departure": 1, "destination": 1}
+      fields: {"name": 1, "departure": 1, "destination": 1, "slug": 1}
   };
   let item = this.item;
   let where = {active: true, approved: true};
