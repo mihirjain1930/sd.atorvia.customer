@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
 import { MeteorComponent } from 'angular2-meteor';
+import { ChangeDetectorRef } from "@angular/core";
 import { Tour } from "../../../../both/models/tour.model";
 import { showAlert } from "../shared/show-alert";
 import template from './top-destinations.html';
@@ -24,7 +25,7 @@ export class TopDestinationsComponent extends MeteorComponent implements OnInit,
   error: string;
   tours: Tour[];
 
-  constructor(private zone: NgZone, private router: Router) {
+  constructor(private zone: NgZone, private router: Router, private changeDetectorRef: ChangeDetectorRef) {
     super();
   }
 
@@ -37,6 +38,7 @@ export class TopDestinationsComponent extends MeteorComponent implements OnInit,
             return;
         }
         this.tours = res;
+        this.changeDetectorRef.detectChanges();
     })
   }
 

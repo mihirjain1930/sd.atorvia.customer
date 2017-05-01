@@ -4,6 +4,7 @@ import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
 import { MeteorComponent } from 'angular2-meteor';
 import { Observable, Subscription, Subject, BehaviorSubject } from "rxjs";
+import { ChangeDetectorRef } from "@angular/core";
 import { Tour } from "../../../../both/models/tour.model";
 import { showAlert } from "../shared/show-alert";
 import template from './destination.html';
@@ -28,7 +29,7 @@ export class DestinationComponent extends MeteorComponent implements OnInit, Aft
   itemsSize: number = -1;
   tours: Tour[];
 
-  constructor(private zone: NgZone, private router: Router, private route: ActivatedRoute) {
+  constructor(private zone: NgZone, private router: Router, private route: ActivatedRoute, private changeDetectorRef: ChangeDetectorRef) {
     super();
   }
 
@@ -76,8 +77,8 @@ export class DestinationComponent extends MeteorComponent implements OnInit, Aft
             return;
         }
         this.tours = res.data;
-        // console.log(res.data);
         this.itemsSize = res.count;
+        this.changeDetectorRef.detectChanges();
     })
   }
 
