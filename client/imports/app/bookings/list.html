@@ -55,112 +55,92 @@
   <div class="grey-bg">
     <div class="container">
       <div class="row justify-content-sm-center">
-        <div class="col-xl-10">
+        <div class="col-xl-12">
           <div class="row">
-            <div class="col-md-7">
+            <div class="col-xl-8">
               <div class="right-wrap" *ngFor="let item of items; let i = index;">
 
-                <div class="travel-detail" >
+                <div class="travel-detail booking-list" >
                   <div class="tarvel-title">
-                    <div class="row">
-                      <div class="col-lg-2">
+                    <div class="">
+                      <div class="side-img">
                         <div class="img-wrp">
-                            <span *ngIf="item.tour.featuredImage?.url"><img [src]="item.tour.featuredImage?.url" /></span>
+                            <span *ngIf="item.tour.featuredImage?.url"><img src="/images/trip.png" /></span>
                         </div>
                       </div>
-                      <div class="col-lg-10">
-                        <h5>{{item.tour.name}}</h5>
-                        <p>
-                          <span><i class="fa fa-map-marker" aria-hidden="true"></i></span>{{item.tour.departure}} &amp; {{item.tour.destination}}
-                          <span class="rating">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star-half-o" aria-hidden="true"></i>
+                      <div class="side-content">
+                        <div class="booking-list-desc">
+                          <div class="booking-list-top">
+                          <h5 style="margin-bottom: 5px;">{{item.tour.name}}</h5>
 
+                          <span style="padding-right: 40px;">
+                            <i class="fa fa-map-marker" aria-hidden="true"></i>
+                            <span style="padding-left: 10px;">
+                              {{item.tour.departure}} &amp; {{item.tour.destination}}
+                            </span>
                           </span>
-                        </p>
+
+                          <span style="padding-left: 40px; border-left: 1px solid #ccc;">
+                            <img *ngIf="! item.supplier?.image?.url" alt="" src="images/user.png" style="width: 35px;">
+                            <img *ngIf="!! item.supplier?.image?.url" alt="" [src]="item.supplier?.image?.url" style="width: 35px;">
+
+                            <span style="padding-left: 5px;" *ngIf="!! item.supplier?.companyName">{{item.supplier?.companyName}}</span>
+                            <span style="padding-left: 5px;" *ngIf="! item.supplier?.companyName">N.A.</span>
+
+                            <span style="padding-left: 5px;"><i aria-hidden="true" class="fa fa-check-circle"></i></span>
+                          </span>
+
+                        </div>
+                          <div class="travel-desc">
+                          <div class="row">
+                            <div class="col-sm-4">
+                              <div class="">
+                                <div class="icon-img">
+                                  <img src="images/dd.png" alt="" />
+                                </div>
+                                <div class="icon-desc">
+                                  <h5>Departure Date</h5>
+                                  <p>{{item.startDate | date}}</p>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-sm-4">
+                              <div class="">
+                                <div class="icon-img">
+                                  <img src="images/rd.png" alt="" />
+                                </div>
+                                <div class="icon-desc">
+                                  <h5>Return Date</h5>
+                                  <p>{{item.endDate | date}}</p>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-sm-4 " style="border-left: 1px solid #ccc;">
+                              <div class="">
+                                <div class="icon-img">
+
+                                </div>
+                                <div class="icon-desc">
+                                  <h5>Status</h5>
+                                  <p *ngIf="item.confirmed == false">Pending</p>
+                                  <p *ngIf="item.confirmed == true">Confirmed</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                       </div>
                     </div>
                   </div>
-                  <div class="travel-desc">
-                    <div class="row">
-                      <div class="col-sm-4">
-                        <div class="row">
-                          <div class="col-lg-4">
-                            <img src="images/dd.png" alt="" />
-                          </div>
-                          <div class="col-lg-8">
-                            <h5>Departure Date</h5>
-                            <p>{{item.startDate | date}}</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-sm-4">
-                        <div class="row">
-                          <div class="col-lg-4">
-                            <img src="images/rd.png" alt="" />
-                          </div>
-                          <div class="col-lg-8">
-                            <h5>Return Date</h5>
-                            <p>{{item.endDate | date}}</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-sm-4">
-                        <div class="row">
-                          <div class="col-lg-4">
-                            <img src="images/adult.png" alt="" />
-                          </div>
-                          <div class="col-lg-8">
-                            <h5>Travellers</h5>
-                            <p>{{item.numOfAdults}} Adult / {{item.numOfChild}} Child</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-sm-4">
-                        <div class="row">
-                          <div class="col-lg-4">
-                            <img src="images/hotels.png" alt="" />
-                          </div>
-                          <div class="col-lg-8">
-                            <h5>Hotels</h5>
-                            <p>{{item.tour.noOfNights}} Nights</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-sm-4">
-                        <div class="row">
-                          <div class="col-lg-4">
-                            <img src="images/meal.png" alt="" />
-                          </div>
-                          <div class="col-lg-8">
-                            <h5>Meals</h5>
-                            <p>{{item.tour.totalMeals}}</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-sm-4">
-                        <div class="row">
-                          <div class="col-lg-4">
-                            <img src="images/cost.png" alt="" />
-                          </div>
-                          <div class="col-lg-8">
-                            <h5>Total Price</h5>
-                            <p>AUD ${{item.totalPrice}}</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+
                 </div>
 
 
               </div>
               <div class="" *ngIf="itemsSize == 0">No bookings has been done yet.</div>
             </div>
-            <div class="col-md-5">
+            <div class="col-xl-4">
               <div class="customer-support">
                 <div class="row">
                   <div class="col-sm-12">
