@@ -50,12 +50,10 @@
                 <li>
                 <div class="left-content">
                     <h5>{{bookingDetails.tour.name}}</h5>
-                    <p>Travellers: {{bookingDetails.numOfTravellers}}
-                      <span style="font-size: 0.9em; font-weight: normal;">(Adult: {{bookingDetails.numOfAdults}} / Child: {{bookingDetails.numOfChild}})</span>
-                    </p>
+                    <p>Travellers: {{bookingDetails.numOfTravellers}}</p>
                 </div>
                 <div class="right-content">
-                    <h5>AUD$ {{bookingDetails.pricePerAdult}}</h5>
+                    <h5><currency [amount]=bookingDetails.pricePerAdult [currencyCode]=bookingDetails.currencyCode [convert]=false></currency></h5>
                     <p>Tax Inclusive</p>
                 </div>
                 </li>
@@ -65,8 +63,8 @@
                     <h5>Taxes</h5>
                 </div>
                 <div class="right-content">
-                    <h5>AUD$ {{bookingDetails.totalPrice}}</h5>
-                    <p>AUD$ {{taxAmount}}</p>
+                    <h5><currency [amount]=bookingDetails.totalPrice [currencyCode]=bookingDetails.currencyCode [convert]=false></currency></h5>
+                    <p><currency [amount]=taxAmount [currencyCode]=bookingDetails.currencyCode [convert]=false></currency></p>
                 </div>
                 </li>
                 <li>
@@ -74,7 +72,7 @@
                     <h5>Total purchases</h5>
                 </div>
                 <div class="right-content">
-                    <h2>AUD$ {{bookingDetails.totalPrice}}</h2>
+                    <h2><currency [amount]=bookingDetails.totalPrice [currencyCode]=bookingDetails.currencyCode [convert]=false></currency></h2>
                 </div>
                 </li>
             </ul>

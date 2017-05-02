@@ -8,6 +8,7 @@ import { MeteorComponent } from 'angular2-meteor';
 import { LocalStorageService, SessionStorageService } from 'ng2-webstorage';
 import { Booking } from "../../../../both/models/booking.model";
 import { Tour } from "../../../../both/models/tour.model";
+import { CurrencyService } from "../../services/currency";
 import { showAlert } from "../shared/show-alert";
 import template from './booking-form.html';
 import * as _ from 'underscore';
@@ -37,7 +38,13 @@ export class BookingFormComponent extends MeteorComponent implements OnInit, Aft
   bookingForm: FormGroup;
   error: string;
 
-  constructor(private router: Router, private zone: NgZone, private formBuilder: FormBuilder, private localStorage: LocalStorageService, private sessionStorage: SessionStorageService, private changeDetectorRef: ChangeDetectorRef) {
+  constructor(private router: Router,
+    private zone: NgZone,
+    private formBuilder: FormBuilder,
+    private localStorage: LocalStorageService,
+    private sessionStorage: SessionStorageService,
+    private changeDetectorRef: ChangeDetectorRef,
+    private currency: CurrencyService) {
     super();
   }
 
@@ -74,10 +81,19 @@ export class BookingFormComponent extends MeteorComponent implements OnInit, Aft
 
     // only run when property "data" changed
     if (changes['selDateRange']) {
-      let selDateRange = <DateRange> changes["selDateRange"].currentValue;
+      let selDateRange = <DateRange> JSON.parse(JSON.stringify(changes["selDateRange"].currentValue));
       if (selDateRange) {
         booking.startDate = selDateRange.startDate;
         booking.endDate = selDateRange.endDate;
+        booking.currencyCode = this.currency.currencyCode;
+        for (let i=0; i<selDateRange.price.length; i++) {
+          let adultPrice = this.currency.convert(selDateRange.price[i].adult);
+          let childPrice = this.currency.convert(selDateRange.price[i].child);
+
+          selDateRange.price[i].adult = adultPrice;
+          selDateRange.price[i].child = childPrice;
+        }
+
         this.selDateRange = selDateRange;
         this.setBookingPrice();
       }
@@ -146,6 +162,8 @@ export class BookingFormComponent extends MeteorComponent implements OnInit, Aft
     booking.numOfAdults = numOfAdults;
     booking.numOfChild = numOfChild;
     booking.numOfTravellers = numOfAdults + numOfChild;
+    selPrice.adult = selPrice.adult;
+    selPrice2.child = selPrice2.child;
     booking.pricePerAdult = selPrice.adult;
     booking.pricePerChild = selPrice2.child;
     booking.totalPrice = (numOfAdults * selPrice.adult) + (numOfChild * selPrice2.child);

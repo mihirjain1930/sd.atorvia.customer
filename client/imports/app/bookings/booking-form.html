@@ -39,11 +39,15 @@
               <ul>
                 <li [hidden]="bookingForm.controls['numOfAdults'].errors && bookingForm.controls['numOfAdults'].touched">
                   <span class="pull_left" [innerHTML]="'Adults x ' + booking.numOfAdults"></span>
-                  <span class="pull_right" [innerHTML]="'A$' + (booking.numOfAdults * booking.pricePerAdult)">A$</span>
+                  <span class="pull_right" >
+                    <currency [amount]="(booking.numOfAdults * booking.pricePerAdult)"></currency>
+                  </span>
                 </li>
                 <li [hidden]="bookingForm.controls['numOfChild'].errors && bookingForm.controls['numOfChild'].touched">
                   <span class="pull_left" [innerHTML]="'Child x ' + booking.numOfChild"></span>
-                  <span class="pull_right" [innerHTML]="'A$' + (booking.numOfChild * booking.pricePerChild)">A$</span>
+                  <span class="pull_right" >
+                    <currency [amount]="(booking.numOfChild * booking.pricePerChild)"></currency>
+                  </span>
                 </li>
               </ul>
               <div class="total-wrap">
@@ -52,8 +56,7 @@
                     <p>Total</p>
                   </div>
                   <div class="col-8">
-                    <h2>A$</h2>
-                    <h2>{{booking.totalPrice}}</h2>
+                    <h2><currency [amount]=booking.totalPrice></currency></h2>
                   </div>
                 </div>
               </div>

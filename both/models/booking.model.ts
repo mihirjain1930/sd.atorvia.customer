@@ -63,6 +63,7 @@ export interface Booking extends CollectionObject {
     endDate: Date;
     numOfAdults: number;
     numOfChild: number;
+    currencyCode: string;
     pricePerAdult: number;
     pricePerChild: number;
     travellers: [

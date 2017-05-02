@@ -25,6 +25,8 @@ export class AppComponent extends MeteorComponent implements OnInit, AfterViewIn
           this.subscribe("users");
           this.checkRememberMe();
       }
+      this.subscribe("currencies", () => {
+      });
     }
 
     private observeWindowHeight() {

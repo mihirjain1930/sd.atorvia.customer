@@ -163,7 +163,7 @@
                               </div>
                               <div class="col-lg-8">
                                 <h5>Total Price</h5>
-                                <p>AUD ${{bookingDetails.totalPrice}}</p>
+                                <p><currency [amount]=bookingDetails.totalPrice [currencyCode]=bookingDetails.currencyCode [convert]=false></currency></p>
                               </div>
                             </div>
                           </div>

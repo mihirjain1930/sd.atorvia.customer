@@ -53,13 +53,13 @@ Picker.route( '/api/1.0/paypal/payment/create', function( params, request, respo
                 "name": booking.tour.name,
                 "sku": booking.tour.id,
                 "price": booking.totalPrice,
-                "currency": "AUD",
+                "currency": booking.currencyCode,
                 "quantity": 1
             }]
         },
         "amount": {
           "total": booking.totalPrice,
-          "currency": "AUD"
+          "currency": booking.currencyCode
         },
         "description": "This is the payment description."
     }]
@@ -252,7 +252,7 @@ Picker.route('/api/1.0/paypal/card-payment/create', function( params, request, r
         "transactions": [{
             "amount": {
                 "total": totalPrice,
-                "currency": "AUD"
+                "currency": booking.currencyCode
             },
             "description": "This is the payment transaction description."
         }]

@@ -76,8 +76,8 @@ export class SearchComponent extends MeteorComponent implements OnInit, AfterVie
           max: 10000,
           values: [0, 10000],
           slide: function(event, ui) {
-            $("#startPriceRange").text("$" + ui.values[0]);
-            $("#endPriceRange").text("$" + ui.values[1]);
+            $("#startPriceRange").text("A$" + ui.values[0]);
+            $("#endPriceRange").text("A$" + ui.values[1]);
             $("#filterPrice").val(ui.values[0] + ',' + ui.values[1]);
 
             $("#filterPrice").trigger("click");
