@@ -13,6 +13,9 @@ import template from "./view.html";
 import terms from "./static/terms.html";
 import privacy from "./static/privacy.html";
 import disclaimer from "./static/disclaimer.html";
+import story from "./static/our-story.html";
+import useAtorvia from "./static/why-use.html";
+import sell from "./static/sell.html";
 
 @Component({
   selector: '',
@@ -57,6 +60,24 @@ export class ViewPageComponent extends MeteorComponent implements OnInit, OnDest
             heading: "Disclaimer",
             contents: disclaimer
           };
+        break;
+        case "story":
+          this.item = <page> {
+            heading: "Our Story",
+            contents: story
+          };
+        break;
+        case "use-atorvia":
+          this.item = <Page> {
+            heading: "Why Use Atorvia",
+            contents: useAtorvia
+          }
+        break;
+        case "sell":
+          this.item = <Page> {
+            heading: "Sell On Atorvia",
+            contents: sell
+          }
         break;
         default:
           this.call("pages.findOne", this.slug, (err, res)=> {

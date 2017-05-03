@@ -1,8 +1,9 @@
 import { Meteor } from "meteor/meteor";
-import {Component, OnInit, OnDestroy, NgZone} from "@angular/core";
-import {Observable, Subscription, Subject, BehaviorSubject} from "rxjs";
-import {MeteorObservable} from "meteor-rxjs";
-import {InjectUser} from "angular2-meteor-accounts-ui";
+import { Component, OnInit, OnDestroy, NgZone } from "@angular/core";
+import { Observable, Subscription, Subject, BehaviorSubject } from "rxjs";
+import { MeteorObservable } from "meteor-rxjs";
+import { InjectUser } from "angular2-meteor-accounts-ui";
+import { ChangeDetectorRef } from "@angular/core";
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MeteorComponent } from 'angular2-meteor';
@@ -18,7 +19,9 @@ import template from "./view.html";
 
 export class FaqPageComponent extends MeteorComponent implements OnInit, OnDestroy {
   items: FAQCategory[]
-
+  constructor(private changeDetectorRef: ChangeDetectorRef) {
+    super();
+  }
   ngOnInit() {
     this.call("faqs.find", (err, res) => {
       if (err) {
@@ -26,6 +29,7 @@ export class FaqPageComponent extends MeteorComponent implements OnInit, OnDestr
         return;
       }
       this.items = res;
+      this.changeDetectorRef.detectChanges();
     });
   }
 
