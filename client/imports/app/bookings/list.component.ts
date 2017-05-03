@@ -106,7 +106,7 @@ export class BookingsListComponent extends MeteorComponent implements OnInit, Af
               sort: { [orderBy]: nameOrder as number }
           };
 
-          this.paginationService.setCurrentPage("tours", curPage as number);
+          this.paginationService.setCurrentPage("bookings", curPage as number);
           this.searchString = searchString;
           jQuery(".loading").show();
           this.call("bookings.find", options, where, searchString, (err, res) => {
