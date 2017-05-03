@@ -28,7 +28,6 @@ export class BookingViewComponent extends MeteorComponent implements OnInit, Aft
   error: string = null;
   activeTab: string = "overview";
   paramsSub: Subscription;
-
   constructor(private zone: NgZone, private route: ActivatedRoute, private changeDetectorRef: ChangeDetectorRef) {
     super();
   }

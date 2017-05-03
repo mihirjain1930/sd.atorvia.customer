@@ -11,7 +11,7 @@
         <label for="type">Subject</label>
         <div class="form-group">
           <div class="input-wrap">
-            <input type="text" id="type" placeholder="Your subject here" formControlName="subject">
+            <input type="text" class="form-control" id="type" placeholder="Your subject here" formControlName="subject">
           </div>
           <div *ngIf="askAQuestionForm.controls['subject'].errors && askAQuestionForm.controls['subject'].touched" class="has-error">
             <div *ngIf="askAQuestionForm.controls.subject.hasError('required')">You have to enter subject to proceed.</div>
@@ -34,6 +34,6 @@
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn green-btn full-btn" (click)="askAQuestion()" [disabled]="! this.askAQuestionForm.valid">Send</button>
+    <button type="button" class="btn green-btn full-btn" (click)="askAQuestion()">Send</button>
   </div>
 </div>

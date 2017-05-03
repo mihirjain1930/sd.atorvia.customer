@@ -45,9 +45,5 @@ Meteor.methods({
 
       })
     }
-  },
-
-  // "sendMail.askAQuestion": (emailData: any) => {
-  //   HTTP.call("POST", `https://api.mailgun.net/v3/sandbox3f697e79ae2849f5935a5a60e59f9795.mailgun.org/messages`);
-  // }
+  }
 });

@@ -16,6 +16,7 @@ declare var jQuery: any;
   template
 })
 export class AskQuestionComponent extends MeteorComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy, OnChanges  {
+  @Input() supplierId: string;
   askAQuestionForm: FormGroup;
   error: string;
   constructor(private router: Router,
@@ -38,18 +39,19 @@ export class AskQuestionComponent extends MeteorComponent implements OnInit, Aft
   }
 
   askAQuestion() {
-
     let message = {
+      suppplierId: this.supplierId,
       subject: this.askAQuestionForm.value.subject,
       message: this.askAQuestionForm.value.message
     }
-    jQuery(".modal").modal('hide');
-    // this.call("sendMail.askAQuestion", message, (err, res) => {
-    //   if (! err) {
-    //     showAlert("Your message has been sent to supplier.", "success");
-    //   } else {
-    //     showAlert("Error while sending message to supplier. Please try again later", "danger");
-    //   }
-    // })
+    this.call("tours.askAQuestion", message, (err, res) => {
+      if (! err) {
+        jQuery(".modal").modal('hide');
+        this.askAQuestionForm.reset();
+        showAlert("Your message has been sent to supplier.", "success");
+      } else {
+        showAlert("Error while sending message to supplier. Please try again later", "danger");
+      }
+    })
   }
 }
