@@ -34,7 +34,6 @@ Meteor.methods({
         let $ = cheerio.load(result.content);
         // console.log(result.content);
         let value = Number($('.bld').text().trim().split(" ") [0]);
-        console.log(value);
 
         let createdAt = new Date();
         Currencies.upsert({
@@ -46,6 +45,9 @@ Meteor.methods({
 
       })
     }
+  },
 
-  }
+  // "sendMail.askAQuestion": (emailData: any) => {
+  //   HTTP.call("POST", `https://api.mailgun.net/v3/sandbox3f697e79ae2849f5935a5a60e59f9795.mailgun.org/messages`);
+  // }
 });
