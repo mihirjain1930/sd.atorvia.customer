@@ -92,6 +92,7 @@ export interface Booking extends CollectionObject {
       type: string;
       expiry: Date;
     };
+    uniqueId: number;
     totalPrice: number;
     bookingDate: Date;
     paymentDate: Date;
