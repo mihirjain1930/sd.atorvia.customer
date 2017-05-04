@@ -106,7 +106,7 @@ export class LandingComponent extends MeteorComponent implements OnInit, AfterVi
   }
 
   navigateTour(item: CompleterItem) {
-    console.log(item);
+    // console.log(item);
     if (! item || ! item.originalObject) {
       return;
     }

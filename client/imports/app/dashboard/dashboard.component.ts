@@ -6,6 +6,7 @@ import { InjectUser } from "angular2-meteor-accounts-ui";
 import { Router } from '@angular/router';
 import { MeteorComponent } from 'angular2-meteor';
 import { User } from "../../../../both/models/user.model";
+import { Place } from "../../../../both/models/place.model";
 import { upload } from '../../../../both/methods/images.methods';
 import { showAlert } from "../shared/show-alert";
 import { validateEmail, validatePassword, validatePhoneNum, validateFirstName } from "../../validators/common";
@@ -34,27 +35,28 @@ export class DashboardComponent extends MeteorComponent implements OnInit, After
   }
 
   ngOnInit() {
-    if (!! Meteor.userId()) {
-      this.userId = Meteor.userId();
-      this.accountForm = this.formBuilder.group({
-        email: ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50), CValidators.email])],
-        firstName: ['', Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(30), validateFirstName])],
-        middleName: ['', Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(30), validateFirstName])],
-        lastName: ['', Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(30), validateFirstName])],
-        phoneNum: ['', Validators.compose([Validators.required, Validators.minLength(7), Validators.maxLength(15), validatePhoneNum])],
-      });
-      let self = this;
-      let callback = (user) => {
-        //console.log("user:", user);
-        self.accountForm.controls['firstName'].setValue(user.profile.firstName);
-        self.accountForm.controls['middleName'].setValue(user.profile.middleName);
-        self.accountForm.controls['lastName'].setValue(user.profile.lastName);
-        self.accountForm.controls['email'].setValue(user.emails[0].address);
-        self.accountForm.controls['phoneNum'].setValue(user.profile.contact);
-        self.oldEmailAddress = user.emails[0].address;
-      };
-      this.fetchUser(callback);
+    if (! Meteor.userId()) {
+      return;
     }
+    this.userId = Meteor.userId();
+    this.accountForm = this.formBuilder.group({
+      email: ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50), CValidators.email])],
+      firstName: ['', Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(30), validateFirstName])],
+      middleName: ['', Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(30), validateFirstName])],
+      lastName: ['', Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(30), validateFirstName])],
+      phoneNum: ['', Validators.compose([Validators.required, Validators.minLength(7), Validators.maxLength(15), validatePhoneNum])],
+    });
+    let self = this;
+    let callback = (user) => {
+      //console.log("user:", user);
+      self.accountForm.controls['firstName'].setValue(user.profile.firstName);
+      self.accountForm.controls['middleName'].setValue(user.profile.middleName);
+      self.accountForm.controls['lastName'].setValue(user.profile.lastName);
+      self.accountForm.controls['email'].setValue(user.emails[0].address);
+      self.accountForm.controls['phoneNum'].setValue(user.profile.contact);
+      self.oldEmailAddress = user.emails[0].address;
+    };
+    this.fetchUser(callback);
   }
 
   // find logged-in user data as not available page-load on client

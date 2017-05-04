@@ -25,8 +25,8 @@ Meteor.methods({
             contact: user.profile.contact,
             image: user.profile.image
         };
-        booking.startDate = new Date(booking.startDate);
-        booking.endDate = new Date(booking.endDate);
+        booking.startDate = booking.startDate;
+        booking.endDate = booking.endDate;
         booking.bookingDate = new Date();
         booking.createdAt = new Date();
         booking.active = true;
@@ -135,32 +135,23 @@ Meteor.methods({
       }
     },
     "bookings.sendConfirmation": (bookingId) => {
+      let fs = require("fs");
+
+      // find booking details
       let booking = Bookings.collection.findOne({_id: bookingId});
       if (_.isEmpty(booking)) {
         return;
       }
 
-      let from = "atorvia12@gmail.com";
+      // send email to customer
       let to = booking.user.email;
       let subject = "New Booking Confirmation";
-      let text = `Hi ${booking.user.firstName}, <br />
-        Your booking order for tour name ${booking.tour.name} has been placed. <br />
-        Please find tour details below: <br />
-        <br />
-        <ul>
-        <li>Departure: ${booking.tour.departure}</li>
-        <li>Destination: ${booking.tour.destination}</li>
-        <li>Start Date: ${getFormattedDate(booking.startDate)} </li>
-        <li>End Date: ${getFormattedDate(booking.endDate)} </li>
-        <li>Num of Travellers: ${booking.numOfTravellers} </li>
-        <li>Total Price: ${booking.totalPrice}</li>
-        </ul>
-        <p>Team Atorvia</p>
-        `;
+      let text = eval('`'+fs.readFileSync(process.env.PWD + "/server/imports/emails/customer/booking-confirmation.html")+'`');
       Meteor.setTimeout(() => {
-        Email.send({ to, from, subject, text});
+        Meteor.call("sendEmail", to, subject, text)
       }, 0);
 
+      // send email to supplier
       let supplier = Meteor.users.findOne({_id: booking.tour.supplierId});
       if (_.isEmpty(supplier)) {
         return;
@@ -168,22 +159,9 @@ Meteor.methods({
 
       to = supplier.emails[0].address;
       subject = "New Booking Confirmation";
-      text = `Hi ${supplier.profile.supplier.companyName}, <br />
-      New booking order for tour name ${booking.tour.name} has been placed by ${booking.user.firstName} ${booking.user.lastName}. <br />
-      Please find tour details below: <br />
-      <br />
-      <ul>
-      <li>Departure: ${booking.tour.departure}</li>
-      <li>Destination: ${booking.tour.destination}</li>
-      <li>Start Date: ${getFormattedDate(booking.startDate)} </li>
-      <li>End Date: ${getFormattedDate(booking.endDate)} </li>
-      <li>Num of Travellers: ${booking.numOfTravellers} </li>
-      <li>Total Price: ${booking.totalPrice}</li>
-      </ul>
-      <p>Team Atorvia</p>`;
-
+      text = eval('`'+fs.readFileSync(process.env.PWD + "/server/imports/emails/supplier/booking-confirmation.html")+'`');
       Meteor.setTimeout(() => {
-        Email.send({ to, from, subject, text});
+        Meteor.call("sendEmail", to, subject, text)
       }, 0);
     },
     "bookings.updateUser": (userId: string) => {

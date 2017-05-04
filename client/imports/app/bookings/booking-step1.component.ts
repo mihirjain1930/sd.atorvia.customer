@@ -116,7 +116,7 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
   private initTraveller(i) {
     let travellers = this.booking.travellers;
     if (typeof travellers[i] == "undefined") {
-      travellers[i] = {
+      travellers[i] = <any>{
       };
     }
 
