@@ -133,7 +133,7 @@ Meteor.methods({
       }
     },
     "bookings.sendConfirmation": (bookingId) => {
-      let booking = Meteor.call("bookings.findOne", {_id: bookingId});
+      let booking = Bookings.collection.findOne({_id: bookingId});
       if (_.isEmpty(booking)) {
         return;
       }
