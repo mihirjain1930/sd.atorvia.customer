@@ -34,7 +34,6 @@ Meteor.methods({
         let $ = cheerio.load(result.content);
         // console.log(result.content);
         let value = Number($('.bld').text().trim().split(" ") [0]);
-        console.log(value);
 
         let createdAt = new Date();
         Currencies.upsert({
@@ -46,6 +45,5 @@ Meteor.methods({
 
       })
     }
-
   }
 });

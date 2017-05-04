@@ -97,5 +97,20 @@ Meteor.methods({
     },
     "tours.incrementView": (tourId: string) => {
       return Tours.collection.update({_id: tourId}, {$inc: {noOfViews: 1}});
+    },
+    "tours.askAQuestion": (mailData: any) => {
+      let Mailgun = require('mailgun').Mailgun;
+      let mailgun = new Mailgun('key-755f427d33296fe30862b0278c460e84');
+
+      mailgun.sendText("noreply@atorvia.com","jainmihir84@gmail.com",mailData.subject,mailData.message, "sandbox3f697e79ae2849f5935a5a60e59f9795.mailgun.org", (err) => {
+        if (! err) {
+          console.log("done");
+          return true;
+        } else {
+          console.log(err);
+          return false;
+        }
+      })
+      return true;
     }
 });

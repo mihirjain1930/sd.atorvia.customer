@@ -83,6 +83,9 @@ export class BookingFormComponent extends MeteorComponent implements OnInit, Aft
     if (changes['selDateRange']) {
       let selDateRange = <DateRange> JSON.parse(JSON.stringify(changes["selDateRange"].currentValue));
       if (selDateRange) {
+        let array = new Uint32Array(1);
+        window.crypto.getRandomValues(array);
+        booking.uniqueId = Number(array[0]);
         booking.startDate = selDateRange.startDate;
         booking.endDate = selDateRange.endDate;
         booking.currencyCode = this.currency.currencyCode;
@@ -176,6 +179,13 @@ export class BookingFormComponent extends MeteorComponent implements OnInit, Aft
     let booking = this.booking;
     booking.numOfTravellers = booking.numOfAdults + booking.numOfChild;
     booking.tour.dateRangeId = this.selDateRange._id;
+
+    let selDateRange = this.selDateRange;
+    if (booking.numOfTravellers > selDateRange.availableSeats) {
+      showAlert("Num of travellers cannot exceed than availability.", "danger");
+      return;
+    }
+
     this.sessionStorage.store("bookingDetails", this.booking);
     let bookingDetails = this.sessionStorage.retrieve("bookingDetails");
       if (bookingDetails) {

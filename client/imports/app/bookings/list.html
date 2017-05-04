@@ -17,7 +17,6 @@
                       </div>
                     </div>
                     <div class="col-3">
-
                       <div class="dropdown">
                         <div class="anchor-icons" *ngIf="false">
                           <a href="javascript:void(0)" class="top-anchor" [ngClass]="{'active': sortOrder == 1}" (click)="sortOrder=1; changeSortOrder(1);"><i class="fa fa-angle-up" aria-hidden="true"></i></a>
@@ -59,7 +58,6 @@
           <div class="row">
             <div class="col-xl-8">
               <div class="right-wrap" *ngFor="let item of items; let i = index;">
-
                 <div class="travel-detail booking-list" >
                   <div class="tarvel-title">
                     <div class="">
@@ -82,17 +80,14 @@
                               {{item.tour.departure}} &amp; {{item.tour.destination}}
                             </span>
                           </span>
-
                           <span style="padding-left: 40px; border-left: 1px solid #ccc;">
                             <img *ngIf="! item.tour.supplier?.image?.url" alt="" src="images/user.png" style="width: 35px;">
                             <img *ngIf="!! item.tour.supplier?.image?.url" alt="" [src]="item.tour.supplier?.image?.url" style="width: 35px;">
 
                             <span style="padding-left: 5px;" *ngIf="!! item.tour.supplier?.companyName">{{item.tour.supplier?.companyName}}</span>
                             <span style="padding-left: 5px;" *ngIf="! item.tour.supplier?.companyName">N.A.</span>
-
                             <span style="padding-left: 5px;"><i aria-hidden="true" class="fa fa-check-circle"></i></span>
                           </span>
-
                         </div>
                           <div class="travel-desc">
                           <div class="row">
@@ -121,7 +116,6 @@
                             <div class="col-sm-4 " style="border-left: 1px solid #ccc;">
                               <div class="">
                                 <div class="icon-img">
-
                                 </div>
                                 <div class="icon-desc">
                                   <h5>Status</h5>
@@ -135,12 +129,27 @@
                       </div>
                     </div>
                   </div>
-
                 </div>
-
-
               </div>
               <div class="" *ngIf="itemsSize == 0">No bookings has been done yet.</div>
+              <div class="pagination-control pagination-wrap right-wrap">
+                <pagination-template id="bookings" #p="paginationApi"
+                     (pageChange)="onPageChanged($event)" >
+
+                    <div class="row">
+                      <div class="col-4">
+                        <button type="button" class="btn green-btn" [class.disabled]="p.isFirstPage()" (click)="p.previous()"><span><i class="fa fa-angle-left" aria-hidden="true"></i></span> Previous</button>
+                      </div>
+                      <div class="col-4 text-center">
+                        <p>page</p>
+                        <h4 [innerHTML]="p.getCurrent() + '/' + p.getLastPage()"></h4>
+                      </div>
+                      <div class="col-4 text-right">
+                        <button type="button" class="btn green-btn" [class.disabled]="p.isLastPage()" (click)="p.next()">Next <span><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>
+                      </div>
+                    </div>
+                </pagination-template>
+              </div>
             </div>
             <div class="col-xl-4">
               <div class="customer-support">

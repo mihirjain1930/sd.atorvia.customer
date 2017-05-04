@@ -30,7 +30,7 @@
                 <div class="row">
                   <div class="col-sm-4">
                     <h6>Booking ID</h6>
-                    <p>AS00000000001</p>
+                    <p>{{booking.uniqueId}}</p>
                   </div>
                   <div class="col-sm-4">
                     <h6>Booking date</h6>
@@ -181,6 +181,11 @@
                         <p>+61 7 0000 0001</p>
                       </div>
                     </div>
+                  </div>
+                </div>
+                <div class="modal fade askquestion" id="askquestion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <ask-question [supplierId]="booking.tour.supplierId"></ask-question>
                   </div>
                 </div>
                 <!--customer-support-->

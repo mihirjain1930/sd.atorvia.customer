@@ -70,3 +70,30 @@
     }
   }
 }
+
+
+.list-faqs {
+  margin-left: 40px;
+  margin-top: 30px;
+  margin-right: 40px;
+  ul li {
+    margin-left: 40px;
+    list-style: initial;
+  }
+}
+
+
+.content-page {
+  margin-left: 40px;
+  margin-right: 40px;
+  .page-heading {
+    padding-left: 20px;
+    padding-top: 20px;
+    font-size: 35px;
+  }
+}
+
+.pagination-control {
+  border: none !important;
+  background: none !important;
+}

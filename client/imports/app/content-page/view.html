@@ -7,7 +7,7 @@
 		<div class="container">
 			<div class="row justify-content-md-center align-items-center">
 				<div class="col-lg-12 align-self-center">
-					<div class="search-box" style="padding: 60px 0;">
+					<div class="search-box">
 						<h1 *ngIf="!!page">{{page.heading}}</h1>
 					</div>
 				</div>
@@ -16,7 +16,8 @@
 	</section>
 	<!--banner-->
 
-  <div *ngIf="!!page">
+  <div class="content-page" *ngIf="!!page">
+		<h3 class="page-heading">{{page.heading}}</h3>
     <p class="main-contents content-page-content" [innerHTML]="page.contents"></p>
   </div>
 
