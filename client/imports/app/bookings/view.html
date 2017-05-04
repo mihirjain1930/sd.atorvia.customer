@@ -30,7 +30,8 @@
                 <div class="row">
                   <div class="col-sm-4">
                     <h6>Booking ID</h6>
-                    <p>{{booking.uniqueId}}</p>
+                    <p *ngIf="!! booking.uniqueId">{{booking.uniqueId}}</p>
+                    <p *ngIf="! booking.uniqueId">N.A</p>
                   </div>
                   <div class="col-sm-4">
                     <h6>Booking date</h6>

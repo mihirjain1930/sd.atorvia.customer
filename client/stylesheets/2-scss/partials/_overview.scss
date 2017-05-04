@@ -440,7 +440,7 @@
 			@extend .inline-block;
 			width: auto;
 			margin-right: 15px;
-			padding-right: 15px;
+			padding-right: 5px;
 			@extend .pull_left;
 			border-right: 1px solid $border-color;
 			@media (max-width: $laptop) {
