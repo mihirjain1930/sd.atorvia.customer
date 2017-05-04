@@ -10,6 +10,7 @@ import { MeteorComponent } from 'angular2-meteor';
 import { LocalStorageService, SessionStorageService } from 'ng2-webstorage';
 import { validateEmail, validatePhoneNum, validateFirstName, validatePassportNum } from "../../validators/common";
 import { Booking } from "../../../../both/models/booking.model";
+import { Place } from "../../../../both/models/place.model";
 import { showAlert } from "../shared/show-alert";
 import template from './booking-step1.html';
 import * as _ from 'underscore';
@@ -26,6 +27,7 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
   isProcessing: boolean = false;
   cardError: string = null;
   hideCardForm: boolean = true;
+  countries: Place[] = [];
 
   constructor(private router: Router,
     private zone: NgZone,
@@ -56,6 +58,14 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
       expiryYear: ['', Validators.compose([Validators.required])],
       cvvNumber:  ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(4)])],
       cardType: ['']
+    });
+
+    this.call("places.findCountries", (err, res) => {
+      if (err) {
+        console.log(err.reason);
+        return;
+      }
+      this.countries = res;
     })
   }
 
@@ -160,7 +170,7 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
   }
 
   resetStateValue(country) {
-    if (country == "AU") {
+    if (country == "Australia") {
       this.bookingForm.controls['travellers'] ["controls"] [0].controls["state"].setValue(null);
     }
   }

@@ -125,10 +125,7 @@
                               <div class="form-group">
                                 <div class="select-style">
                                   <select class="select" [id]="'country'+i" formControlName="passport.country">
-                                    <option value="IN">India</option>
-                                    <option value="AU">Australia</option>
-                                    <option value="CN">China</option>
-                                    <option value="NZ">New Zealand</option>
+                                    <option *ngFor="let country of countries">{{country.name}}</option>
                                   </select>
                                 </div>
                                 <div *ngIf="bookingForm.controls.travellers.controls[i].controls['passport.country'].errors && bookingForm.controls.travellers.controls[i].controls['passport.country'].touched" class="has-error">
@@ -218,7 +215,7 @@
                               <label for="state">STATE/PROVINCE *</label>
                               <div class="form-group">
                                 <div class="select-style">
-                                  <select *ngIf="country.value == 'AU'" class="select" formControlName="state" id="stateSelect">
+                                  <select *ngIf="country.value == 'Australia'" class="select" formControlName="state" id="stateSelect">
                                     <option>New South Wales</option>
                                     <option>Queensland</option>
                                     <option>Victoria</option>
@@ -226,7 +223,7 @@
                                     <option>Western Australia</option>
                                     <option>South Australia</option>
                                   </select>
-                                  <input *ngIf="country.value != 'AU'" type="text" class="form-control" id="state" placeholder="State" formControlName="state" #stateValue/>
+                                  <input *ngIf="country.value != 'Australia'" type="text" class="form-control" id="state" placeholder="State" formControlName="state" #stateValue/>
                                 </div>
                                 <div *ngIf="bookingForm.controls.travellers.controls[i].controls.state.errors && bookingForm.controls.travellers.controls[i].controls.state.touched" class="has-error">
                                   <div *ngIf="bookingForm.controls.travellers.controls[i].controls.state.hasError('required')">You have to fill in State to continue.</div>
@@ -257,10 +254,7 @@
                               <div class="form-group">
                                 <div class="select-style">
                                   <select class="select" formControlName="country" #country (change)="resetStateValue(country.value)">
-                                    <option value="IN">India</option>
-                                    <option value="AU">Australia</option>
-                                    <option value="CN">China</option>
-                                    <option value="NZ">New Zealand</option>
+                                    <option *ngFor="let country of countries">{{country.name}}</option>
                                   </select>
                                 </div>
                                 <div *ngIf="bookingForm.controls.travellers.controls[i].controls.country.errors && bookingForm.controls.travellers.controls[i].controls.country.touched" class="has-error">
