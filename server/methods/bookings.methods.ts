@@ -25,8 +25,8 @@ Meteor.methods({
             contact: user.profile.contact,
             image: user.profile.image
         };
-        booking.startDate = booking.startDate;
-        booking.endDate = booking.endDate;
+        booking.startDate = new Date(booking.startDate.toString());
+        booking.endDate = new Date(booking.endDate.toString());
         booking.bookingDate = new Date();
         booking.createdAt = new Date();
         booking.active = true;
