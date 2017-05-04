@@ -125,6 +125,7 @@
                               <div class="form-group">
                                 <div class="select-style">
                                   <select class="select" [id]="'country'+i" formControlName="passport.country">
+                                    <option></option>
                                     <option *ngFor="let country of countries">{{country.name}}</option>
                                   </select>
                                 </div>
@@ -254,6 +255,7 @@
                               <div class="form-group">
                                 <div class="select-style">
                                   <select class="select" formControlName="country" #country (change)="resetStateValue(country.value)">
+                                    <option></option>
                                     <option *ngFor="let country of countries">{{country.name}}</option>
                                   </select>
                                 </div>
