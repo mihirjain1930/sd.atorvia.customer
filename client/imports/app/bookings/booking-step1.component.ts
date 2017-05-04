@@ -191,7 +191,7 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
        cardType = "discover";
       }
 
-      this.cardForm.controls.cardType.setValue(cardType);
+      this.cardForm.controls['cardType'].setValue(cardType);
   }
 
   validateCard() {

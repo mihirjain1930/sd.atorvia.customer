@@ -15,7 +15,7 @@ declare var jQuery: any;
   selector: 'ask-question',
   template
 })
-export class AskQuestionComponent extends MeteorComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy, OnChanges  {
+export class AskQuestionComponent extends MeteorComponent implements OnInit  {
   @Input() supplierId: string;
   askAQuestionForm: FormGroup;
   error: string;
@@ -40,7 +40,7 @@ export class AskQuestionComponent extends MeteorComponent implements OnInit, Aft
 
   askAQuestion() {
     let message = {
-      suppplierId: this.supplierId,
+      supplierId: this.supplierId,
       subject: this.askAQuestionForm.value.subject,
       message: this.askAQuestionForm.value.message
     }

@@ -62,7 +62,7 @@ export class ViewPageComponent extends MeteorComponent implements OnInit, OnDest
           };
         break;
         case "story":
-          this.item = <page> {
+          this.item = <Page> {
             heading: "Our Story",
             contents: story
           };

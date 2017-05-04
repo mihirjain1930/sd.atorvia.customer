@@ -101,8 +101,9 @@ Meteor.methods({
     "tours.askAQuestion": (mailData: any) => {
       let Mailgun = require('mailgun').Mailgun;
       let mailgun = new Mailgun('key-755f427d33296fe30862b0278c460e84');
+      let supplier = Meteor.users.findOne({"_id": mailData.supplierId});
 
-      mailgun.sendText("noreply@atorvia.com","jainmihir84@gmail.com",mailData.subject,mailData.message, "sandbox3f697e79ae2849f5935a5a60e59f9795.mailgun.org", (err) => {
+      mailgun.sendText("noreply@atorvia.com",supplier.emails[0].address,mailData.subject,mailData.message, "sandbox3f697e79ae2849f5935a5a60e59f9795.mailgun.org", (err) => {
         if (! err) {
           console.log("done");
           return true;
