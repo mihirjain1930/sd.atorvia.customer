@@ -97,3 +97,21 @@
   border: none !important;
   background: none !important;
 }
+
+.rate-star {
+  cursor: pointer;
+  float: left;
+  position: absolute;
+  padding-left: 25px;
+  .fa-star {
+    color: #15987e !important;
+  }
+}
+.destination-wrap {
+  h4 {
+    max-width: 165px;
+  	overflow: hidden;
+  	text-overflow: ellipsis;
+  	white-space: nowrap;
+  }
+}

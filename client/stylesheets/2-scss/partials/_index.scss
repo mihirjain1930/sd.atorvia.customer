@@ -157,7 +157,7 @@
   }
 	h3 {
 		color: $black;
-		font-size: $font-36;
+		font-size: $font-29;
 		font-weight: $weight_900;
 		@extend .text-center;
 		margin-bottom: 130px;
@@ -195,6 +195,10 @@
 			@extend .static;
 			@extend .pull_left;
 			margin-top: 40px;
+			max-width: 165px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
 			@media (max-width: $desktop) {
 				font-size: $font-18;
       }
@@ -225,7 +229,7 @@
 				@extend .pull_right;
       }
 			h3 {
-				margin-top: 58px;
+				margin-top: 72px;
 				font-weight: $weight_400;
 				@extend .text-right;
 				@media (max-width: $desktop) {
