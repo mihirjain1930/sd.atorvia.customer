@@ -52,7 +52,7 @@ export class BookingFormComponent extends MeteorComponent implements OnInit, Aft
     let booking = <Booking> {};
     booking.numOfAdults = 1;
     booking.numOfChild = 0;
-    booking.travellers = [];
+    booking.travellers = <any>[];
 
     this.bookingForm = this.formBuilder.group({
       numOfAdults: [booking.numOfAdults, Validators.compose([Validators.required, CValidators.min(1), CValidators.max(30) ] ) ],
@@ -86,8 +86,8 @@ export class BookingFormComponent extends MeteorComponent implements OnInit, Aft
         let array = new Uint32Array(1);
         window.crypto.getRandomValues(array);
         booking.uniqueId = Number(array[0]);
-        booking.startDate = selDateRange.startDate;
-        booking.endDate = selDateRange.endDate;
+        booking.startDate = new Date(selDateRange.startDate.toString());
+        booking.endDate = new Date(selDateRange.endDate.toString());
         booking.currencyCode = this.currency.currencyCode;
         for (let i=0; i<selDateRange.price.length; i++) {
           let adultPrice = this.currency.convert(selDateRange.price[i].adult);
@@ -199,4 +199,11 @@ export class BookingFormComponent extends MeteorComponent implements OnInit, Aft
 
   }
 
+}
+
+function convertToUTC(date: Date) {
+  var d = new Date();
+  let offset = d.getTimezoneOffset();
+  let time = date.getTime() - (offset * 60 * 1000);
+  return new Date(time);
 }
