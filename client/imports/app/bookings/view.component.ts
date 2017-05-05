@@ -75,8 +75,10 @@ export class BookingViewComponent extends MeteorComponent implements OnInit, Aft
 
   get departInDays() {
     let booking = this.booking;
-    let a = moment(booking.startDate);
-    let b = moment(new Date());
+    let a = moment.utc(booking.startDate);
+    a.set({hour:0,minute:0,second:0,millisecond:0})
+    let b = moment.utc(new Date());
+    b.set({hour:0,minute:0,second:0,millisecond:0})
     let diff = a.diff(b, 'days');
     if (diff < 0) {
       diff = 0;
