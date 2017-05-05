@@ -413,7 +413,7 @@
                 <div class="form-group signup-option" *ngIf="bookingDetails.tour.hasFlight">
                   <div class="row">
                     <div class="col-sm-8">
-                      <p>By clicking the 'Next' button below, you have read and agreed width our <a href="javascript:void(0)"> Terms & Conditions</a> and <a href="javascript:void(0)"> Privacy Policy</a>for us to process your tour booking.</p>
+                      <p>By clicking the 'Next' button below, you have read and agreed width our <a [routerLink]="['/terms']"> Terms & Conditions</a> and <a [routerLink]="['/privacy']"> Privacy Policy</a>for us to process your tour booking.</p>
                     </div>
                     <div class="col-sm-4" >
                       <button [disabled]="!bookingForm.valid" type="button" class="btn green-btn" (click)="goToStep2()">Next<span><i class="fa fa-angle-right" aria-hidden="true"></i></span></button>

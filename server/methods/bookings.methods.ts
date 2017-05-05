@@ -184,6 +184,18 @@ Meteor.methods({
       }, {
         multi: true
       });
+    },
+    "bookings.cancel": (id:string, cancellationData: any) => {
+      let cancellationDetails: any = {
+        confirmed: false,
+        cancelled: true,
+        cancelledAt: new Date(),
+        cancellationReason: cancellationData.reason,
+        cancellationComments: cancellationData.comments,
+        cancelledBy: "customer",
+      }
+
+      return Bookings.collection.update({_id: id, cancelled: false}, { $set: cancellationDetails });
     }
 });
 
