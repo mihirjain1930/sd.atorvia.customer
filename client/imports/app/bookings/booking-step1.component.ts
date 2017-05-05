@@ -36,16 +36,17 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
     private sessionStorage: SessionStorageService,
     private changeDetectorRef: ChangeDetectorRef) {
     super();
+  }
 
+  ngOnInit() {
     this.booking = <Booking>this.sessionStorage.retrieve("bookingDetails");
     if (! this.booking) {
       this.zone.run(() => {
         this.router.navigate(['/tours/search']);
       });
+      return;
     }
-  }
 
-  ngOnInit() {
     this.bookingForm = this.formBuilder.group({
       travellers: this.formBuilder.array([
       ])
@@ -104,8 +105,8 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
         delete item["passport.country"];
 
         item.passport = {
-          number: item["passport.number"],
-          country: item["passport.country"]
+          number: passportNum,
+          country: passportCountry
         };
       }
     })

@@ -79,6 +79,7 @@
       }
 			.right-content {
 				h3 {
+					color: $white;
 					font-size: $font-64;
 					font-weight: $weight_300;
 					@media (max-width: $laptop) {

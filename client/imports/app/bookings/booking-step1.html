@@ -256,7 +256,7 @@
                                 <div class="select-style">
                                   <select class="select" formControlName="country" #country (change)="resetStateValue(country.value)">
                                     <option></option>
-                                    <option *ngFor="let country of countries">{{country.name}}</option>
+                                    <option *ngFor="let country of countries" [value]="country.iso2">{{country.name}}</option>
                                   </select>
                                 </div>
                                 <div *ngIf="bookingForm.controls.travellers.controls[i].controls.country.errors && bookingForm.controls.travellers.controls[i].controls.country.touched" class="has-error">
