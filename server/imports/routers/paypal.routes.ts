@@ -97,7 +97,7 @@ Picker.route( '/api/1.0/paypal/payment/create', function( params, request, respo
 Picker.route( '/api/1.0/paypal/payment/execute/', function( params, request, response, next ) {
   let body = request.body;
   let args = params.query;
-  let transaction = <any>Transactions.findOne({"id": args.paymentId});
+  let transaction = <any>Transactions.collection.findOne({"id": args.paymentId});
 
   let execute_payment_json = {
       "payer_id": args.PayerID
