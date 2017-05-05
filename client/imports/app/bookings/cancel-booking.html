@@ -56,7 +56,7 @@
             </div>
           </div>
         </div>
-        <div class="col-xl-10">
+        <div class="col-xl-10" *ngIf="! booking.cancelled">
           <div class="booking-details cancel-form">
             <h3> Request Form For Cancel Booking</h3>
             <form [formGroup]="cancellationForm" #f="ngForm">

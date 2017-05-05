@@ -88,7 +88,9 @@ export class BookingViewComponent extends MeteorComponent implements OnInit, Aft
     let retVal = null;
     let booking = this.booking;
 
-    if (booking.confirmed !== true) {
+    if (booking.cancelled == true) {
+      retVal = "Cancelled";
+    } else if (booking.confirmed !== true) {
         retVal = "Pending";
     } else if (booking.confirmed === true && booking.completed !== true) {
         retVal = "Confirmed";
