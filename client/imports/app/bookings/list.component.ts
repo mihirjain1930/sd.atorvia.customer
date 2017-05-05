@@ -195,7 +195,9 @@ export class BookingsListComponent extends MeteorComponent implements OnInit, Af
       item.completed = true;
     }
 
-    if (item.confirmed !== true) {
+    if (item.cancelled == true) {
+      retVal = "Cancelled";
+    } else if (item.confirmed !== true) {
         retVal = "Pending";
     } else if (item.confirmed === true && item.completed !== true) {
         retVal = "Confirmed";
