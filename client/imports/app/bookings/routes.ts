@@ -6,6 +6,7 @@ import { BookingStep2Component } from "./booking-step2.component";
 import { BookingConfirmComponent } from "./booking-confirm.component";
 import { BookingsListComponent } from "./list.component";
 import { BookingViewComponent } from "./view.component";
+import { CancelBookingComponent } from "./cancel-booking.component";
 
 // Route Configuration
 export const routes = [
@@ -14,4 +15,5 @@ export const routes = [
   { path: 'booking/confirm', component: BookingConfirmComponent },
   { path: 'bookings', component: BookingsListComponent },
   { path: 'bookings/view/:id', component: BookingViewComponent },
+  { path: 'bookings/cancel/:id', component: CancelBookingComponent }
 ];

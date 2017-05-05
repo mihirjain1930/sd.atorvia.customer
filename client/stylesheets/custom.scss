@@ -118,3 +118,19 @@
 .home-page {
   margin-top: 20px;
 }
+.cancel-form {
+  padding-left: 10px;
+  padding-top: 10px;
+  .row {
+    padding-top: 10px;
+    .btn {
+      margin-bottom: 20px;
+    }
+  }
+  h3 {
+    font-weight: 700;
+    font-size: 22px;
+    margin-bottom: 5px;
+    color: #5a6b81;
+  }
+}
