@@ -155,8 +155,17 @@ Picker.route( '/api/1.0/paypal/payment/execute/', function( params, request, res
             console.log("transaction update: ", res);
             // update booking object
             // update booking collection
+            let saleId = undefined;
+            try {
+              if (payment.transactions.length > 0 && payment.transactions[0].related_resources.length > 0) {
+                saleId = payment.transactions[0].related_resources[0].sale.id;
+              }
+            } catch(e) {
+              saleId = null;
+            }
             Bookings.collection.update({_id: transaction.bookingId}, {$set: {
               "paymentInfo.status": payment.state,
+              "paymentInfo.saleId": saleId,
               paymentDate: new Date()
             } });
 
@@ -269,14 +278,25 @@ Picker.route('/api/1.0/paypal/card-payment/create', function( params, request, r
           var transactionId = Transactions.collection.insert(payment);
           console.log("new transactionId:", transactionId);
 
+          let saleId = undefined;
+          try {
+            if (payment.transactions.length > 0 && payment.transactions[0].related_resources.length > 0) {
+              saleId = payment.transactions[0].related_resources[0].sale.id;
+            }
+          } catch(e) {
+            saleId = null;
+          }
+
           Bookings.collection.update({_id: booking._id}, {$set: {
             paymentInfo: {
               gateway: "paypal",
               method: "credit_card",
               transactionId,
               gatewayTransId: payment.id,
-              "status": payment.state
-            }
+              "status": payment.state,
+              "saleId": saleId
+            },
+            paymentDate: new Date()
           } });
           response.end( JSON.stringify({success: true}) );
       }
