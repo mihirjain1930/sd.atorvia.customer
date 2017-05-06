@@ -180,7 +180,7 @@ Meteor.methods({
       }, 0);
 
       // send email to supplier
-      let supplier = Meteor.users.findOne({_id: booking.tour.supplierId});
+      let supplier = Meteor.users.findOne({_id: booking.tour.supplierId}, {fields: {"emails": 1} });
       if (_.isEmpty(supplier)) {
         return;
       }
@@ -241,14 +241,14 @@ Meteor.methods({
         cancelledBy: "customer",
       }
 
-      let returnVal = Bookings.collection.update({_id: id, cancelled: false}, { $set: cancellationDetails });
+      let retVal = Bookings.collection.update({"_id": id, "cancelled": false, "confirmed": false, "paymentInfo.status": "approved"}, { $set: cancellationDetails });
 
       // send confirmation to customer
       Meteor.setTimeout(() => {
         Meteor.call("bookings.sendCancelledConfirmation", id);
       }, 0);
 
-      return returnVal;
+      return retVal;
     },
     "bookings.sendCancelledConfirmation": (bookingId) => {
       let fs = require("fs");
@@ -267,12 +267,11 @@ Meteor.methods({
         Meteor.call("sendEmail", to, subject, text)
       }, 0);
 
-      let supplier = Meteor.users.findOne({_id: booking.tour.supplierId});
+      // send email to supplier
+      let supplier = Meteor.users.findOne({_id: booking.tour.supplierId}, {fields: {"emails": 1} });
       if (_.isEmpty(supplier)) {
         return;
       }
-
-      // send email to supplier
       let supplierAppUrl = Meteor.settings.public["supplierAppUrl"];
       to = supplier.emails[0].address;
       subject = "Booking Cancellation Confirmation - Supplier";
@@ -294,6 +293,9 @@ Meteor.methods({
 });
 
 function getFormattedDate(today) {
+  if (! today) {
+    return "N.A.";
+  }
   today = new Date(today.toString());
   var dd = today.getDate();
   var mm = today.getMonth()+1; //January is 0!
