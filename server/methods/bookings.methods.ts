@@ -265,15 +265,26 @@ Meteor.methods({
         Meteor.call("sendEmail", to, subject, text)
       }, 0);
 
-      // send email to supplier
       let supplier = Meteor.users.findOne({_id: booking.tour.supplierId});
       if (_.isEmpty(supplier)) {
         return;
       }
+
+      // send email to supplier
       let supplierAppUrl = Meteor.settings.public["supplierAppUrl"];
       to = supplier.emails[0].address;
       subject = "Booking Cancellation Confirmation - Supplier";
       text = eval('`'+fs.readFileSync(process.env.PWD + "/server/imports/emails/supplier/booking-cancellation.html")+'`');
+      Meteor.setTimeout(() => {
+        Meteor.call("sendEmail", to, subject, text)
+      }, 0);
+
+      //send email to admin
+      let admin = Meteor.users.findOne({"roles": "super-admin"}, {fields: {"emails": 1} });
+      let adminAppUrl = Meteor.settings.public["adminAppUrl"];
+      to = admin.emails[0].address;
+      subject = "Booking Cancellation Confirmation - Admin";
+      text = eval('`'+fs.readFileSync(process.env.PWD + "/server/imports/emails/admin/booking-cancellation.html")+'`');
       Meteor.setTimeout(() => {
         Meteor.call("sendEmail", to, subject, text)
       }, 0);

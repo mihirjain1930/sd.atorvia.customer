@@ -3,19 +3,16 @@ Cancellation and refund request for tour name "Brisbane - New York" has been pla
 Please find tour details below: <br />
 <br />
 <ul>
-<li>Customer Name: Mihir Jain</li>
-<li>Booking ID: 833808608</li>
-<li>Booking Date: May 5, 2017</li>
-<li>Departure: Brisbane</li>
-<li>Destination: New York</li>
-<li>Start Date: May 24, 2017 </li>
-<li>End Date: May 25, 2017 </li>
-<li>Num of Travellers: 1 </li>
-<li>Total Price: $1100</li>
-<li>Supplier Name: SmartData Enterprises</li>
-<li>Cancellation Date: May 7, 2017</li>
-<li>Cancellation Reason: Got same tour on low price.</li>
-<li>Cancellation Comments: I got same tour with less price on other site.</li>
-<li> View Link: `http://localhost:8080/view/fonMebykHmjShYPkw` </li>
+<li>Booking ID: ${booking.uniqueId}</li>
+<li>Departure: ${booking.tour.departure}</li>
+<li>Destination: ${booking.tour.destination}</li>
+<li>Start Date: ${getFormattedDate(booking.startDate)} </li>
+<li>End Date: ${getFormattedDate(booking.endDate)} </li>
+<li>Num of Travellers: ${booking.numOfTravellers} </li>
+<li>Total Price: ${booking.totalPrice}</li>
+<li>Cancellation Date: ${getFormattedDate(booking.cancelledAt)}</li>
+<li>Cancellation Reason: ${booking.cancellationReason}.</li>
+<li>Cancellation Comments: ${booking.cancellationComments}</li>
+<li> View Link: <a href="${adminAppUrl}/bookings/view/${booking._id}">${booking.tour.name}</a> </li>
 </ul>
 <p>Team Atorvia</p>
