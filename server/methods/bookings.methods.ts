@@ -241,12 +241,14 @@ Meteor.methods({
         cancelledBy: "customer",
       }
 
+      let retVal = Bookings.collection.update({"_id": id, "cancelled": false, "confirmed": false, "paymentInfo.status": "approved"}, { $set: cancellationDetails });
+
       // send confirmation to customer
       Meteor.setTimeout(() => {
         Meteor.call("bookings.sendCancelledConfirmation", id);
       }, 0);
 
-      return Bookings.collection.update({_id: id, cancelled: false}, { $set: cancellationDetails });
+      return retVal;
     },
     "bookings.sendCancelledConfirmation": (bookingId) => {
       let fs = require("fs");

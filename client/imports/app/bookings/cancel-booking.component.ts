@@ -46,7 +46,7 @@ export class CancelBookingComponent extends MeteorComponent implements OnInit, A
     .subscribe(id => {
 
       this.bookingId = id;
-      this.call("bookings.findOne", {_id: id}, {with: {supplier: true, tour: true}}, (err, res) => {
+      this.call("bookings.findOne", {"_id": id, "cancelled": false, "confirmed": false, "paymentInfo.status": "approved"}, {with: {supplier: true, tour: true}}, (err, res) => {
         if (err) {
           console.log(err.reason, "danger");
           return;
@@ -93,8 +93,12 @@ export class CancelBookingComponent extends MeteorComponent implements OnInit, A
     let retVal = null;
     let booking = this.booking;
 
-    if (booking.cancelled == true) {
+    if (! booking.paymentInfo || booking.paymentInfo.status != 'approved') {
+      retVal = "Unpaid";
+    } else if (booking.cancelled == true && booking.refunded !== true) {
       retVal = "Cancelled";
+    } else if (booking.cancelled == true && booking.refunded == true) {
+      retVal = "Refunded";
     } else if (booking.confirmed !== true) {
         retVal = "Pending";
     } else if (booking.confirmed === true && booking.completed !== true) {

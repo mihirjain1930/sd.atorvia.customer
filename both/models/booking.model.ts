@@ -21,29 +21,12 @@ export interface Booking extends CollectionObject {
       name: string;
       departure: string;
       destination: string;
-      totalMeals: number;
-      noOfDays: number;
-      noOfNights: number;
       featuredImage: {
         id: string;
         url: string;
         name: string;
       };
       dateRangeId?: string;
-      cancellationPolicy: {
-        id: string;
-        name: string;
-        url: string;
-      };
-      refundPolicy: {
-        id: string;
-        name: string;
-        url: string;
-      };
-      tourType: string;
-      tourPace: string;
-      hasGuide: boolean;
-      hasFlight: boolean;
     };
     user: {
       id: string;
@@ -63,7 +46,6 @@ export interface Booking extends CollectionObject {
     endDate: Date;
     numOfAdults: number;
     numOfChild: number;
-    currencyCode: string;
     pricePerAdult: number;
     pricePerChild: number;
     travellers: [
@@ -75,7 +57,7 @@ export interface Booking extends CollectionObject {
         contact: string;
         addressLine1: string;
         addressLine2: string;
-        suburb: string;
+        town: string;
         state: string;
         postCode: string;
         country: string;
@@ -92,7 +74,6 @@ export interface Booking extends CollectionObject {
       type: string;
       expiry: Date;
     };
-    uniqueId: number;
     totalPrice: number;
     bookingDate: Date;
     paymentDate: Date;
@@ -114,6 +95,13 @@ export interface Booking extends CollectionObject {
       gatewayTransId: string;
       status: string;
       saleId: string;
+    };
+    refunded: boolean;
+    refundInfo: {
+      transactionId: string;
+      gatewayTransId: string;
+      processedAt: Date;
+      processedBy: string;
     };
     deleted: boolean;
     createdAt: Date;
