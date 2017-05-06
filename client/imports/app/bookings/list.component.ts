@@ -195,7 +195,9 @@ export class BookingsListComponent extends MeteorComponent implements OnInit, Af
       item.completed = true;
     }
 
-    if (item.cancelled == true) {
+    if (! item.paymentInfo || item.paymentInfo.status != 'approved') {
+      retVal = "Unpaid";
+    } else if (item.cancelled == true) {
       retVal = "Cancelled";
     } else if (item.confirmed !== true) {
         retVal = "Pending";

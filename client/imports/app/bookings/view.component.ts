@@ -5,6 +5,7 @@ import { CustomValidators as CValidators } from "ng2-validation";
 import { InjectUser } from "angular2-meteor-accounts-ui";
 import { Router, ActivatedRoute } from '@angular/router';
 import { MeteorComponent } from 'angular2-meteor';
+import { SessionStorageService } from 'ng2-webstorage';
 import { Observable, Subscription, Subject, BehaviorSubject } from "rxjs";
 import { ChangeDetectorRef } from "@angular/core";
 import { User } from "../../../../both/models/user.model";
@@ -24,13 +25,16 @@ declare var jQuery:any;
 export class BookingViewComponent extends MeteorComponent implements OnInit, AfterViewInit, OnDestroy {
   booking: Booking = null;
   tour: Tour = null;
+  bookingId: string;
   supplier: User = null;
   error: string = null;
   activeTab: string = "overview";
   paramsSub: Subscription;
   constructor(
     private zone: NgZone,
+    private router: Router,
     private route: ActivatedRoute,
+    private sessionStorage: SessionStorageService,
     private changeDetectorRef: ChangeDetectorRef,
     private formBuilder: FormBuilder
     ) {
@@ -42,6 +46,7 @@ export class BookingViewComponent extends MeteorComponent implements OnInit, Aft
     .map(params => params['id'])
     .subscribe(id => {
 
+      this.bookingId = id;
       this.call("bookings.findOne", {_id: id}, {with: {supplier: true, tour: true}}, (err, res) => {
         if (err) {
           console.log(err.reason, "danger");
@@ -90,7 +95,9 @@ export class BookingViewComponent extends MeteorComponent implements OnInit, Aft
     let retVal = null;
     let booking = this.booking;
 
-    if (booking.cancelled == true) {
+    if (! booking.paymentInfo || booking.paymentInfo.status != 'approved') {
+      retVal = "Unpaid";
+    } else if (booking.cancelled == true) {
       retVal = "Cancelled";
     } else if (booking.confirmed !== true) {
         retVal = "Pending";
@@ -103,5 +110,11 @@ export class BookingViewComponent extends MeteorComponent implements OnInit, Aft
     return retVal;
   }
 
+  makePayment() {
+    this.sessionStorage.store("bookingId", this.bookingId);
+    this.zone.run(() => {
+      this.router.navigate(['/booking/step2']);
+    })
+  }
 
 }

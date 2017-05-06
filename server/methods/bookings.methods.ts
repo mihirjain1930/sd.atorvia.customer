@@ -61,6 +61,12 @@ Meteor.methods({
             console.log("Error while updating availability in tour object.")
             console.log(err.message);
         }
+
+        // send confirmation to customer
+        Meteor.setTimeout(() => {
+          Meteor.call("bookings.createConfirmation", bookingId);
+        }, 0);
+
         return bookingId;
     },
     "bookings.find": (options: Options, criteria: any, searchString: string) => {
@@ -134,7 +140,23 @@ Meteor.methods({
         }
       }
     },
-    "bookings.sendConfirmation": (bookingId) => {
+    "bookings.createConfirmation": (bookingId) => {
+      let fs = require("fs");
+
+      // find booking details
+      let booking = Bookings.collection.findOne({_id: bookingId});
+      if (_.isEmpty(booking)) {
+        return;
+      }
+      // send email to customer
+      let to = booking.user.email;
+      let subject = "New Booking Confirmation";
+      let text = eval('`'+fs.readFileSync(process.env.PWD + "/server/imports/emails/customer/booking-confirmation.html")+'`');
+      Meteor.setTimeout(() => {
+        Meteor.call("sendEmail", to, subject, text)
+      }, 0);
+    },
+    "bookings.paymentConfirmation": (bookingId) => {
       let fs = require("fs");
 
       // find booking details
@@ -143,10 +165,16 @@ Meteor.methods({
         return;
       }
 
+      let paymentMethod = booking.paymentInfo.method;
+      if (paymentMethod == "express_checkout") {
+        booking.paymentInfo.method = "Paypal";
+      } else if(paymentMethod == "credit_card") {
+        booking.paymentInfo.method = "Credit Card";
+      }
       // send email to customer
       let to = booking.user.email;
-      let subject = "New Booking Confirmation";
-      let text = eval('`'+fs.readFileSync(process.env.PWD + "/server/imports/emails/customer/booking-confirmation.html")+'`');
+      let subject = "Booking Payment Confirmation";
+      let text = eval('`'+fs.readFileSync(process.env.PWD + "/server/imports/emails/customer/payment-confirmation.html")+'`');
       Meteor.setTimeout(() => {
         Meteor.call("sendEmail", to, subject, text)
       }, 0);
@@ -160,6 +188,23 @@ Meteor.methods({
       to = supplier.emails[0].address;
       subject = "New Booking Confirmation";
       text = eval('`'+fs.readFileSync(process.env.PWD + "/server/imports/emails/supplier/booking-confirmation.html")+'`');
+      Meteor.setTimeout(() => {
+        Meteor.call("sendEmail", to, subject, text)
+      }, 0);
+    },
+    "bookings.paymentFailedConfirmation": (bookingId) => {
+      let fs = require("fs");
+
+      // find booking details
+      let booking = Bookings.collection.findOne({_id: bookingId});
+      if (_.isEmpty(booking)) {
+        return;
+      }
+
+      // send email to customer
+      let to = booking.user.email;
+      let subject = "Booking Payment Failed";
+      let text = eval('`'+fs.readFileSync(process.env.PWD + "/server/imports/emails/customer/payment-unsuccessful.html")+'`');
       Meteor.setTimeout(() => {
         Meteor.call("sendEmail", to, subject, text)
       }, 0);
@@ -195,11 +240,47 @@ Meteor.methods({
         cancelledBy: "customer",
       }
 
+      // send confirmation to customer
+      Meteor.setTimeout(() => {
+        Meteor.call("bookings.sendCancelledConfirmation", id);
+      }, 0);
+
       return Bookings.collection.update({_id: id, cancelled: false}, { $set: cancellationDetails });
+    },
+    "bookings.sendCancelledConfirmation": (bookingId) => {
+      let fs = require("fs");
+
+      // find booking details
+      let booking = Bookings.collection.findOne({_id: bookingId});
+      if (_.isEmpty(booking)) {
+        return;
+      }
+
+      // send email to customer
+      let to = booking.user.email;
+      let subject = "Booking Cancellation Confirmation";
+      let text = eval('`'+fs.readFileSync(process.env.PWD + "/server/imports/emails/customer/booking-cancellation.html")+'`');
+      Meteor.setTimeout(() => {
+        Meteor.call("sendEmail", to, subject, text)
+      }, 0);
+
+      // send email to supplier
+      let supplier = Meteor.users.findOne({_id: booking.tour.supplierId});
+      if (_.isEmpty(supplier)) {
+        return;
+      }
+      let supplierAppUrl = Meteor.settings.public["supplierAppUrl"];
+      to = supplier.emails[0].address;
+      subject = "Booking Cancellation Confirmation";
+      text = eval('`'+fs.readFileSync(process.env.PWD + "/server/imports/emails/supplier/booking-cancellation.html")+'`');
+      Meteor.setTimeout(() => {
+        Meteor.call("sendEmail", to, subject, text)
+      }, 0);
     }
 });
 
 function getFormattedDate(today) {
+  today = new Date(today.toString());
   var dd = today.getDate();
   var mm = today.getMonth()+1; //January is 0!
 

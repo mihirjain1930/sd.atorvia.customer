@@ -144,7 +144,9 @@ Picker.route( '/api/1.0/paypal/payment/execute/', function( params, request, res
 
       if (error) {
           //console.log(error.response);
-
+          Meteor.setTimeout(() => {
+            Meteor.call("bookings.paymentFailedConfirmation", transaction.bookingId);
+          }, 0);
       } else {
           console.log("Get Payment Response");
 
@@ -170,7 +172,11 @@ Picker.route( '/api/1.0/paypal/payment/execute/', function( params, request, res
             } });
 
             Meteor.setTimeout(() => {
-              Meteor.call("bookings.sendConfirmation", transaction.bookingId);
+              if (payment.state == "approved") {
+                Meteor.call("bookings.paymentConfirmation", transaction.bookingId);
+              } else {
+                Meteor.call("bookings.paymentFailedConfirmation", transaction.bookingId);
+              }
             }, 0);
 
             html = `<html>
@@ -269,6 +275,9 @@ Picker.route('/api/1.0/paypal/card-payment/create', function( params, request, r
 
   paypal.payment.create(create_payment_json, Meteor.bindEnvironment( (error, payment) => {
       if (error) {
+          Meteor.setTimeout(() => {
+            Meteor.call("bookings.paymentFailedConfirmation", transaction.bookingId);
+          }, 0);
           response.end( JSON.stringify({success: false}) );
       } else {
           // insert transaction in mongodb
@@ -286,6 +295,14 @@ Picker.route('/api/1.0/paypal/card-payment/create', function( params, request, r
           } catch(e) {
             saleId = null;
           }
+
+          Meteor.setTimeout(() => {
+            if (payment.state == "approved") {
+              Meteor.call("bookings.paymentConfirmation", transaction.bookingId);
+            } else {
+              Meteor.call("bookings.paymentFailedConfirmation", transaction.bookingId);
+            }
+          }, 0);
 
           Bookings.collection.update({_id: booking._id}, {$set: {
             paymentInfo: {
