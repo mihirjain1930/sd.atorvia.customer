@@ -39,6 +39,11 @@ export class AskQuestionComponent extends MeteorComponent implements OnInit  {
   }
 
   askAQuestion() {
+    if (! this.askAQuestionForm.valid) {
+      showAlert("Please fill the form completly.", "danger");
+      return;
+    }
+
     let message = {
       supplierId: this.supplierId,
       subject: this.askAQuestionForm.value.subject,
