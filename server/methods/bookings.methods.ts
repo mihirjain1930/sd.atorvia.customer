@@ -294,6 +294,9 @@ Meteor.methods({
 });
 
 function getFormattedDate(today) {
+  if (! today) {
+    return "N.A.";
+  }
   today = new Date(today.toString());
   var dd = today.getDate();
   var mm = today.getMonth()+1; //January is 0!
