@@ -180,7 +180,7 @@ Meteor.methods({
       }, 0);
 
       // send email to supplier
-      let supplier = Meteor.users.findOne({_id: booking.tour.supplierId});
+      let supplier = Meteor.users.findOne({_id: booking.tour.supplierId}, {fields: {"emails": 1} });
       if (_.isEmpty(supplier)) {
         return;
       }
@@ -267,12 +267,11 @@ Meteor.methods({
         Meteor.call("sendEmail", to, subject, text)
       }, 0);
 
-      let supplier = Meteor.users.findOne({_id: booking.tour.supplierId});
+      // send email to supplier
+      let supplier = Meteor.users.findOne({_id: booking.tour.supplierId}, {fields: {"emails": 1} });
       if (_.isEmpty(supplier)) {
         return;
       }
-
-      // send email to supplier
       let supplierAppUrl = Meteor.settings.public["supplierAppUrl"];
       to = supplier.emails[0].address;
       subject = "Booking Cancellation Confirmation - Supplier";
