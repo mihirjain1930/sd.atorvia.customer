@@ -150,7 +150,7 @@ Meteor.methods({
       }
       // send email to customer
       let to = booking.user.email;
-      let subject = "New Booking Confirmation";
+      let subject = "New Booking Confirmation - Customer";
       let text = eval('`'+fs.readFileSync(process.env.PWD + "/server/imports/emails/customer/booking-confirmation.html")+'`');
       Meteor.setTimeout(() => {
         Meteor.call("sendEmail", to, subject, text)
@@ -185,8 +185,9 @@ Meteor.methods({
         return;
       }
 
+      let supplierAppUrl = Meteor.settings.public["supplierAppUrl"];
       to = supplier.emails[0].address;
-      subject = "New Booking Confirmation";
+      subject = "New Booking Confirmation - Supplier";
       text = eval('`'+fs.readFileSync(process.env.PWD + "/server/imports/emails/supplier/booking-confirmation.html")+'`');
       Meteor.setTimeout(() => {
         Meteor.call("sendEmail", to, subject, text)
@@ -258,7 +259,7 @@ Meteor.methods({
 
       // send email to customer
       let to = booking.user.email;
-      let subject = "Booking Cancellation Confirmation";
+      let subject = "Booking Cancellation Confirmation - Customer";
       let text = eval('`'+fs.readFileSync(process.env.PWD + "/server/imports/emails/customer/booking-cancellation.html")+'`');
       Meteor.setTimeout(() => {
         Meteor.call("sendEmail", to, subject, text)
@@ -271,7 +272,7 @@ Meteor.methods({
       }
       let supplierAppUrl = Meteor.settings.public["supplierAppUrl"];
       to = supplier.emails[0].address;
-      subject = "Booking Cancellation Confirmation";
+      subject = "Booking Cancellation Confirmation - Supplier";
       text = eval('`'+fs.readFileSync(process.env.PWD + "/server/imports/emails/supplier/booking-cancellation.html")+'`');
       Meteor.setTimeout(() => {
         Meteor.call("sendEmail", to, subject, text)

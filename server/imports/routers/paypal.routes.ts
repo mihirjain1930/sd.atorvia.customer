@@ -276,7 +276,7 @@ Picker.route('/api/1.0/paypal/card-payment/create', function( params, request, r
   paypal.payment.create(create_payment_json, Meteor.bindEnvironment( (error, payment) => {
       if (error) {
           Meteor.setTimeout(() => {
-            Meteor.call("bookings.paymentFailedConfirmation", transaction.bookingId);
+            Meteor.call("bookings.paymentFailedConfirmation", booking._id);
           }, 0);
           response.end( JSON.stringify({success: false}) );
       } else {
@@ -298,9 +298,9 @@ Picker.route('/api/1.0/paypal/card-payment/create', function( params, request, r
 
           Meteor.setTimeout(() => {
             if (payment.state == "approved") {
-              Meteor.call("bookings.paymentConfirmation", transaction.bookingId);
+              Meteor.call("bookings.paymentConfirmation", booking._id);
             } else {
-              Meteor.call("bookings.paymentFailedConfirmation", transaction.bookingId);
+              Meteor.call("bookings.paymentFailedConfirmation", booking._id);
             }
           }, 0);
 

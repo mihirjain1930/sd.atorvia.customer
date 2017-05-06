@@ -8,7 +8,7 @@ Meteor.startup(() => {
   let sendDefault = <any>_.bind(Email.send, Email);
   _.extend(Email, {
     send: function (options) {
-      let override = true;
+      let override = false;
       if (override) {
         /* your custom mail method, pull the options you need from `options` */
         // console.log('CUSTOM MAIL METHOD');

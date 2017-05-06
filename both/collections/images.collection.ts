@@ -12,7 +12,7 @@ function loggedIn(userId) {
 export const ImagesStore = new UploadFS.store.Local({
   collection: Images.collection,
   name: 'images',
-  path: process.env.PWD + '/uploads/images',
+  path: process.env.PWD + '/../supplier/uploads/images',
   filter: new UploadFS.Filter({
     contentTypes: ['image/*']
   }),
