@@ -20,7 +20,7 @@ export class HeaderMainComponent extends MeteorComponent implements OnInit, Afte
     }
 
     ngOnInit() {
-      const options:any = {
+      /*const options:any = {
           limit: 0,
           skip: 0,
           sort: { "title": 1 },
@@ -33,17 +33,19 @@ export class HeaderMainComponent extends MeteorComponent implements OnInit, Afte
           return;
         }
         this.pages = res.data;
-      });
+      });*/
     }
 
     logout() {
-        this.localStorage.clear("rememberMeNot");
-        this.sessionStorage.clear("Meteor.userId");
-        Meteor.logout();
-        showAlert("You have been logged out successfully.", "success");
+      this.localStorage.clear("rememberMeNot");
+      this.sessionStorage.clear("Meteor.userId");
+      Meteor.logout();
+      this.subscribe("users", () => {
         this.zone.run(() => {
-          this.router.navigate( ['/login'] );
+          showAlert("You have been logged out successfully.", "success");
+          this.router.navigate( ['/'] );
         });
+      });
     }
 
     ngAfterViewInit() {

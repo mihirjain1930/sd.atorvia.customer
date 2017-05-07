@@ -23,7 +23,7 @@ export class AppComponent extends MeteorComponent implements OnInit, AfterViewIn
       if (Meteor.userId())
       {
           this.subscribe("users");
-          this.checkRememberMe();
+          // this.checkRememberMe();
       }
       this.subscribe("currencies", () => {
       });
@@ -41,7 +41,7 @@ export class AppComponent extends MeteorComponent implements OnInit, AfterViewIn
       });
     }
 
-    private checkRememberMe() {
+    /*private checkRememberMe() {
       let rememberMeNot = this.localStorage.retrieve("rememberMeNot");
       if (rememberMeNot == true) {
         let userId = this.sessionStorage.retrieve("Meteor.userId");
@@ -55,7 +55,7 @@ export class AppComponent extends MeteorComponent implements OnInit, AfterViewIn
           }, 500);
         }
       }
-    }
+    }*/
 
     ngAfterViewInit() {
         jQuery(function($){
