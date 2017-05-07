@@ -1,7 +1,7 @@
 import { CollectionObject } from "./collection-object.model";
 
 export interface Booking extends CollectionObject {
-    uniqueId: string;
+    uniqueId: number;
     tour: {
       id: string;
       supplierId: string;
@@ -27,6 +27,23 @@ export interface Booking extends CollectionObject {
         url: string;
         name: string;
       };
+      noOfDays: number;
+      noOfNights: number;
+      totalMeals: number;
+      cancellationPolicy: {
+        id: string;
+        url: string;
+        name: string;
+      };
+      refundPolicy: {
+        id: string;
+        url: string;
+        name: string;
+      };
+      hasGuide: boolean;
+      hasFlight: boolean;
+      tourType: string;
+      tourPace: string;
       dateRangeId?: string;
     };
     user: {
@@ -43,8 +60,6 @@ export interface Booking extends CollectionObject {
       };
     };
     numOfTravellers: number;
-    noOfDays: string;
-    noOfNights: string;
     startDate: Date;
     endDate: Date;
     numOfAdults: number;
