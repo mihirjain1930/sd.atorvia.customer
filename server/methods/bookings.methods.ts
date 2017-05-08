@@ -34,6 +34,7 @@ Meteor.methods({
         booking.completed = false;
         booking.cancelled = false;
         booking.deleted = false;
+        booking.refunded = false;
 
         try {
            var bookingId = Bookings.collection.insert(booking);
@@ -247,7 +248,7 @@ Meteor.methods({
         cancelledBy: "customer",
       }
 
-      let retVal = Bookings.collection.update({"_id": id, "cancelled": false, "confirmed": false, "paymentInfo.status": "approved"}, { $set: cancellationDetails });
+      let retVal = Bookings.collection.update({"_id": id, "cancelled": false, "paymentInfo.status": "approved"}, { $set: cancellationDetails });
 
       // send confirmation to customer
       Meteor.setTimeout(() => {

@@ -9,7 +9,7 @@
               <a [routerLink]="['/bookings']" class="green-anchor"><span><i class="fa fa-angle-left" aria-hidden="true"></i></span>See all bookings</a>
             </div>
             <div class="col-md-8 text-right side-btn">
-              <button class="cancel btn grey-btn" [routerLink]="['/bookings/cancel', booking._id]" *ngIf="booking.confirmed == false && booking.cancelled == false && booking.paymentInfo?.status == 'approved'">Cancel and request a refund</button>
+              <button class="cancel btn grey-btn" [routerLink]="['/bookings/cancel', booking._id]" *ngIf="departInDays > 0 && booking.cancelled == false && booking.paymentInfo?.status == 'approved'">Cancel and request a refund</button>
               <button class="btn grey-btn" (click)="makePayment()" *ngIf="booking.paymentInfo?.status != 'approved'">Make Payment</button>
               <!--<button class="btn green-btn pull-right" style="width: 200px;">Download Voucher</button>-->
             </div>
@@ -46,7 +46,7 @@
                 <div class="row">
                   <div class="col-md-7">
                     <h6>Departure</h6>
-                    <p>{{booking.startDate | date}} <span class="green-label" *ngIf="departInDays > 0">Depart in {{departInDays}} days</span></p>
+                    <p>{{booking.startDate | date}} <span class="green-label" *ngIf="departInDays > 0 && ! booking.cancelled">Depart in {{departInDays}} days</span></p>
                   </div>
                   <div class="col-md-5">
                     <h6>Return</h6>
