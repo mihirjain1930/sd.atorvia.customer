@@ -10,6 +10,7 @@ import { SessionStorageService } from 'ng2-webstorage';
 import { Tour } from "../../../../both/models/tour.model";
 import { User } from "../../../../both/models/user.model";
 import { showAlert } from "../shared/show-alert";
+import * as moment from 'moment';
 import template from './view.html';
 
 interface Pagination {
@@ -185,6 +186,20 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
     this.zone.run(() => {
       this.router.navigate(['/login']);
     });
+  }
+
+  isAvailSchedule(row: DateRange) {
+    let startDate = new Date(row.startDate);
+    let a = moment.utc(startDate);
+    a.set({hour:0,minute:0,second:0,millisecond:0})
+    let b = moment.utc(new Date());
+    b.set({hour:0,minute:0,second:0,millisecond:0})
+    let diff = a.diff(b, 'days');
+    console.log(a.format(), b.format());
+    if (diff <= 0) {
+      return false;
+    }
+    return true;
   }
 
 }

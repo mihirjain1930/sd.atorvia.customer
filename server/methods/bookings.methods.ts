@@ -149,6 +149,8 @@ Meteor.methods({
         return;
       }
       // send email to customer
+      let mailDate = new Date();
+      console.log("Booking Id: ", booking.uniqueId, "Mail sent at: ", mailDate);
       let to = booking.user.email;
       let subject = "New Booking Confirmation - Customer";
       let text = eval('`'+fs.readFileSync(process.env.PWD + "/server/imports/emails/customer/booking-confirmation.html")+'`');
@@ -180,7 +182,7 @@ Meteor.methods({
       }, 0);
 
       // send email to supplier
-      let supplier = Meteor.users.findOne({_id: booking.tour.supplierId}, {fields: {"emails": 1} });
+      let supplier = Meteor.users.findOne({_id: booking.tour.supplierId}, {fields: {"emails": 1, "profile": 1} });
       if (_.isEmpty(supplier)) {
         return;
       }
@@ -188,6 +190,8 @@ Meteor.methods({
       let supplierAppUrl = Meteor.settings.public["supplierAppUrl"];
       to = supplier.emails[0].address;
       subject = "New Booking Confirmation - Supplier";
+      let mailDate = new Date();
+      console.log("Booking Id: ", booking.uniqueId, "Mail sent at: ", mailDate);
       text = eval('`'+fs.readFileSync(process.env.PWD + "/server/imports/emails/supplier/booking-confirmation.html")+'`');
       Meteor.setTimeout(() => {
         Meteor.call("sendEmail", to, subject, text)
@@ -203,8 +207,10 @@ Meteor.methods({
       }
 
       // send email to customer
+      let mailDate = new Date();
       let to = booking.user.email;
       let subject = "Booking Payment Failed";
+      console.log("Booking Id: ", booking.uniqueId, "Mail sent at: ", mailDate);
       let text = eval('`'+fs.readFileSync(process.env.PWD + "/server/imports/emails/customer/payment-unsuccessful.html")+'`');
       Meteor.setTimeout(() => {
         Meteor.call("sendEmail", to, subject, text)
@@ -259,6 +265,9 @@ Meteor.methods({
         return;
       }
 
+      let mailDate = new Date();
+      console.log("Booking Id: ", booking.uniqueId, "Mail sent at: ", mailDate);
+
       // send email to customer
       let to = booking.user.email;
       let subject = "Booking Cancellation Confirmation - Customer";
@@ -268,7 +277,7 @@ Meteor.methods({
       }, 0);
 
       // send email to supplier
-      let supplier = Meteor.users.findOne({_id: booking.tour.supplierId}, {fields: {"emails": 1} });
+      let supplier = Meteor.users.findOne({_id: booking.tour.supplierId}, {fields: {"emails": 1, "profile": 1} });
       if (_.isEmpty(supplier)) {
         return;
       }

@@ -123,7 +123,7 @@ export class CancelBookingComponent extends MeteorComponent implements OnInit, A
 
     this.call("bookings.cancel", this.bookingId, cancellationDetails, (err, res) => {
       if (! err) {
-        showAlert("Booking cancellation request raised succesfully.", "success");
+        showAlert("  Atorvia will review your request and process a refund to your original payment account within 48 hours. The amount will refund to your account with 3 -7 business day.Please refer to our refund policy for more information.", "success");
         this.router.navigate(['/bookings']);
       } else {
         console.log(err.reason);

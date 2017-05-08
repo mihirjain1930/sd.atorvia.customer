@@ -18,7 +18,7 @@ import { routes as bookingRoutes } from "./bookings/routes";
 
 
 let mainRoutes = [
-    { path: 'dashboard', component: DashboardComponent, canActivate: [AuthService], data: {'state': 'login'} },
+    { path: 'profile', component: DashboardComponent, canActivate: [AuthService], data: {'state': 'login'} },
     { path: 'login', component: LoginComponent, canActivate: [AuthService], data: {'state': 'not-login'} },
     { path: 'signup', component: SignupComponent, canActivate: [AuthService], data: {'state': 'not-login'} },
     { path: 'recover', component: RecoverComponent },

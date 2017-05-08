@@ -108,11 +108,13 @@
   }
 }
 .destination-wrap {
-  h4 {
-    max-width: 200px;
-  	overflow: hidden;
-  	text-overflow: ellipsis;
-  	white-space: nowrap;
+  .tour-title {
+    h4 {
+      max-width: 200px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
 }
 .home-page {
@@ -133,4 +135,8 @@
     margin-bottom: 5px;
     color: #5a6b81;
   }
+}
+
+.cancel {
+  width: 40%;
 }

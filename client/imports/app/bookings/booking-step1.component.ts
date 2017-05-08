@@ -171,7 +171,7 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
   }
 
   resetStateValue(country) {
-    if (country == "Australia") {
+    if (country == "AU") {
       this.bookingForm.controls['travellers'] ["controls"] [0].controls["state"].setValue(null);
     }
   }
