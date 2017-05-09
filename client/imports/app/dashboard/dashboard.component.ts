@@ -140,7 +140,7 @@ export class DashboardComponent extends MeteorComponent implements OnInit, After
            name: res.name
       };
       let userData = {
-        "profile.image": userImage;
+        "profile.image": userImage
       };
       this.call("users.update", userData, (err, res) => {
         if (err) {
