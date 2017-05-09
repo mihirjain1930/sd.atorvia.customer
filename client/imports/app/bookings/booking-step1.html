@@ -224,7 +224,7 @@
                                     <option>Western Australia</option>
                                     <option>South Australia</option>
                                   </select>
-                                  <input *ngIf="country.value != 'Australia'" type="text" class="form-control" id="state" placeholder="State" formControlName="state" #stateValue/>
+                                  <input *ngIf="country.value != 'AU'" type="text" class="form-control" id="state" placeholder="State" formControlName="state" #stateValue/>
                                 </div>
                                 <div *ngIf="bookingForm.controls.travellers.controls[i].controls.state.errors && bookingForm.controls.travellers.controls[i].controls.state.touched" class="has-error">
                                   <div *ngIf="bookingForm.controls.travellers.controls[i].controls.state.hasError('required')">You have to fill in State to continue.</div>

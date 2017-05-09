@@ -195,7 +195,6 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
     let b = moment.utc(new Date());
     b.set({hour:0,minute:0,second:0,millisecond:0})
     let diff = a.diff(b, 'days');
-    console.log(a.format(), b.format());
     if (diff <= 0) {
       return false;
     }
