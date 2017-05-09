@@ -22,7 +22,6 @@ Picker.route( '/api/1.0/tours/search', function( params, request, response, next
     query: params.query,
     body: request.body
   };
-  console.log(data);
 
   const options: Options = {
       limit: 10,

@@ -9,6 +9,7 @@ import { User } from "../../../../both/models/user.model";
 import { Place } from "../../../../both/models/place.model";
 import { upload } from '../../../../both/methods/images.methods';
 import { showAlert } from "../shared/show-alert";
+import * as _ from 'underscore';
 import { validateEmail, validatePassword, validatePhoneNum, validateFirstName } from "../../validators/common";
 import template from "./dashboard.html";
 
@@ -79,7 +80,7 @@ export class DashboardComponent extends MeteorComponent implements OnInit, After
   }
 
   //update user from dashboard
-  update() {
+    update() {
     let fullName = this.accountForm.value.firstName;
     if(this.accountForm.value.middleName) {
       fullName  = fullName + " " + this.accountForm.value.middleName;
@@ -133,12 +134,13 @@ export class DashboardComponent extends MeteorComponent implements OnInit, After
     .then((res) => {
       this.isUploading = false;
       this.isUploaded = true;
+      let userImage = {
+           id: res._id,
+           url: res.path,
+           name: res.name
+      };
       let userData = {
-        "profile.image":{
-          id: res._id,
-          url: res.path,
-          name: res.name
-        }
+        "profile.image": userImage
       };
       this.call("users.update", userData, (err, res) => {
         if (err) {
@@ -146,7 +148,7 @@ export class DashboardComponent extends MeteorComponent implements OnInit, After
           return;
         }
         $("#inputFile").val("");
-        this.user.profile.image.url = res.path;
+        this.user.profile.image = userImage;
         showAlert("Profile picture updated successfully.", "success");
       });
     })
