@@ -139,13 +139,16 @@ export class DashboardComponent extends MeteorComponent implements OnInit, After
            url: res.path,
            name: res.name
       };
+      let userData = {
+        "profile.image": userImage;
+      };
       this.call("users.update", userData, (err, res) => {
         if (err) {
           console.log("Error while updating user picture");
           return;
         }
         $("#inputFile").val("");
-        this.user.profile.image.url = res.path;
+        this.user.profile.image = userImage;
         showAlert("Profile picture updated successfully.", "success");
       });
     })
