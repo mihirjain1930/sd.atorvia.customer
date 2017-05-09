@@ -141,7 +141,8 @@
                               </div>
                               <div class="col-lg-8">
                                 <h5>Hotels</h5>
-                                <p>{{bookingDetails.tour.noOfNights}} Nights</p>
+                                <p *ngIf="bookingDetails.tour.noOfNights > 0">{{bookingDetails.tour.noOfNights}} Nights</p>
+                                <p *ngIf="! bookingDetails.tour.noOfNights">No Hotels</p>
                               </div>
                             </div>
                           </div>
