@@ -105,7 +105,7 @@ export class DashboardComponent extends MeteorComponent implements OnInit, After
         } else {
           this.oldEmailAddress = emailAddress.newAddress;
           showAlert("Your profile has been updated successfully.", "success");
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/profile']);
         }
       });
     });

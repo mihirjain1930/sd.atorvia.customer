@@ -1,13 +1,14 @@
 import { Meteor } from "meteor/meteor";
 
 declare var ServiceConfiguration:any;
+/*let fbApp = Meteor.settings.public["fbApp"];
 
 ServiceConfiguration.configurations.remove({
     service: 'facebook'
 });
 ServiceConfiguration.configurations.insert({
     service: 'facebook',
-    appId: '212229312591853',
+    appId: fbApp.appId,
     display: 'popup',
-    secret: 'f1eb07dd41bf154b741ae9daceb7ef17'
-});
+    secret: fbApp.secret
+});*/

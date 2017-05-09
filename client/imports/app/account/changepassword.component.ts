@@ -43,7 +43,7 @@ export class PasswordComponent extends MeteorComponent implements OnInit {
           showAlert(err.reason, "danger");
         } else {
           showAlert("Password updated successfully.", "success");
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/profile']);
         }
       });
     });

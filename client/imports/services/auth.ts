@@ -32,7 +32,7 @@ export class AuthService implements CanActivate {
 
       if (! Roles.userIsInRole(Meteor.userId(), roles) ) {
         if (this.user.isLoggedIn()) {
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/bookings']);
         } else {
           this.router.navigate(['/login']);
         }
@@ -45,7 +45,7 @@ export class AuthService implements CanActivate {
 
   verifyState(userState: string): boolean {
     if (userState == 'not-login' && this.user.isLoggedIn()) {
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/bookings']);
       return false;
     }
 
