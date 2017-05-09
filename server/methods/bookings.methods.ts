@@ -240,7 +240,7 @@ Meteor.methods({
     },
     "bookings.cancel": (id:string, cancellationData: any) => {
       let cancellationDetails: any = {
-        confirmed: false,
+        // confirmed: false,
         cancelled: true,
         cancelledAt: new Date(),
         cancellationReason: cancellationData.reason,

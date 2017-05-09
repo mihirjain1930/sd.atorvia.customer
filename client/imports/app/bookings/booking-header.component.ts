@@ -24,6 +24,8 @@ export class BookingHeaderComponent extends MeteorComponent {
 
     get taxAmount() {
       let booking = this.booking;
-      return (10/100) * booking.totalPrice;
+      let retVal = (10/100) * booking.totalPrice;
+      retVal = Math.round(retVal * 100) / 100;
+      return retVal;
     }
 }
