@@ -189,7 +189,7 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
   }
 
   isAvailSchedule(row: DateRange) {
-    let startDate = new Date(row.startDate);
+    let startDate = new Date(row.startDate.toString());
     let a = moment.utc(startDate);
     a.set({hour:0,minute:0,second:0,millisecond:0})
     let b = moment.utc(new Date());
