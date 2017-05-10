@@ -200,9 +200,15 @@ export class BookingFormComponent extends MeteorComponent implements OnInit, Aft
     this.sessionStorage.store("bookingDetails", this.booking);
     let bookingDetails = this.sessionStorage.retrieve("bookingDetails");
       if (bookingDetails) {
+        let redirectUrl = ['/booking/step1'];
+        if (! Meteor.userId()) {
+          this.sessionStorage.store("redirectUrl", redirectUrl);
+          redirectUrl = ['/login'];
+        }
+
         this.zone.run(() => {
           jQuery(".modal").modal('hide');
-          this.router.navigate(['/booking/step1']);
+          this.router.navigate(redirectUrl);
         });
       } else {
         showAlert("Error while saving data. Please try after restarting your browser.", "danger");

@@ -273,6 +273,13 @@
     										</a>
     									</div>
                     </div>
+                    <div class="text-center" *ngIf="tour.itenerary.length > 2">
+    									<a href="javascript:void(0)" class="full-itinerary" (click)="tour.showFullItenerary = !tour.showFullItenerary; detectChanges();">View full itinerary<span>
+    										<i class="fa fa-angle-down" aria-hidden="true" *ngIf="!tour.showFullItenerary"></i>
+    										<i class="fa fa-angle-up" aria-hidden="true" *ngIf="tour.showFullItenerary"></i>
+    										</span>
+    									</a>
+    								</div>
                   </div>
                   <!--tour-itinerary-->
 

@@ -127,7 +127,27 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
   private initTraveller(i) {
     let travellers = this.booking.travellers;
     if (typeof travellers[i] == "undefined") {
+      let firstName = null;
+      let middleName = null;
+      let lastName = null;
+      let email = null;
+      let contact = null;
+
+      if (i == 0 && !! Meteor.user()) {
+        let user = Meteor.user();
+        firstName = user.profile.firstName;
+        middleName = user.profile.middleName;
+        lastName = user.profile.lastName;
+        email = user.emails[0].address;
+        contact = user.profile.contact;
+      }
+
       travellers[i] = <any>{
+        firstName,
+        middleName,
+        lastName,
+        email,
+        contact
       };
     }
 

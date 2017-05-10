@@ -54,6 +54,11 @@
 					@include border-radius($full, $full, $full, $full);
 					margin: 0 auto;
 					float: none;
+					img{
+						height: $full;
+						width: $full;
+						@include border-radius($full, $full, $full, $full);
+					}
         }
 				h3 {
 					font-size: $font-18;

@@ -51,10 +51,10 @@
 							<div class="col-lg-9 pull-lg-3">
 								<div class="list-section">
 									<ul>
-										<li [ngClass]="{'active': activeTab=='overview'}"><a href="javascript:void(0);" (click)="activeTab='overview'; scrollToDiv('overview')"><span>Overview</span><span class="icon-wrap"><i class="fa fa-eye" aria-hidden="true"></i></span></a></li>
-										<li [ngClass]="{'active': activeTab=='itinerary'}"><a href="javascript:void(0);" (click)="activeTab='itinerary'; scrollToDiv('itinerary')"><span>Itinerary</span><span class="icon-wrap"><i class="fa fa-th-list" aria-hidden="true"></i></span></a></li>
-										<li [ngClass]="{'active': activeTab=='gallery'}"><a href="javascript:void(0);" (click)="activeTab='gallery'; scrollToDiv('gallery')"><span>Gallery</span><span class="icon-wrap"><i class="fa fa-picture-o" aria-hidden="true"></i></span></a></li>
-										<li [ngClass]="{'active': activeTab=='inclusion'}"><a href="javascript:void(0);" (click)="activeTab='inclusion'; scrollToDiv('inclusion')"><span>Inclusion</span><span class="icon-wrap"><i class="fa fa-tasks" aria-hidden="true"></i></span></a></li>
+										<li [ngClass]="{'active': activeTab=='overview'}"><a href="javascript:void(0);" (click)="activeTab='overview'; detectChanges(); scrollToDiv('overview')"><span>Overview</span><span class="icon-wrap"><i class="fa fa-eye" aria-hidden="true"></i></span></a></li>
+										<li [ngClass]="{'active': activeTab=='itinerary'}"><a href="javascript:void(0);" (click)="activeTab='itinerary'; detectChanges(); scrollToDiv('itinerary')"><span>Itinerary</span><span class="icon-wrap"><i class="fa fa-th-list" aria-hidden="true"></i></span></a></li>
+										<li [ngClass]="{'active': activeTab=='gallery'}"><a href="javascript:void(0);" (click)="activeTab='gallery'; detectChanges(); scrollToDiv('gallery')"><span>Gallery</span><span class="icon-wrap"><i class="fa fa-picture-o" aria-hidden="true"></i></span></a></li>
+										<li [ngClass]="{'active': activeTab=='inclusion'}"><a href="javascript:void(0);" (click)="activeTab='inclusion'; detectChanges(); scrollToDiv('inclusion')"><span>Inclusion</span><span class="icon-wrap"><i class="fa fa-tasks" aria-hidden="true"></i></span></a></li>
 									</ul>
 								</div>
 							</div>
@@ -307,8 +307,7 @@
 											<a href="javascript:void(0)" (click)="selDateRange=row; detectChanges();" data-toggle="modal" data-target="#myModal">see all pricing</a>
 										</td>
 										<td>
-											<button *ngIf="!user" type="button" class="btn green-btn" (click)="redirectToLogin()">BOOK</button>
-											<button *ngIf="!!user && row.availableSeats>0" type="button" class="btn green-btn" (click)="selDateRange=row; detectChanges();" data-toggle="modal" data-target="#bookTour">BOOK</button>
+											<button *ngIf="row.availableSeats>0" type="button" class="btn green-btn" (click)="selDateRange=row; detectChanges();" data-toggle="modal" data-target="#bookTour">BOOK</button>
 										</td>
 									</tr>
 								</tbody>
