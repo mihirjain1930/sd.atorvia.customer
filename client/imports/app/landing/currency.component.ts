@@ -21,7 +21,7 @@ export class CurrencyComponent extends MeteorComponent implements OnInit {
   @Input()
   convert: boolean = true;
 
-  constructor(private sessionStorage: SessionStorageService, private currency: CurrencyService) {
+  constructor(private localStorage: LocalStorageService, private currency: CurrencyService) {
     super();
   }
 
@@ -36,7 +36,7 @@ export class CurrencyComponent extends MeteorComponent implements OnInit {
   }
 
   doConversion() {
-    let currencyCode = this.sessionStorage.retrieve("currency");
+    let currencyCode = this.localStorage.retrieve("currencyCode");
     let defaultCode = this.defaultCode;
 
     if (this.currencyCode.length) {
@@ -57,7 +57,7 @@ export class CurrencyComponent extends MeteorComponent implements OnInit {
   }
 
   setCurrencyIcon() {
-    let currencyCode = this.sessionStorage.retrieve("currency");
+    let currencyCode = this.localStorage.retrieve("currencyCode");
     if (this.currencyCode.length) {
       currencyCode = this.currencyCode;
     }

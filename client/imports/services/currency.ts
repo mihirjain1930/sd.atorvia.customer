@@ -7,11 +7,11 @@ import * as _ from 'underscore';
 @Injectable()
 export class CurrencyService {
   defaultCode = "USD";
-  constructor(private sessionStorage: SessionStorageService) {
+  constructor(private localStorage: LocalStorageService) {
   }
 
   get currencyCode() {
-    let currency = this.sessionStorage.retrieve("currency");
+    let currency = this.localStorage.retrieve("currencyCode");
     if (currency && currency.length) {
       return currency;
     } else {
@@ -20,7 +20,7 @@ export class CurrencyService {
   }
 
   convert(amount, customCode="") {
-    let currencyCode = this.sessionStorage.retrieve("currency");
+    let currencyCode = this.localStorage.retrieve("currencyCode");
     if (customCode && customCode.length) {
       currencyCode = customCode;
     }

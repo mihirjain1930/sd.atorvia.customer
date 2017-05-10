@@ -23,38 +23,5 @@ Meteor.methods({
           console.log(err);
         }
       });
-  },
-  "syncExchangeRates": () => {
-    let from = "USD";
-    let toArr = [
-      'INR',
-      'AUD',
-      'CAD',
-      'EUR',
-      'GBP'
-    ];
-
-    for(let i=0; i<toArr.length; i++) {
-      let to = toArr[i];
-
-      HTTP.call("POST", `https://www.google.com/finance/converter?a=1&from=${from}&to=${to}`, {
-        data: {
-        }
-      }, (error, result) => {
-        let cheerio = require("cheerio");
-        let $ = cheerio.load(result.content);
-        // console.log(result.content);
-        let value = Number($('.bld').text().trim().split(" ") [0]);
-
-        let createdAt = new Date();
-        Currencies.upsert({
-          from,
-          to
-        }, {
-          $set: { value, createdAt }
-        });
-
-      })
-    }
   }
 });

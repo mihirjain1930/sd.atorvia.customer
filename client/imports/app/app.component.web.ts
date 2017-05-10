@@ -27,6 +27,7 @@ export class AppComponent extends MeteorComponent implements OnInit, AfterViewIn
       }
       this.subscribe("currencies", () => {
       });
+      this.setDefaultCurrency();
     }
 
     private observeWindowHeight() {
@@ -56,6 +57,20 @@ export class AppComponent extends MeteorComponent implements OnInit, AfterViewIn
         }
       }
     }*/
+
+    private setDefaultCurrency() {
+      this.call("getCurrencyCode", (err, res) => {
+        if (err) {
+          console.log("Error while fetching currency code.")
+          console.log(err.reason);
+          return;
+        }
+
+        if (res) {
+          this.localStorage.store("currencyCode", res);
+        }
+      })
+    }
 
     ngAfterViewInit() {
         jQuery(function($){
