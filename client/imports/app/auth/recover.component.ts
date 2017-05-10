@@ -41,7 +41,7 @@ export class RecoverComponent implements OnInit {
             showAlert(err.reason, "danger");
             this.error = err;
         } else {
-          showAlert("Your password is updated successfully. Please login to continue.", "success");
+          showAlert("Reset password request is initiated. Please check your email for further instructions.", "success");
           this.router.navigate(['/login']);
         }
       });

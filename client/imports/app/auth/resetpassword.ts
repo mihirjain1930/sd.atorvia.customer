@@ -71,7 +71,7 @@ export class ResetPassword extends MeteorComponent implements OnInit {
           this.error = err;
           showAlert(err.reason, "danger");
         } else {
-          showAlert("Password updated successfully.", "success");
+          showAlert("Your password is updated successfully. Please login to continue.", "success");
           this.router.navigate(['/login']);
         }
       });
