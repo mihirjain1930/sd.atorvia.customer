@@ -153,6 +153,11 @@ Picker.route( '/api/1.0/paypal/payment/execute/', function( params, request, res
           // mongodb update transaction
           if (payment.state == "approved") {
             // update transaction object
+            payment.gateway = "paypal";
+            payment.method = "express_checkout";
+            payment.purpose = "booking";
+            payment.modifiedAt = new Date();
+
             let res = Transactions.collection.update({_id: transaction._id}, {$set: payment});
             console.log("transaction update: ", res);
             // update booking object
@@ -172,11 +177,7 @@ Picker.route( '/api/1.0/paypal/payment/execute/', function( params, request, res
             } });
 
             Meteor.setTimeout(() => {
-              if (payment.state == "approved") {
-                Meteor.call("bookings.paymentConfirmation", transaction.bookingId);
-              } else {
-                Meteor.call("bookings.paymentFailedConfirmation", transaction.bookingId);
-              }
+              Meteor.call("bookings.paymentConfirmation", transaction.bookingId);
             }, 0);
 
             html = `<html>
@@ -210,6 +211,10 @@ Picker.route( '/api/1.0/paypal/payment/execute/', function( params, request, res
                   </div>
                 </body>
             </html>`;
+          } else {
+            Meteor.setTimeout(() => {
+              Meteor.call("bookings.paymentFailedConfirmation", transaction.bookingId);
+            }, 0);
           }
           //console.log(JSON.stringify(payment));
           //response.end( JSON.stringify(payment) );
@@ -281,6 +286,9 @@ Picker.route('/api/1.0/paypal/card-payment/create', function( params, request, r
           response.end( JSON.stringify({success: false}) );
       } else {
           // insert transaction in mongodb
+          payment.gateway = "paypal";
+          payment.method = "credit_card";
+          payment.purpose = "booking";
           payment.bookingId = booking._id;
           payment.userId = booking.user.id;
           payment.createdAt = new Date();

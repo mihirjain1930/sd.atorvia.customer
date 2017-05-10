@@ -27,7 +27,11 @@ export class AppComponent extends MeteorComponent implements OnInit, AfterViewIn
       }
       this.subscribe("currencies", () => {
       });
-      this.setDefaultCurrency();
+
+      let currencyCode = this.localStorage.retrieve("currencyCode");
+      if (! currencyCode) {
+        this.setDefaultCurrency();
+      }
     }
 
     private observeWindowHeight() {

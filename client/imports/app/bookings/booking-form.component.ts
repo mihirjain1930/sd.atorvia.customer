@@ -20,7 +20,9 @@ interface DateRange {
   price?: [{
     numOfPersons: number;
     adult: number;
+    adultDefault?: number;
     child: number;
+    childDefault?: number;
   }],
   numOfSeats: number;
   soldSeats: number;
@@ -94,6 +96,9 @@ export class BookingFormComponent extends MeteorComponent implements OnInit, Aft
         for (let i=0; i<selDateRange.price.length; i++) {
           let adultPrice = this.currency.convert(selDateRange.price[i].adult);
           let childPrice = this.currency.convert(selDateRange.price[i].child);
+
+          selDateRange.price[i].adultDefault = selDateRange.price[i].adult;
+          selDateRange.price[i].childDefault = selDateRange.price[i].child;
 
           selDateRange.price[i].adult = adultPrice;
           selDateRange.price[i].child = childPrice;
@@ -172,6 +177,10 @@ export class BookingFormComponent extends MeteorComponent implements OnInit, Aft
     booking.pricePerAdult = selPrice.adult;
     booking.pricePerChild = selPrice2.child;
     booking.totalPrice = (numOfAdults * selPrice.adult) + (numOfChild * selPrice2.child);
+    // save price in selected currency
+    booking.pricePerAdultDefault = selPrice.adultDefault;
+    booking.pricePerChildDefault = selPrice2.childDefault;
+    booking.totalPriceDefault = (numOfAdults * selPrice.adultDefault) + (numOfChild * selPrice2.childDefault);
     // console.log(booking);
 
     this.detectChanges();

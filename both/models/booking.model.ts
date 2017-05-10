@@ -67,6 +67,8 @@ export interface Booking extends CollectionObject {
     currencyCode: string;
     pricePerAdult: number;
     pricePerChild: number;
+    pricePerAdultDefault: number;
+    pricePerChildDefault: number;
     travellers: [
       {
         firstName: string;
@@ -94,6 +96,7 @@ export interface Booking extends CollectionObject {
       expiry: Date;
     };
     totalPrice: number;
+    totalPriceDefault: number;
     bookingDate: Date;
     paymentDate: Date;
     active: boolean;
