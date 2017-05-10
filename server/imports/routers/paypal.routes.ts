@@ -73,6 +73,9 @@ Picker.route( '/api/1.0/paypal/payment/create', function( params, request, respo
           console.log("Get Payment Create");
 
           // insert transaction in mongodb
+          payment.gateway = "paypal";
+          payment.method = "express_checkout";
+          payment.purpose = "booking";
           payment.bookingId = booking._id;
           payment.userId = booking.user.id;
           payment.createdAt = new Date();
@@ -153,9 +156,6 @@ Picker.route( '/api/1.0/paypal/payment/execute/', function( params, request, res
           // mongodb update transaction
           if (payment.state == "approved") {
             // update transaction object
-            payment.gateway = "paypal";
-            payment.method = "express_checkout";
-            payment.purpose = "booking";
             payment.modifiedAt = new Date();
 
             let res = Transactions.collection.update({_id: transaction._id}, {$set: payment});
