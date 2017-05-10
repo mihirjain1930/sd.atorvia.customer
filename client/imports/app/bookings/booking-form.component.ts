@@ -46,20 +46,22 @@ export class BookingFormComponent extends MeteorComponent implements OnInit, Aft
     private changeDetectorRef: ChangeDetectorRef,
     private currency: CurrencyService) {
     super();
-  }
 
-  ngOnInit() {
     let booking = <Booking> {};
     booking.numOfAdults = 1;
     booking.numOfChild = 0;
     booking.travellers = <any>[];
 
+    this.booking = booking;
+  }
+
+  ngOnInit() {
+    let booking = this.booking;
+
     this.bookingForm = this.formBuilder.group({
       numOfAdults: [booking.numOfAdults, Validators.compose([Validators.required, CValidators.min(1), CValidators.max(30) ] ) ],
       numOfChild: [booking.numOfChild, Validators.compose([CValidators.max(30) ] ) ],
     });
-
-    this.booking = booking;
   }
 
   ngAfterViewChecked() {
