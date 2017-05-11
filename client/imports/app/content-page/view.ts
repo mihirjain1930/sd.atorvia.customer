@@ -8,7 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MeteorComponent } from 'angular2-meteor';
 import { Page } from "../../../../both/models/page.model";
 import {showAlert} from "../shared/show-alert";
-
+import { Title } from '@angular/platform-browser';
 import template from "./view.html";
 import terms from "./static/terms.html";
 import privacy from "./static/privacy.html";
@@ -29,6 +29,7 @@ export class ViewPageComponent extends MeteorComponent implements OnInit, OnDest
 
     constructor(private router: Router,
         private route: ActivatedRoute,
+        private titleService: Title,
         private ngZone: NgZone
     ) {
         super();
@@ -44,36 +45,42 @@ export class ViewPageComponent extends MeteorComponent implements OnInit, OnDest
 
       switch (this.slug) {
         case "terms":
+        this.titleService.setTitle("Terms and Conditions | Atorvia");
           this.item = <Page> {
             heading: "Terms",
             contents: terms
           };
         break;
         case "privacy":
+        this.titleService.setTitle("Privacy | Atorvia");
           this.item = <Page> {
             heading: "Privacy",
             contents: privacy
           };
         break;
         case "disclaimer":
+        this.titleService.setTitle("Disclaimer | Atorvia");
           this.item = <Page> {
             heading: "Disclaimer",
             contents: disclaimer
           };
         break;
         case "story":
+        this.titleService.setTitle("Our Story | Atorvia");
           this.item = <Page> {
             heading: "Our Story",
             contents: story
           };
         break;
         case "use-atorvia":
+        this.titleService.setTitle("Why Use Atorvia | Atorvia");
           this.item = <Page> {
             heading: "Why Use Atorvia",
             contents: useAtorvia
           }
         break;
         case "sell":
+        this.titleService.setTitle("Sell On Atorvia | Atorvia");
           this.item = <Page> {
             heading: "Sell On Atorvia",
             contents: sell

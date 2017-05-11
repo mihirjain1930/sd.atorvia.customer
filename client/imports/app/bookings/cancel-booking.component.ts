@@ -7,6 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MeteorComponent } from 'angular2-meteor';
 import { Observable, Subscription, Subject, BehaviorSubject } from "rxjs";
 import { ChangeDetectorRef } from "@angular/core";
+import { Title } from '@angular/platform-browser';
 import { User } from "../../../../both/models/user.model";
 import { Tour } from "../../../../both/models/tour.model";
 import { Booking } from "../../../../both/models/booking.model";
@@ -34,6 +35,7 @@ export class CancelBookingComponent extends MeteorComponent implements OnInit, A
     private zone: NgZone,
     private router: Router,
     private route: ActivatedRoute,
+    private titleService: Title,
     private changeDetectorRef: ChangeDetectorRef,
     private formBuilder: FormBuilder
   ) {
@@ -41,6 +43,7 @@ export class CancelBookingComponent extends MeteorComponent implements OnInit, A
   }
 
   ngOnInit() {
+    this.titleService.setTitle("Cancel Booking | Atorvia");
     this.paramsSub = this.route.params
     .map(params => params['id'])
     .subscribe(id => {
@@ -130,5 +133,4 @@ export class CancelBookingComponent extends MeteorComponent implements OnInit, A
       }
     })
   }
-
 }

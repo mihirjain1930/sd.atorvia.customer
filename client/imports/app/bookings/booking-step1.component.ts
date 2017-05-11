@@ -8,6 +8,7 @@ import { HTTP } from "meteor/http";
 import { InjectUser } from "angular2-meteor-accounts-ui";
 import { MeteorComponent } from 'angular2-meteor';
 import { LocalStorageService, SessionStorageService } from 'ng2-webstorage';
+import { Title } from '@angular/platform-browser';
 import { validateEmail, validatePhoneNum, validateFirstName, validatePassportNum } from "../../validators/common";
 import { Booking } from "../../../../both/models/booking.model";
 import { Place } from "../../../../both/models/place.model";
@@ -34,11 +35,13 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
     private formBuilder: FormBuilder,
     private localStorage: LocalStorageService,
     private sessionStorage: SessionStorageService,
+     private titleService: Title,
     private changeDetectorRef: ChangeDetectorRef) {
     super();
   }
 
   ngOnInit() {
+    this.titleService.setTitle("Booking Step1 | Atorvia");
     this.booking = <Booking>this.sessionStorage.retrieve("bookingDetails");
     if (! this.booking) {
       this.zone.run(() => {

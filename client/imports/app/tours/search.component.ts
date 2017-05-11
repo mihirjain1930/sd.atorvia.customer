@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
 import { MeteorComponent } from 'angular2-meteor';
+import { Title } from '@angular/platform-browser';
 import { Observable, Subscription, Subject, BehaviorSubject } from "rxjs";
 import { PaginationService } from "ng2-pagination";
 import { Tour } from "../../../../both/models/tour.model";
@@ -41,11 +42,12 @@ export class SearchComponent extends MeteorComponent implements OnInit, AfterVie
   paramsSub: Subscription;
   isSearchScreen: boolean = true;
 
-  constructor(private zone: NgZone, private route: ActivatedRoute, private paginationService: PaginationService) {
+  constructor(private zone: NgZone, private titleService: Title, private route: ActivatedRoute, private paginationService: PaginationService) {
     super();
   }
 
   ngOnInit() {
+    this.titleService.setTitle("Destinations | Atorvia");
     this.paramsSub = this.route.params
       .subscribe(params => {
 

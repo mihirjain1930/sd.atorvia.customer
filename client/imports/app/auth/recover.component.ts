@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomValidators as CValidators } from "ng2-validation";
 import { Router } from '@angular/router';
 import { Accounts } from 'meteor/accounts-base';
+import { Title } from '@angular/platform-browser';
 import { validateEmail, validatePassword } from "../../validators/common";
 import { showAlert } from "../shared/show-alert";
 
@@ -16,9 +17,10 @@ export class RecoverComponent implements OnInit {
   recoverForm: FormGroup;
   error: string;
 
-  constructor(private router: Router, private zone: NgZone, private formBuilder: FormBuilder) {}
+  constructor(private router: Router, private titleService: Title, private zone: NgZone, private formBuilder: FormBuilder) {}
 
   ngOnInit() {
+    this.titleService.setTitle("Recover Password | Atorvia");
     this.recoverForm = this.formBuilder.group({
       email: ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50), validateEmail])]
     });

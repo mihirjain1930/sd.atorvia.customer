@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
 import { MeteorComponent } from 'angular2-meteor';
+import { Title } from '@angular/platform-browser';
 import { ChangeDetectorRef } from "@angular/core";
 import { Tour } from "../../../../both/models/tour.model";
 import { showAlert } from "../shared/show-alert";
@@ -25,11 +26,12 @@ export class TopDestinationsComponent extends MeteorComponent implements OnInit,
   error: string;
   tours: Tour[];
 
-  constructor(private zone: NgZone, private router: Router, private changeDetectorRef: ChangeDetectorRef) {
+  constructor(private zone: NgZone, private router: Router, private titleService: Title, private changeDetectorRef: ChangeDetectorRef) {
     super();
   }
 
   ngOnInit() {
+    this.titleService.setTitle("Top Destinations | Atorvia");
     let where = {active: true, approved: true};
     let limit = 8;
     this.call("tours.findTopDestinations", where, limit, (err, res) => {

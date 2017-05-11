@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
 import { HTTP } from "meteor/http";
+import { Title } from '@angular/platform-browser';
 import { InjectUser } from "angular2-meteor-accounts-ui";
 import { MeteorComponent } from 'angular2-meteor';
 import { LocalStorageService, SessionStorageService } from 'ng2-webstorage';
@@ -29,12 +30,14 @@ export class BookingStep2Component extends MeteorComponent implements OnInit, Af
     private zone: NgZone,
     private formBuilder: FormBuilder,
     private localStorage: LocalStorageService,
+    private titleService: Title,
     private sessionStorage: SessionStorageService,
     private changeDetectorRef: ChangeDetectorRef) {
     super();
   }
 
   ngOnInit() {
+    this.titleService.setTitle("Booking Step2 | Atorvia");
     let bookingId = this.sessionStorage.retrieve("bookingId");
     this.call("bookings.findOne", {_id: bookingId}, (err, result) => {
       if (err) {

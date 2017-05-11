@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subscription, Subject, BehaviorSubject } from "rxjs";
 import { Router, ActivatedRoute } from '@angular/router';
 import { Accounts } from 'meteor/accounts-base';
+import { Title } from '@angular/platform-browser';
 import { MeteorComponent } from 'angular2-meteor';
 import { matchingPasswords, validatePassword } from '../../validators/common';
 import { showAlert } from "../shared/show-alert";
@@ -20,11 +21,12 @@ export class ResetPassword extends MeteorComponent implements OnInit {
   token: string;
   userId: any;
 
-  constructor(private router: Router, private route: ActivatedRoute, private zone: NgZone, private formBuilder: FormBuilder) {
+  constructor(private router: Router, private titleService: Title, private route: ActivatedRoute, private zone: NgZone, private formBuilder: FormBuilder) {
     super();
   }
 
   ngOnInit() {
+    this.titleService.setTitle("Reset Password | Atorvia");
     this.paramsSub = this.route.params
     .map(params => params['token'])
     .subscribe(token => {
