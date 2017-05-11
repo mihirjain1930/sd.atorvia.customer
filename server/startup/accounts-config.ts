@@ -28,6 +28,11 @@ Accounts.onCreateUser(function(options, user) {
       age: fbData.age_range.min,
       gender: fbData.gender
     }
+    user.emails = [];
+    user.emails.push({
+      address: fbData.email,
+      verified: true
+    })
   }
 
   // set user role
