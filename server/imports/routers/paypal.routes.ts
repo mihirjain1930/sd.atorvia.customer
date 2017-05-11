@@ -311,14 +311,6 @@ Picker.route('/api/1.0/paypal/card-payment/create', function( params, request, r
             saleId = null;
           }
 
-          Meteor.setTimeout(() => {
-            if (payment.state == "approved") {
-              Meteor.call("bookings.paymentConfirmation", booking._id);
-            } else {
-              Meteor.call("bookings.paymentFailedConfirmation", booking._id);
-            }
-          }, 0);
-
           Bookings.collection.update({_id: booking._id}, {$set: {
             paymentInfo: {
               gateway: "paypal",
@@ -330,6 +322,15 @@ Picker.route('/api/1.0/paypal/card-payment/create', function( params, request, r
             },
             paymentDate: new Date()
           } });
+
+          Meteor.setTimeout(() => {
+            if (payment.state == "approved") {
+              Meteor.call("bookings.paymentConfirmation", booking._id);
+            } else {
+              Meteor.call("bookings.paymentFailedConfirmation", booking._id);
+            }
+          }, 0);
+          
           response.end( JSON.stringify({success: true}) );
       }
   }) );
