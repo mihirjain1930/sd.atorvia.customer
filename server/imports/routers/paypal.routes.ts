@@ -149,8 +149,9 @@ Picker.route( '/api/1.0/paypal/payment/execute/', function( params, request, res
 
       if (error) {
           //console.log(error.response);
+          let bookingId = transaction.relatedInfo.bookingId;
           Meteor.setTimeout(() => {
-            Meteor.call("bookings.paymentFailedConfirmation", transaction.bookingId);
+            Meteor.call("bookings.paymentFailedConfirmation", bookingId);
           }, 0);
       } else {
           console.log("Get Payment Response");
@@ -172,14 +173,15 @@ Picker.route( '/api/1.0/paypal/payment/execute/', function( params, request, res
             } catch(e) {
               saleId = null;
             }
-            Bookings.collection.update({_id: transaction.bookingId}, {$set: {
+            let bookingId = transaction.relatedInfo.bookingId;
+            Bookings.collection.update({_id: bookingId}, {$set: {
               "paymentInfo.status": payment.state,
               "paymentInfo.saleId": saleId,
               paymentDate: new Date()
             } });
 
             Meteor.setTimeout(() => {
-              Meteor.call("bookings.paymentConfirmation", transaction.bookingId);
+              Meteor.call("bookings.paymentConfirmation", bookingId);
             }, 0);
 
             html = `<html>
@@ -214,8 +216,9 @@ Picker.route( '/api/1.0/paypal/payment/execute/', function( params, request, res
                 </body>
             </html>`;
           } else {
+            let bookingId = transaction.relatedInfo.bookingId;
             Meteor.setTimeout(() => {
-              Meteor.call("bookings.paymentFailedConfirmation", transaction.bookingId);
+              Meteor.call("bookings.paymentFailedConfirmation", bookingId);
             }, 0);
           }
           //console.log(JSON.stringify(payment));
