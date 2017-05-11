@@ -43,6 +43,7 @@ export class CancelBookingComponent extends MeteorComponent implements OnInit, A
   }
 
   ngOnInit() {
+    this.titleService.setTitle("Cancel Booking | Atorvia");
     this.paramsSub = this.route.params
     .map(params => params['id'])
     .subscribe(id => {
@@ -132,9 +133,4 @@ export class CancelBookingComponent extends MeteorComponent implements OnInit, A
       }
     })
   }
-
-  setTitle( newTitle: string) {
-    this.titleService.setTitle("Cancel Booking | Atorvia");
-  }
-
 }
