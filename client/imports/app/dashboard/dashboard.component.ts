@@ -5,6 +5,7 @@ import { CustomValidators as CValidators } from "ng2-validation";
 import { InjectUser } from "angular2-meteor-accounts-ui";
 import { Router } from '@angular/router';
 import { MeteorComponent } from 'angular2-meteor';
+import { Title } from '@angular/platform-browser';
 import { User } from "../../../../both/models/user.model";
 import { Place } from "../../../../both/models/place.model";
 import { upload } from '../../../../both/methods/images.methods';
@@ -28,7 +29,7 @@ export class DashboardComponent extends MeteorComponent implements OnInit, After
   isUploaded: boolean = false;
   searchString: string;
 
-  constructor(private router: Router, private zone: NgZone, private formBuilder: FormBuilder) {
+  constructor(private router: Router, private zone: NgZone, private titleService: Title, private formBuilder: FormBuilder) {
     super();
     if (! Meteor.userId()) {
       this.router.navigate(['/login']);
@@ -36,6 +37,7 @@ export class DashboardComponent extends MeteorComponent implements OnInit, After
   }
 
   ngOnInit() {
+    this.titleService.setTitle("Profile | Atorvia");
     if (! Meteor.userId()) {
       return;
     }

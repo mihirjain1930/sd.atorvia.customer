@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
 import { MeteorComponent } from 'angular2-meteor';
+import { Title } from '@angular/platform-browser';
 import { CompleterService, CompleterData, CompleterItem } from 'ng2-completer';
 import { ChangeDetectorRef } from "@angular/core";
 import { Tour } from "../../../../both/models/tour.model";
@@ -29,12 +30,13 @@ export class LandingComponent extends MeteorComponent implements OnInit, AfterVi
   error: string;
   dataService: CompleterData;
 
-  constructor(private zone: NgZone, private router: Router, private completerService: CompleterService, private changeDetectorRef: ChangeDetectorRef) {
+  constructor(private zone: NgZone, private router: Router, private titleService: Title, private completerService: CompleterService, private changeDetectorRef: ChangeDetectorRef) {
     super();
     this.dataService = completerService.remote('/api/1.0/tours/search?searchString=', 'destination', 'name');
   }
 
   ngOnInit() {
+    this.titleService.setTitle("Home | Atorvia");
     const options: Options = {
         limit: 8,
         skip: 0,

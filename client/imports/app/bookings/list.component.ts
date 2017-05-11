@@ -8,6 +8,7 @@ import { MeteorComponent } from 'angular2-meteor';
 import { Observable, Subscription, Subject, BehaviorSubject } from "rxjs";
 import { ChangeDetectorRef } from "@angular/core";
 import { PaginationService } from "ng2-pagination";
+import { Title } from '@angular/platform-browser';
 import { User } from "../../../../both/models/user.model";
 import { Booking } from "../../../../both/models/booking.model";
 import { showAlert } from "../shared/show-alert";
@@ -43,11 +44,12 @@ export class BookingsListComponent extends MeteorComponent implements OnInit, Af
   whereSub: Subject<any> = new Subject<any>();
   searchTimeout: any;
 
-  constructor(private zone: NgZone, private route: ActivatedRoute, private paginationService: PaginationService, private changeDetectorRef: ChangeDetectorRef) {
+  constructor(private zone: NgZone, private titleService: Title, private route: ActivatedRoute, private paginationService: PaginationService, private changeDetectorRef: ChangeDetectorRef) {
     super();
   }
 
   ngOnInit() {
+    this.titleService.setTitle("Dashboard | Atorvia");
     this.setOptions();
   }
 

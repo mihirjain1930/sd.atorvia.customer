@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Accounts } from 'meteor/accounts-base';
 import { Meteor } from 'meteor/meteor';
 import { InjectUser } from "angular2-meteor-accounts-ui";
+import { Title } from '@angular/platform-browser';
 import { MeteorComponent } from 'angular2-meteor';
 import { LocalStorageService, SessionStorageService } from 'ng2-webstorage';
 import { validateEmail, validatePassword } from "../../validators/common";
@@ -22,7 +23,7 @@ export class BookingConfirmComponent extends MeteorComponent implements OnInit, 
   booking: Booking = null;
   tour: Tour;
 
-  constructor(private router: Router, private zone: NgZone, private formBuilder: FormBuilder, private localStorage: LocalStorageService, private sessionStorage: SessionStorageService) {
+  constructor(private router: Router, private titleService: Title, private zone: NgZone, private formBuilder: FormBuilder, private localStorage: LocalStorageService, private sessionStorage: SessionStorageService) {
     super();
   }
 
@@ -30,6 +31,7 @@ export class BookingConfirmComponent extends MeteorComponent implements OnInit, 
   }
 
   ngOnInit() {
+    this.titleService.setTitle("Booking Confirm | Atorvia");
     let bookingId = this.sessionStorage.retrieve("bookingId");
     this.call("bookings.findOne", {_id: bookingId}, (err, result) => {
       if (err) {

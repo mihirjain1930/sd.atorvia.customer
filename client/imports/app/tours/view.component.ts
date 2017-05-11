@@ -6,6 +6,7 @@ import { MeteorComponent } from 'angular2-meteor';
 import { Observable, Subscription, Subject, BehaviorSubject } from "rxjs";
 import { ChangeDetectorRef } from "@angular/core";
 import { InjectUser } from "angular2-meteor-accounts-ui";
+import { Title } from '@angular/platform-browser';
 import { SessionStorageService } from 'ng2-webstorage';
 import { Tour } from "../../../../both/models/tour.model";
 import { User } from "../../../../both/models/user.model";
@@ -52,7 +53,7 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
   activeTab: string = "overview";
   selDateRange: DateRange = null;
 
-  constructor(private zone: NgZone, private router: Router, private route: ActivatedRoute, private changeDetectorRef: ChangeDetectorRef, private sessionStorage: SessionStorageService) {
+  constructor(private zone: NgZone, private titleService: Title, private router: Router, private route: ActivatedRoute, private changeDetectorRef: ChangeDetectorRef, private sessionStorage: SessionStorageService) {
     super();
   }
 
@@ -62,6 +63,9 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
       .subscribe(name => {
           this.query = name;
 
+          let tour = name.toUpperCase();
+          this.titleService.setTitle(tour + " | Atorvia");
+          
           this.call("tours.findOne", {slug: this.query}, {with: {owner: true}}, (err, res) => {
             if (err) {
               console.log(err.reason, "danger");
