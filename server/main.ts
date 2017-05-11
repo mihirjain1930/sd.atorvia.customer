@@ -7,6 +7,7 @@ import './imports/publications/currencies';
 import './imports/routers/email.routes';
 import './imports/routers/tour.routes';
 import './imports/routers/paypal.routes';
+import './imports/routers/customer.routes';
 import './startup/email-config';
 
 Meteor.startup(() => {

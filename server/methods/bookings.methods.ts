@@ -299,6 +299,29 @@ Meteor.methods({
       Meteor.setTimeout(() => {
         Meteor.call("sendEmail", to, subject, text)
       }, 0);
+    },
+    "bookings.generateVoucher": (bookingId) => {
+      let fs = require("fs-extra");
+
+      // find booking details
+      let booking = Bookings.collection.findOne({_id: bookingId});
+      if (_.isEmpty(booking)) {
+        return;
+      }
+
+      // update voucher id
+      if (! booking.voucherId) {
+        booking.voucherId = booking.uniqueId;
+      }
+
+      let html = eval('`'+fs.readFileSync(process.env.PWD + "/server/imports/emails/customer/booking-voucher.html")+'`');
+
+      var pdf = require('html-pdf');
+      pdf.create(html).toStream(function(err, stream){
+        let dirPath = `${process.env.PWD}/../supplier/uploads/pdfs`;
+        fs.ensureDirSync(dirPath);
+        stream.pipe(fs.createWriteStream(`${dirPath}/voucher-${booking._id}.pdf`));
+      });
     }
 });
 

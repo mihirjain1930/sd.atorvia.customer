@@ -87,9 +87,10 @@ export class BookingFormComponent extends MeteorComponent implements OnInit, Aft
     if (changes['selDateRange']) {
       let selDateRange = <DateRange> JSON.parse(JSON.stringify(changes["selDateRange"].currentValue));
       if (selDateRange) {
-        let array = new Uint32Array(1);
+        let array = new Uint32Array(2);
         window.crypto.getRandomValues(array);
         booking.uniqueId = Number(array[0]);
+        booking.voucherId = Number(array[1]);
         booking.startDate = new Date(selDateRange.startDate.toString());
         booking.endDate = new Date(selDateRange.endDate.toString());
         booking.currencyCode = this.currency.currencyCode;

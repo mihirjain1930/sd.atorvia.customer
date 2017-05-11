@@ -119,4 +119,17 @@ export class BookingViewComponent extends MeteorComponent implements OnInit, Aft
     })
   }
 
+  downloadVoucher(bookingId: string) {
+    this.call("bookings.generateVoucher", bookingId, (err, res) => {
+      if (err) {
+        showAlert(err.reason, "danger");
+        return;
+      }
+
+      let fileUrl = `/bookings/voucher/${bookingId}`;
+      console.log(fileUrl);
+      window.location.href = fileUrl;
+    })
+  }
+
 }
