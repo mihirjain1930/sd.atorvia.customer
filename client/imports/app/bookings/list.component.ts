@@ -191,7 +191,7 @@ export class BookingsListComponent extends MeteorComponent implements OnInit, Af
     let retVal = null;
 
     // check completed flag
-    if (new Date(item.startDate) < new Date()) {
+    if (new Date(item.startDate.toString()) < new Date()) {
       item.completed = true;
     }
 

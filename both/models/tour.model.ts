@@ -91,6 +91,7 @@ export interface Tour extends CollectionObject {
     };
     active: boolean;
     approved: boolean;
+    rejected: boolean;
     deleted: boolean;
     createdAt: Date;
     modifiedAt: Date;
