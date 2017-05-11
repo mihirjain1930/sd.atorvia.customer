@@ -73,11 +73,13 @@ Picker.route( '/api/1.0/paypal/payment/create', function( params, request, respo
           console.log("Get Payment Create");
 
           // insert transaction in mongodb
-          payment.gateway = "paypal";
-          payment.method = "express_checkout";
-          payment.purpose = "booking";
-          payment.bookingId = booking._id;
-          payment.userId = booking.user.id;
+          payment.relatedInfo = {
+            gateway: "paypal",
+            method: "express_checkout",
+            purpose: "booking",
+            bookingId: booking._id,
+            userId: booking.user.id
+          };
           payment.createdAt = new Date();
           var transactionId = Transactions.collection.insert(payment);
           console.log("new transactionId:", transactionId);
@@ -286,11 +288,13 @@ Picker.route('/api/1.0/paypal/card-payment/create', function( params, request, r
           response.end( JSON.stringify({success: false}) );
       } else {
           // insert transaction in mongodb
-          payment.gateway = "paypal";
-          payment.method = "credit_card";
-          payment.purpose = "booking";
-          payment.bookingId = booking._id;
-          payment.userId = booking.user.id;
+          payment.relatedInfo = {
+            gateway: "paypal",
+            method: "credit_card",
+            purpose: "booking",
+            bookingId: booking._id,
+            userId: booking.user.id
+          }
           payment.createdAt = new Date();
           var transactionId = Transactions.collection.insert(payment);
           console.log("new transactionId:", transactionId);
