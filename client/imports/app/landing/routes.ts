@@ -7,6 +7,7 @@ import { TopDestinationsComponent } from "./top-destinations.component";
 
 export const routes = [
     { path: "", component: LandingComponent },
+    { path: "**", component: LandingComponent },
     { path: "contact-us", component: ContactFormComponent },
     { path: "top-destinations", component: TopDestinationsComponent }
 ];
