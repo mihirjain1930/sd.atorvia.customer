@@ -66,6 +66,7 @@ export class SignupComponent extends MeteorComponent implements OnInit {
       this.zone.run(() => {
         if (err) {
           console.log("Error while calling loginWithFacebook:", err);
+          showAlert(err.reason, "danger");
         } else {
           showAlert("Your account has been created successfully.", "success");
           this.router.navigate(['/bookings']);

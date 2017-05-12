@@ -68,6 +68,7 @@ export class LoginComponent extends MeteorComponent implements OnInit {
       this.zone.run(() => {
         if (err) {
           console.log("Error while calling loginWithFacebook:", err);
+          showAlert(err.reason, "danger");
         } else {
           showAlert("You have been logged in successfully.", "success");
           this.router.navigate(['/bookings']);
