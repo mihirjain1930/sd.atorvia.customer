@@ -57,9 +57,20 @@ export class BookingConfirmComponent extends MeteorComponent implements OnInit, 
     return this.booking;
   }
 
-  printOption() {
-    window.print();
-  }
   ngOnDestroy() {
+  }
+
+  downloadVoucher() {
+    let bookingId = this.sessionStorage.retrieve("bookingId");
+    this.call("bookings.generateVoucher", bookingId, (err, res) => {
+      if (err) {
+        showAlert(err.reason, "danger");
+        return;
+      }
+
+      let fileUrl = `/bookings/voucher/${bookingId}`;
+      console.log(fileUrl);
+      window.location.href = fileUrl;
+    })
   }
 }

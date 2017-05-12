@@ -47,14 +47,15 @@ export class SearchComponent extends MeteorComponent implements OnInit, AfterVie
   }
 
   ngOnInit() {
-    this.titleService.setTitle("Destinations | Atorvia");
     this.paramsSub = this.route.params
       .subscribe(params => {
 
         if (params['slug']) {
           this.searchString = params['slug'];
           this.isSearchScreen = false;
+          this.titleService.setTitle("Destinations | Atorvia");
         } else {
+          this.titleService.setTitle("Search Results for" + this.searchString + " | Atorvia");
           this.searchString = params['query'];
         }
 
