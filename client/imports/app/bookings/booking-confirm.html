@@ -191,7 +191,7 @@
                         <div class="col-lg-8">
                           <p><a *ngIf="bookingDetails.tour?.cancellationPolicy?.url" [href]="bookingDetails.tour.cancellationPolicy.url" download>Download tour cancellation policy</a></p>
                           <p><a *ngIf="bookingDetails.tour?.refundPolicy?.url" [href]="bookingDetails.tour.refundPolicy.url" download>Download Atorvia refund policy</a></p>
-                          <button class="btn green-btn home-page" *ngIf="booking.paymentInfo?.status == 'approved' " (click)="downloadVoucher()">Download Voucher</button>
+                          <button class="btn green-btn home-page" (click)="downloadVoucher()">Download Voucher</button>
                         </div>
                         <div class="col-lg-4">
                           <button type="button" class="btn green-btn" [routerLink]="['/']">Back to HomePage</button>
