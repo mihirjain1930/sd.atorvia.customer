@@ -13,7 +13,10 @@ Picker.route( '/bookings/voucher/:id', function( params, request, response, next
   let filePath = `${process.env.PWD}/../supplier/uploads/pdfs/voucher-${params.id}.pdf`;
 
   fs.readFile(`${filePath}`, (err, data) => {
-    if (err) response.end( "Error while downloading file. Please recheck the file name." );
+    if (err) {
+      response.end( "Error while downloading file. Please recheck the file name." ); 
+      console.log(err);
+    }
     else {
       response.setHeader('Content-Type', 'application/force-download');
       response.setHeader("Content-Disposition","attachment; filename=\"voucher-" + params.id + ".pdf\"");
