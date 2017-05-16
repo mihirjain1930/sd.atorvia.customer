@@ -65,7 +65,7 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
 
           let tour = name.toUpperCase();
           this.titleService.setTitle(tour + " | Atorvia");
-          
+
           this.call("tours.findOne", {slug: this.query}, {with: {owner: true}}, (err, res) => {
             if (err) {
               console.log(err.reason, "danger");
@@ -97,6 +97,29 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
           social_tools: false
         });
       });
+
+      function sticky_relocate() {
+        var window_top = $(window).scrollTop();
+        var div_top = $('#sticky-anchor').offset().top;
+        if (window_top > div_top) {
+          $('#sticky').addClass('stick');
+          $('#sticky-anchor').height($('#sticky').outerHeight());
+          /*var id = $(".link-content .active").attr('id');
+          if($("#"+id).hasClass('active')){
+              $("#"+id).css('margin-top', '100' + "px");
+          }*/
+        }
+        else {
+          $('#sticky').removeClass('stick');
+          $('#sticky-anchor').height(0);
+        }
+      }
+
+      $(function() {
+        $(window).scroll(sticky_relocate);
+        sticky_relocate();
+      });
+
     }, 1000);
   }
 
@@ -174,7 +197,7 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
 
   scrollToDiv(elemId) {
     jQuery('html, body').animate({
-        scrollTop: jQuery("#" + elemId).offset().top
+        scrollTop: jQuery("#" + elemId).offset().top - 100
     }, 500);
   }
 
