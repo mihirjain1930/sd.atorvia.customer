@@ -151,7 +151,7 @@ Meteor.methods({
       }
       // send email to customer
       let mailDate = new Date();
-      console.log("Booking Id: ", booking.uniqueId, "Mail sent at: ", mailDate);
+      // console.log("Booking Id: ", booking.uniqueId, "Mail sent at: ", mailDate);
       let to = booking.user.email;
       let subject = "New Booking Confirmation - Customer";
       let text = eval('`'+fs.readFileSync(process.env.PWD + "/server/imports/emails/customer/booking-confirmation.html")+'`');
@@ -192,7 +192,7 @@ Meteor.methods({
       to = supplier.emails[0].address;
       subject = "New Booking Confirmation - Supplier";
       let mailDate = new Date();
-      console.log("Booking Id: ", booking.uniqueId, "Mail sent at: ", mailDate);
+      // console.log("Booking Id: ", booking.uniqueId, "Mail sent at: ", mailDate);
       text = eval('`'+fs.readFileSync(process.env.PWD + "/server/imports/emails/supplier/booking-confirmation.html")+'`');
       Meteor.setTimeout(() => {
         Meteor.call("sendEmail", to, subject, text)
@@ -211,7 +211,7 @@ Meteor.methods({
       let mailDate = new Date();
       let to = booking.user.email;
       let subject = "Booking Payment Failed";
-      console.log("Booking Id: ", booking.uniqueId, "Mail sent at: ", mailDate);
+      // console.log("Booking Id: ", booking.uniqueId, "Mail sent at: ", mailDate);
       let text = eval('`'+fs.readFileSync(process.env.PWD + "/server/imports/emails/customer/payment-unsuccessful.html")+'`');
       Meteor.setTimeout(() => {
         Meteor.call("sendEmail", to, subject, text)
@@ -267,7 +267,7 @@ Meteor.methods({
       }
 
       let mailDate = new Date();
-      console.log("Booking Id: ", booking.uniqueId, "Mail sent at: ", mailDate);
+      // console.log("Booking Id: ", booking.uniqueId, "Mail sent at: ", mailDate);
 
       // send email to customer
       let to = booking.user.email;
@@ -317,10 +317,14 @@ Meteor.methods({
       let html = eval('`'+fs.readFileSync(process.env.PWD + "/server/imports/emails/customer/booking-voucher.html")+'`');
 
       var pdf = require('html-pdf');
-      pdf.create(html).toStream(function(err, stream){
-        let dirPath = `${process.env.PWD}/../supplier/uploads/pdfs`;
-        fs.ensureDirSync(dirPath);
-        stream.pipe(fs.createWriteStream(`${dirPath}/voucher-${booking._id}.pdf`));
+      let dirPath = `${process.env.PWD}/../supplier/uploads/pdfs`;
+      fs.ensureDirSync(dirPath);
+      pdf.create(html).toFile(`${dirPath}/voucher-${booking._id}.pdf`, function(err, res){
+        if (err) {
+          console.log(err);
+          return;
+        }
+        console.log(res.filename);
       });
     }
 });

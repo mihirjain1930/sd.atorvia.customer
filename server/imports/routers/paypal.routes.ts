@@ -59,9 +59,18 @@ Picker.route( '/api/1.0/paypal/payment/create', function( params, request, respo
         },
         "amount": {
           "total": booking.totalPrice,
-          "currency": booking.currencyCode
+          "currency": booking.currencyCode,
+          "details": {
+            "subtotal": booking.totalPrice
+          }
         },
-        "description": "This is the payment description."
+        "description": "The payment transaction description.",
+        "custom": "",
+        "invoice_number": booking.uniqueId,
+        "payment_options": {
+        "allowed_payment_method": "INSTANT_FUNDING_SOURCE"
+        },
+        "soft_descriptor": "",
     }]
   };
 
@@ -330,7 +339,7 @@ Picker.route('/api/1.0/paypal/card-payment/create', function( params, request, r
               Meteor.call("bookings.paymentFailedConfirmation", booking._id);
             }
           }, 0);
-          
+
           response.end( JSON.stringify({success: true}) );
       }
   }) );
