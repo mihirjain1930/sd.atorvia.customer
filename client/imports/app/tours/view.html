@@ -37,7 +37,8 @@
 	<!--slider-->
 	<!--link-wrap-->
 	<section class="link-wrap">
-		<div class="link-head">
+		<div id="sticky-anchor"></div>
+		<div class="link-head" id="sticky">
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-12">
@@ -51,7 +52,7 @@
 							<div class="col-lg-9 pull-lg-3">
 								<div class="list-section">
 									<ul>
-										<li [ngClass]="{'active': activeTab=='overview'}"><a href="javascript:void(0);" (click)="activeTab='overview'; detectChanges(); scrollToDiv('overview')"><span>Overview</span><span class="icon-wrap"><i class="fa fa-eye" aria-hidden="true"></i></span></a></li>
+										<li [ngClass]="{'active': activeTab=='overview'}"><a href="javascript:void(0);" (click)="activeTab='overview'; detectChanges(); scrollToDiv('overview');"><span>Overview</span><span class="icon-wrap"><i class="fa fa-eye" aria-hidden="true"></i></span></a></li>
 										<li [ngClass]="{'active': activeTab=='itinerary'}"><a href="javascript:void(0);" (click)="activeTab='itinerary'; detectChanges(); scrollToDiv('itinerary')"><span>Itinerary</span><span class="icon-wrap"><i class="fa fa-th-list" aria-hidden="true"></i></span></a></li>
 										<li [ngClass]="{'active': activeTab=='gallery'}"><a href="javascript:void(0);" (click)="activeTab='gallery'; detectChanges(); scrollToDiv('gallery')"><span>Gallery</span><span class="icon-wrap"><i class="fa fa-picture-o" aria-hidden="true"></i></span></a></li>
 										<li [ngClass]="{'active': activeTab=='inclusion'}"><a href="javascript:void(0);" (click)="activeTab='inclusion'; detectChanges(); scrollToDiv('inclusion')"><span>Inclusion</span><span class="icon-wrap"><i class="fa fa-tasks" aria-hidden="true"></i></span></a></li>
@@ -168,7 +169,7 @@
 				</div>
 				<div class="col-md-8 pull-md-4" *ngIf="!!tour">
 					<!--overview-->
-					<div class="tour-detail right-wrap" id="overview">
+					<div [ngClass]="{'active': activeTab=='overview'}" class="tour-detail right-wrap" id="overview">
 						<h3>Overview</h3>
 						<ul>
 							<li>
@@ -194,7 +195,7 @@
 					</div>
 					<!--overview-->
 					<!--tour-itinerary-->
-					<div class="tour-itinerary right-wrap" id="itinerary">
+					<div [ngClass]="{'active': activeTab=='itinerary'}" class="tour-itinerary right-wrap" id="itinerary">
 						<div class="row">
 							<div class="col-sm-12">
 								<h3>Itinerary</h3>
@@ -253,7 +254,7 @@
 					</div>
 					<!--tour-itinerary-->
 					<!--gallery-wrap-->
-					<div class="gallery-wrap right-wrap" id="gallery">
+					<div [ngClass]="{'active': activeTab=='gallery'}" class="gallery-wrap right-wrap" id="gallery">
 						<div class="row">
 							<div class="col-sm-12">
 								<h3>Gallery</h3>
@@ -266,7 +267,7 @@
 						</div>
 					</div>
 					<!--inclusive-policy-->
-					<div class="inclusive-policy right-wrap" id="inclusion">
+					<div [ngClass]="{'active': activeTab=='inclusion'}" class="inclusive-policy right-wrap" id="inclusion">
 						<div class="row">
 							<div class="col-sm-12">
 								<h3>Inclusion &amp; Policy</h3>

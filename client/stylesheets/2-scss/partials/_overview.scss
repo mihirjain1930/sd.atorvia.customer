@@ -203,6 +203,15 @@
       }
     }
   }
+	#sticky.stick {
+    margin-top: 0 !important;
+    position: fixed;
+    top: 0;
+    z-index: 10000;
+		background: #fff;
+		left: 0;
+		right: 0;
+	}
 	.list-section {
 		@extend .relative;
 		height: 97px;
