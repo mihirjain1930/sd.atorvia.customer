@@ -35,7 +35,7 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
     private formBuilder: FormBuilder,
     private localStorage: LocalStorageService,
     private sessionStorage: SessionStorageService,
-     private titleService: Title,
+    private titleService: Title,
     private changeDetectorRef: ChangeDetectorRef) {
     super();
   }

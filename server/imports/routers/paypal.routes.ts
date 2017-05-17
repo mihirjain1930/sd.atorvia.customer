@@ -52,16 +52,16 @@ Picker.route( '/api/1.0/paypal/payment/create', function( params, request, respo
             "items": [{
                 "name": booking.tour.name,
                 "sku": booking.tour.id,
-                "price": booking.totalPrice,
-                "currency": booking.currencyCode,
+                "price": booking.totalPriceDefault,
+                "currency": "USD",
                 "quantity": 1
             }]
         },
         "amount": {
-          "total": booking.totalPrice,
-          "currency": booking.currencyCode,
+          "total": booking.totalPriceDefault,
+          "currency": "USD",
           "details": {
-            "subtotal": booking.totalPrice
+            "subtotal": booking.totalPriceDefault
           }
         },
         "description": "The payment transaction description.",
@@ -257,7 +257,7 @@ Picker.route('/api/1.0/paypal/card-payment/create', function( params, request, r
   let body = request.body;
   let cardDetails = body.cardDetails;
   let booking = body.booking;
-  let totalPrice = booking.totalPrice;
+  let totalPrice = booking.totalPriceDefault;
   let address = booking.travellers[0];
 
   var create_payment_json = {
@@ -286,7 +286,7 @@ Picker.route('/api/1.0/paypal/card-payment/create', function( params, request, r
         "transactions": [{
             "amount": {
                 "total": totalPrice,
-                "currency": booking.currencyCode
+                "currency": "USD"
             },
             "description": "This is the payment transaction description."
         }]
