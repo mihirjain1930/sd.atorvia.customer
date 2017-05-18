@@ -5,6 +5,7 @@ import { check } from "meteor/check";
 import { Tours } from "../../both/collections/tours.collection";
 import { Bookings } from "../../both/collections/bookings.collection";
 import { Tour } from "../../both/models/tour.model";
+import { isLoggedIn, userIsInRole } from "../imports/services/auth";
 import * as _ from 'underscore';
 
 interface Options {
@@ -99,11 +100,16 @@ Meteor.methods({
       return Tours.collection.update({_id: tourId}, {$inc: {noOfViews: 1}});
     },
     "tours.askAQuestion": (mailData: any) => {
+      userIsInRole(["customer"]);
+
       let Mailgun = require('mailgun').Mailgun;
       let mailgun = new Mailgun('key-755f427d33296fe30862b0278c460e84');
+      let domain = "sandbox3f697e79ae2849f5935a5a60e59f9795.mailgun.org";
       let supplier = Meteor.users.findOne({"_id": mailData.supplierId});
+      let user = Meteor.user();
+      let sender = `user-${user._id}@${domain}`;
 
-      mailgun.sendText("noreply@atorvia.com",supplier.emails[0].address,mailData.subject,mailData.message, "sandbox3f697e79ae2849f5935a5a60e59f9795.mailgun.org", (err) => {
+      mailgun.sendText(sender, supplier.emails[0].address, mailData.subject, mailData.message, domain, (err) => {
         if (! err) {
           console.log("done");
           return true;
