@@ -316,7 +316,9 @@ Meteor.methods({
 
       let html = eval('`'+fs.readFileSync(process.env.PWD + "/server/imports/emails/customer/booking-voucher.html")+'`');
 
-      var pdf = require('html-pdf');
+      let pdf = require('html-pdf');
+      let Future = require('fibers/future');
+      var myFuture = new Future();
       let dirPath = `${process.env.PWD}/../supplier/uploads/pdfs`;
       fs.ensureDirSync(dirPath);
       pdf.create(html).toFile(`${dirPath}/voucher-${booking._id}.pdf`, function(err, res){
@@ -325,7 +327,9 @@ Meteor.methods({
           return;
         }
         console.log(res.filename);
+        myFuture.return(true);
       });
+      return myFuture.wait();
     }
 });
 
