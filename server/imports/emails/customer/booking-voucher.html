@@ -17,9 +17,11 @@ ${booking.travellers.map( (item, index) => {
   <li><b>Traveller #${index+1}</b></li>
   <li><label>Name</label>:${item.firstName} ${item.lastName}</li>
   <li><label>Email</label>:${item.email}</li>
-  <li><label>Contact</label>:${item.contact}</li>
-  <li><label>Passport Country</label>:${item.passport.country}</li>
+  <li><label>Contact</label>:${item.contact}</li>`;
+if (typeof item.passport != "undefined") {
+  retVal += `<li><label>Passport Country</label>:${item.passport.country}</li>
   <li><label>Passport Number</label>:${item.passport.number}</li>`;
+}
 if (index == 0) {
   retVal += `<li><label>Street Address</label>:${item.addressLine1}</li>
   <li><label>Suburb</label>:${item.suburb}</li>
