@@ -37,7 +37,7 @@ Picker.route( '/emails', function( params, request, response, next ) {
   let domain = "sandbox3f697e79ae2849f5935a5a60e59f9795.mailgun.org";
   let recipientUser = Meteor.users.findOne({"_id": userId});
   let senderUser = Meteor.users.findOne({"emails.address": sender});
-  let senderEmail = `user-${recipientUser._id}@${domain}`;
+  let senderEmail = `user-${senderUser._id}@${domain}`;
 
   mailgun.sendText(senderEmail, recipientUser.emails[0].address, subject, message, domain, (err) => {
     if (! err) {
