@@ -64,9 +64,9 @@ Meteor.methods({
         }
 
         // send confirmation to customer
-        Meteor.setTimeout(() => {
+        /*Meteor.setTimeout(() => {
           Meteor.call("bookings.createConfirmation", bookingId);
-        }, 0);
+        }, 0);*/
 
         return bookingId;
     },
