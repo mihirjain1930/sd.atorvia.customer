@@ -8,6 +8,11 @@ span.stars {
     float: right;
     font-size: 20px;
     transition: all .2s;
+    margin-bottom: 0;
+    height: 28px;
+    line-height: 28px;
+  }
+  input.star:not(:disabled) ~ label.star {
     cursor: pointer;
   }
   input.star:checked ~ label.star:before {
