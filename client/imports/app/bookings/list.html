@@ -73,7 +73,7 @@
                         <div class="booking-list-desc">
                           <div class="booking-list-top">
                           <a [routerLink]="['/bookings/view', item._id]"><h5 style="margin-bottom: 5px;">{{item.tour.name}}</h5></a>
-                          <a *ngIf="item.completed == true" [routerLink]="['/bookings/view', item._id]"><h6 style="margin-bottom: 5px; color: #7c8187;">Rate Tour</h6></a>
+                          <a *ngIf="item.completed == true && ! item.tour.hasRated" [routerLink]="['/bookings/view', item._id]"><h6 style="margin-bottom: 5px; color: #7c8187;">Rate Tour</h6></a>
 
                           <span style="padding-right: 40px;">
                             <i class="fa fa-map-marker" aria-hidden="true"></i>
