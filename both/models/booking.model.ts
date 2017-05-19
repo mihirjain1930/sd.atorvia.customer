@@ -3,7 +3,7 @@ import { CollectionObject } from "./collection-object.model";
 export interface Booking extends CollectionObject {
     uniqueId: number;
     voucherId: number;
-    tour: {
+      tour: {
       id: string;
       supplierId: string;
       supplier?: {
@@ -46,6 +46,8 @@ export interface Booking extends CollectionObject {
       tourType: string;
       tourPace: string;
       dateRangeId?: string;
+      hasRated: boolean;
+      rating: number;
     };
     user: {
       id: string;

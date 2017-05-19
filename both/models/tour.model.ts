@@ -89,6 +89,7 @@ export interface Tour extends CollectionObject {
         name: string;
       }
     };
+    rating: number;
     active: boolean;
     approved: boolean;
     rejected: boolean;

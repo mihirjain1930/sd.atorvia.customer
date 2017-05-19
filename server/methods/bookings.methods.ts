@@ -330,6 +330,32 @@ Meteor.methods({
         myFuture.return(true);
       });
       return myFuture.wait();
+    },
+    "bookings.saveRating": (bookingId, rating) => {
+      userIsInRole(["customer"]);
+
+      // find booking details
+      let user = Meteor.user();
+      let booking = Bookings.collection.findOne({_id: bookingId, "user.id": user._id});
+      if (_.isEmpty(booking)) {
+        return;
+      }
+
+      // update rating in bookings collection
+      Bookings.collection.update({_id: booking._id}, {$set: { "tour.rating": rating, "tour.hasRated": true } });
+
+      // update rating in tours collection
+      let tour = Tours.collection.findOne({_id: booking.tour.id});
+      let tourRating = tour.rating;
+      if (! tourRating) {
+        tourRating = rating;
+      } else {
+        tourRating = Number(tourRating);
+        tourRating = ( rating + tourRating ) / 2;
+      }
+      Tours.collection.update({_id: tour._id}, {$set: { "rating": tourRating } });
+
+      return true;
     }
 });
 

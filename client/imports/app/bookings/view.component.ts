@@ -132,4 +132,23 @@ export class BookingViewComponent extends MeteorComponent implements OnInit, Aft
     })
   }
 
+  saveRating(rate: number) {
+    let booking = this.booking;
+    if (booking.tour.hasRated) {
+      // showAlert("Your input has been already saved.");
+      return;
+    }
+
+    this.call("bookings.saveRating", booking._id, rate, (err, res) => {
+      if (err) {
+        showAlert(err.reason, "danger");
+        return;
+      }
+
+      booking.tour.rating = rate;
+      booking.tour.hasRated = true;
+      showAlert("Tour rating has been updated successfully. Thank you!", "success");
+    })
+  }
+
 }
