@@ -59,8 +59,8 @@
         <div class="col-lg-4 col-md-6" *ngFor = "let tour of hotItems">
           <a [routerLink]="['/tours', tour.slug]"><div class="destination-wrap">
             <span *ngIf="!tour.images?.length"><img src="/images/destination.png" /></span>
-            <span *ngIf="tour.images?.length > 0 && tour.featuredImage?.url"><img [src]="uploads/images/{{tour.featuredImage.id}}-350-280.jpg" /></span>
-            <span *ngIf="tour.images?.length > 0 && !tour.featuredImage?.url"><img [src]="uploads/images/{{tour.featuredImage.id}}-350-280.jpg" /></span>
+            <span *ngIf="tour.images?.length > 0 && tour.featuredImage?.url"><img src="uploads/images/{{tour.featuredImage.id}}-350-280.jpg" /></span>
+            <span *ngIf="tour.images?.length > 0 && !tour.featuredImage?.url"><img src="uploads/images/{{tour.featuredImage.id}}-350-280.jpg" /></span>
             <div class="overlay"></div>
             <div class="content">
               <div class="row">
