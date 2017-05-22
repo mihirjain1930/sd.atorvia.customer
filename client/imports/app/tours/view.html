@@ -52,10 +52,10 @@
 							<div class="col-lg-9 pull-lg-3">
 								<div class="list-section">
 									<ul class="nav nav-tabs"  role="tablist">
-										<li class="nav-item" ><a class="nav-link active" [ngClass]="{'active': activeTab=='overview'}" href="#overview" (click)="activeTab='overview'; detectChanges(); scrollToDiv('overview');"><span>Overview</span><span class="icon-wrap"><i class="fa fa-eye" aria-hidden="true"></i></span></a></li>
-										<li class="nav-item" ><a class="nav-link" [ngClass]="{'active': activeTab=='itinerary'}" href="#itinerary" (click)="activeTab='itinerary'; detectChanges(); scrollToDiv('itinerary')"><span>Itinerary</span><span class="icon-wrap"><i class="fa fa-th-list" aria-hidden="true"></i></span></a></li>
-										<li class="nav-item" ><a class="nav-link" [ngClass]="{'active': activeTab=='gallery'}" href="#gallery" (click)="activeTab='gallery'; detectChanges(); scrollToDiv('gallery')"><span>Gallery</span><span class="icon-wrap"><i class="fa fa-picture-o" aria-hidden="true"></i></span></a></li>
-										<li class="nav-item" ><a class="nav-link" [ngClass]="{'active': activeTab=='inclusion'}" href="#inclusion" (click)="activeTab='inclusion'; detectChanges(); scrollToDiv('inclusion')"><span>Inclusion</span><span class="icon-wrap"><i class="fa fa-tasks" aria-hidden="true"></i></span></a></li>
+										<li class="nav-item" ><a class="nav-link active" [ngClass]="{'active': activeTab=='overview'}" data-target="#overview" (click)="activeTab='overview'; detectChanges(); scrollToDiv('overview');"><span>Overview</span><span class="icon-wrap"><i class="fa fa-eye" aria-hidden="true"></i></span></a></li>
+										<li class="nav-item" ><a class="nav-link" [ngClass]="{'active': activeTab=='itinerary'}" data-target="#itinerary" (click)="activeTab='itinerary'; detectChanges(); scrollToDiv('itinerary')"><span>Itinerary</span><span class="icon-wrap"><i class="fa fa-th-list" aria-hidden="true"></i></span></a></li>
+										<li class="nav-item" ><a class="nav-link" [ngClass]="{'active': activeTab=='gallery'}" data-target="#gallery" (click)="activeTab='gallery'; detectChanges(); scrollToDiv('gallery')"><span>Gallery</span><span class="icon-wrap"><i class="fa fa-picture-o" aria-hidden="true"></i></span></a></li>
+										<li class="nav-item" ><a class="nav-link" [ngClass]="{'active': activeTab=='inclusion'}" data-target="#inclusion" (click)="activeTab='inclusion'; detectChanges(); scrollToDiv('inclusion')"><span>Inclusion</span><span class="icon-wrap"><i class="fa fa-tasks" aria-hidden="true"></i></span></a></li>
 									</ul>
 								</div>
 							</div>
