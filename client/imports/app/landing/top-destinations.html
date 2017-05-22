@@ -23,7 +23,7 @@
 				<div class="col-sm-3" *ngFor = "let tour of tours">
           <a [routerLink]="['/tours/destination', tour._id]"><div class="destination-wrap">
             <span *ngIf="!tour.featuredImage"><img src="/images/destination.png" /></span>
-            <span *ngIf="!!tour.featuredImage && tour.featuredImage?.url"><img [src]="tour.featuredImage?.url" /></span>
+            <span *ngIf="!!tour.featuredImage && tour.featuredImage?.url"><img src="uploads/images/{{tour.featuredImage.id}}-255-280.jpg" /></span>
             <p>{{tour._id}}</p>
           </div></a>
         </div>

@@ -24,7 +24,7 @@
 					<a [routerLink]="['/tours', tour.slug]">
 						<div class="destination-wrap">
 							<img *ngIf="!tour.featuredImage" src="images/slideimg1.png" />
-	            <img *ngIf="!!tour.featuredImage && tour.featuredImage?.url" [src]="tour.featuredImage?.url" />
+	            <img *ngIf="!!tour.featuredImage && tour.featuredImage?.url" src="uploads/images/{{tour.featuredImage.id}}-255-280.jpg" />
 							<div class="content">
 								<div class="row">
 									<div class="col-8">

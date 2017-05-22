@@ -141,8 +141,8 @@
 							<div class="side-image">
 								<a [routerLink]="['/tours', tour.slug]">
 									<span *ngIf="!tour.images?.length"><img src="/images/destination.png" /></span>
-			            <span *ngIf="tour.images?.length > 0 && tour.featuredImage?.url"><img [src]="tour.featuredImage?.url" /></span>
-			            <span *ngIf="tour.images?.length > 0 && !tour.featuredImage?.url"><img [src]="tour.images[0]?.url" /></span>
+			            <span *ngIf="tour.images?.length > 0 && tour.featuredImage?.url"><img src="uploads/images/{{tour.featuredImage.id}}-255-145.jpg" /></span>
+			            <span *ngIf="tour.images?.length > 0 && !tour.featuredImage?.url"><img src="uploads/images/{{tour.imges[0]?.id}}-255-145.jpg" /></span>
 								</a>
 							</div>
 							<div class="list-cotent">
