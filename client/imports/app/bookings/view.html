@@ -20,7 +20,7 @@
           <div class="booking-details">
             <div class="booking-img">
               <img *ngIf="! booking.tour.featuredImage?.url" src="images/trip.png" alt="">
-              <img *ngIf="!! booking.tour.featuredImage?.url" [src]="booking.tour.featuredImage?.url" alt="">
+              <img *ngIf="!! booking.tour.featuredImage?.url" src="uploads/images/{{booking.tour.images[0]?.id}}-300-300.jpg" alt="">
             </div>
             <div class="booking-desc">
               <div class="hdr">
@@ -303,7 +303,7 @@
         							</div>
         							<div class="col-sm-12 second-row">
                         <div class="img-wrap" *ngFor="let image of tour.images;">
-                          <a target="_blank" href="{{image.url}}" rel="prettyPhoto[tour_gallery]"><img src="{{image.url}}" alt="{{image.name}}" /></a>
+                          <a target="_blank" href="{{image.url}}" rel="prettyPhoto[tour_gallery]"><img src="uploads/images/{{image.id}}-220-220.jpg" alt="{{image.name}}" /></a>
                         </div>
                       </div>
         						</div>
