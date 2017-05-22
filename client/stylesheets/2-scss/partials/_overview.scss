@@ -215,19 +215,21 @@
 	.list-section {
 		@extend .relative;
 		height: 97px;
-		ul {
+
+		ul.nav-tabs {
 			@extend .text-center;
 			width: $full;
 			@extend .absolute;
 			@extend .left-0;
 			@extend .right-0;
 			@extend .bottom-0;
+			border: 0;
 
 			li {
 				@extend .inline-block;
 				@extend .pull_left;
 				width: 25%;
-				a {
+				a.nav-link {
 					padding: 15px 26px;
 					@extend .inline-block;
 					.icon-wrap {
@@ -245,10 +247,13 @@
           }
         }
       }
-			li.active {
-				a {
-					border-bottom: 3px solid $green-color;
-        }
+			.nav-link.active {
+				border: 0;
+				background: transparent;
+				color: $light-grey;
+				border-bottom: 3px solid $green-color;
+
+
       }
     }
   }

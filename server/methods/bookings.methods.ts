@@ -309,6 +309,14 @@ Meteor.methods({
         return;
       }
 
+      // payment method
+      let paymentMethod = booking.paymentInfo.method;
+      if (paymentMethod == "express_checkout") {
+        booking.paymentInfo.method = "Paypal";
+      } else if(paymentMethod == "credit_card") {
+        booking.paymentInfo.method = "Credit Card";
+      }
+
       // update voucher id
       if (! booking.voucherId) {
         booking.voucherId = booking.uniqueId;

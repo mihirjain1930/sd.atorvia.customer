@@ -52,6 +52,7 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
   slickInitialized: boolean = false;
   activeTab: string = "overview";
   selDateRange: DateRange = null;
+  userId: string;
 
   constructor(private zone: NgZone, private titleService: Title, private router: Router, private route: ActivatedRoute, private changeDetectorRef: ChangeDetectorRef, private sessionStorage: SessionStorageService) {
     super();
@@ -78,6 +79,7 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
             this.changeDetectorRef.detectChanges();
             let item = this.item;
             let tourId = item._id;
+            this.userId = Meteor.userId();
             this.call("tours.incrementView", tourId, (err, res) => {
               if (err) {
                 console.log(err.reason, "danger");
@@ -104,10 +106,6 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
         if (window_top > div_top) {
           $('#sticky').addClass('stick');
           $('#sticky-anchor').height($('#sticky').outerHeight());
-          /*var id = $(".link-content .active").attr('id');
-          if($("#"+id).hasClass('active')){
-              $("#"+id).css('margin-top', '100' + "px");
-          }*/
         }
         else {
           $('#sticky').removeClass('stick');
@@ -119,6 +117,8 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
         $(window).scroll(sticky_relocate);
         sticky_relocate();
       });
+
+      
 
     }, 1000);
   }
@@ -206,6 +206,16 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
   }
 
   redirectToLogin() {
+    let tour = this.item;
+    let redirectUrl = ['/tours', tour.slug];
+    this.sessionStorage.store("redirectUrl", redirectUrl);
+
+    this.zone.run(() => {
+      this.router.navigate(['/login']);
+    });
+  }
+
+  askAQuestion() {
     let tour = this.item;
     let redirectUrl = ['/tours', tour.slug];
     this.sessionStorage.store("redirectUrl", redirectUrl);

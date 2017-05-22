@@ -33,7 +33,7 @@ retVal += `</ul>`;
 return retVal;
 } )}
 <li>Total Price: ${booking.currencyCode} ${booking.totalPrice}</li>
-<li>Payment method: ${booking.paymentInfo.gateway}</li>
+<li>Payment method: ${booking.paymentInfo.method}</li>
 <li> View Link: <a href="${process.env.ROOT_URL}/bookings/view/${booking._id}">${booking.tour.name}</a> </li>
 </ul>
 <p>Team Atorvia</p>

@@ -6,6 +6,10 @@ html
 	height: 100%;
 }
 
+body {
+	position: relative;
+}
+
 @import 'modules/color';
 
 @import 'modules/align';
