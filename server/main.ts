@@ -13,6 +13,6 @@ import './startup/email-config';
 Meteor.startup(() => {
   // update exchange rates every hour
   Meteor.setInterval(() => {
-    Meteor.call("syncExchangeRates");
+    Meteor.call("currencies.syncRates");
   }, 60 * 60 * 1000);
 });
