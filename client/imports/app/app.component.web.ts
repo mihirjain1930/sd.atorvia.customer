@@ -32,6 +32,11 @@ export class AppComponent extends MeteorComponent implements OnInit, AfterViewIn
       if (! currencyCode) {
         this.setDefaultCurrency();
       }
+
+      let currenciesRates = this.localStorage.retrieve("currencies.rates");
+      if (! currenciesRates) {
+        this.fetchCurrencyRates();
+      }
     }
 
     private observeWindowHeight() {
@@ -74,7 +79,9 @@ export class AppComponent extends MeteorComponent implements OnInit, AfterViewIn
           this.localStorage.store("currencyCode", res);
         }
       });
+    }
 
+    private fetchCurrencyRates() {
       this.call("currencies.find", (err, res) => {
         if (err) {
           console.log("Error while loading currency exchange rates");
@@ -85,7 +92,7 @@ export class AppComponent extends MeteorComponent implements OnInit, AfterViewIn
         if (res) {
           this.localStorage.store("currencies.rates", res);
         }
-      })
+      });
     }
 
     ngAfterViewInit() {
