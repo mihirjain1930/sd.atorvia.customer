@@ -661,6 +661,7 @@
 			width: 33.33%;
 			@extend .pull_left;
 			height: 220px;
+			padding-top: 10px;
 			padding-right: 9px;
 			@media (max-width: $phone) {
 				height: 138px;
