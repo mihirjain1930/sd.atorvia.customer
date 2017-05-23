@@ -80,13 +80,13 @@
                         <div class="row">
                           <div class="col-lg-2">
                             <div class="img-wrp">
-                                <span *ngIf="bookingDetails.tour.featuredImage?.url"><img [src]="bookingDetails.tour.featuredImage?.url" /></span>
+                                <span *ngIf="bookingDetails.tour.featuredImage?.url"><img src="uploads/images/{{booking.tour.featuredImage.id}}-80-80.jpg" /></span>
                             </div>
                           </div>
                           <div class="col-lg-10">
                             <h5>{{bookingDetails.tour.name}}</h5>
                             <p>
-                              <span><i class="fa fa-map-marker" aria-hidden="true"></i></span>{{bookingDetails.tour.departure}} &amp; {{bookingDetails.tour.destination}}
+                              <span><i class="fa fa-map-marker" aria-hidden="true"></i></span>{{bookingDetails.tour.destination}}
                               <span class="rating">
                                 <i class="fa fa-star" aria-hidden="true"></i>
                                 <i class="fa fa-star" aria-hidden="true"></i>
