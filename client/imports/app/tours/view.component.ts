@@ -101,6 +101,10 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
       });
 
       function sticky_relocate() {
+        if (! $('#sticky-anchor').length) {
+          return;
+        }
+        
         var window_top = $(window).scrollTop();
         var div_top = $('#sticky-anchor').offset().top;
         if (window_top > div_top) {
@@ -118,7 +122,7 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
         sticky_relocate();
       });
 
-      
+
 
     }, 1000);
   }
