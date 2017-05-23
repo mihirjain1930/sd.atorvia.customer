@@ -1,4 +1,5 @@
 import * as bodyParser from "body-parser";
+import * as _ from 'underscore';
 
 declare var Picker: any;
 
@@ -37,6 +38,11 @@ Picker.route( '/emails', function( params, request, response, next ) {
   let domain = "beta.atorvia.com";
   let recipientUser = Meteor.users.findOne({"_id": userId});
   let senderUser = Meteor.users.findOne({"emails.address": sender});
+  if (_.isEmpty(recipientUser) || _.isEmpty(senderUser)) {
+    response.setHeader( 'Content-Type', 'application/json' );
+    response.statusCode = 200;
+    response.end( "false" );
+  }
   let senderEmail = `user-${senderUser._id}@${domain}`;
 
   mailgun.sendText(senderEmail, recipientUser.emails[0].address, subject, message, domain, (err) => {
