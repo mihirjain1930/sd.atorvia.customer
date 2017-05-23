@@ -59,6 +59,7 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
   }
 
   ngOnInit() {
+    this.userId = Meteor.userId();
     this.paramsSub = this.route.params
       .map(params => params['name'])
       .subscribe(name => {
@@ -79,7 +80,6 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
             this.changeDetectorRef.detectChanges();
             let item = this.item;
             let tourId = item._id;
-            this.userId = Meteor.userId();
             this.call("tours.incrementView", tourId, (err, res) => {
               if (err) {
                 console.log(err.reason, "danger");
@@ -104,7 +104,7 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
         if (! $('#sticky-anchor').length) {
           return;
         }
-        
+
         var window_top = $(window).scrollTop();
         var div_top = $('#sticky-anchor').offset().top;
         if (window_top > div_top) {
