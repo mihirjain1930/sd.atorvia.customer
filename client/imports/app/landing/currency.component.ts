@@ -47,8 +47,12 @@ export class CurrencyComponent extends MeteorComponent implements OnInit {
       return;
     }
 
-    let hasData = Currencies.find({from: defaultCode, to: currencyCode}).fetch().length;
-    if (hasData) {
+    let currencies = this.localStorage.retrieve("currencies.rates");
+    let exchange = <any>_.find(currencies, {
+      from: defaultCode,
+      to: currencyCode
+    });
+    if (! _.isEmpty(exchange)) {
       this.amount = this.currency.convert(this.amount, currencyCode);
       return true;
     } else {

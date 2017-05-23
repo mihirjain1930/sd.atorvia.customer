@@ -9,7 +9,7 @@ import { Currencies } from "../../both/collections/currencies.collection";
 declare var cheerio: any;
 
 Meteor.methods({
-  "syncExchangeRates": function () {
+  "currencies.syncRates": function () {
     let from = "USD";
     let toArr = [
       'INR',
@@ -42,7 +42,7 @@ Meteor.methods({
       })
     }
   },
-  "getCurrencyCode": function() {
+  "currencies.getCode": function() {
     // console.log(this.connection);
     let iplocation = require('iplocation');
     let ipaddress = this.connection.clientAddress;
@@ -81,5 +81,8 @@ Meteor.methods({
       myFuture.return(currencyCode);
     });
     return myFuture.wait();
+  },
+  "currencies.find": () => {
+    return Currencies.find().fetch();
   }
 })

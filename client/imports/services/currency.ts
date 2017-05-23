@@ -30,7 +30,11 @@ export class CurrencyService {
       return amount;
     }
 
-    let exchange = Currencies.findOne({from: defaultCode, to: currencyCode});
+    let currencies = this.localStorage.retrieve("currencies.rates");
+    let exchange = <any>_.find(currencies, {
+      from: defaultCode,
+      to: currencyCode
+    });
     // console.log(exchange);
     if (_.isEmpty(exchange)) {
       return amount;
