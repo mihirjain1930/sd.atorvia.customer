@@ -29,10 +29,11 @@ Picker.route( '/emails', function( params, request, response, next ) {
   let text3 = text2[1].split("@");
   let userId = text3[0];
 
-  console.log("recipient:", recipient);
-  console.log("senderEmail:", sender);
-  console.log("subject:", subject);
-  console.log("contents:", message);
+  // console.log("recipient:", recipient);
+  // console.log("senderEmail:", sender);
+  // console.log("subject:", subject);
+  // console.log("contents:", message);
+  console.log(body);
 
   let mailgunKey = Meteor.settings.public["mailgun"] ["key"];
   let mailgunDomain = Meteor.settings.public["mailgun"] ["domain"];

@@ -70,6 +70,15 @@ Meteor.methods({
         let owner = Meteor.users.findOne({_id: tour.owner.id}, {fields: {profile: 1} });
         let numOfTours = Tours.collection.find({"owner.id": tour.owner.id, "approved": true, "active": true, "deleted": false}).count();
         owner.profile.numOfTours = numOfTours;
+
+        let avgRating = Tours.collection.aggregate([
+          {"$match": {"owner.id": tour.owner.id}},
+          {"$group": {
+            "_id": "$owner.id",
+            "avg_rating": { "$avg": "$rating" }
+          }}
+        ]);
+        owner.profile.avgRating = avgRating[0] ['avg_rating'];
         return {tour, owner};
       }
     },

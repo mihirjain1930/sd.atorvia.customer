@@ -153,7 +153,8 @@
 										<p>Tours</p>
 									</div>
 									<div class="right">
-										<h4>N.A.</h4>
+										<h4 *ngIf="! owner.profile.avgRating">N.A.</h4>
+										<h4 *ngIf="owner.profile.avgRating > 0">{{owner.profile.avgRating}}</h4>
 										<p>Ratings</p>
 									</div>
 								</div>
