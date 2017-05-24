@@ -34,11 +34,9 @@ Picker.route( '/emails', function( params, request, response, next ) {
   console.log("subject:", subject);
   console.log("contents:", message);
 
-  let Mailgun = require('mailgun').Mailgun;
   let mailgunKey = Meteor.settings.public["mailgun"] ["key"];
   let mailgunDomain = Meteor.settings.public["mailgun"] ["domain"];
-  let mailgun = new Mailgun(mailgunKey);
-  let domain = mailgunDomain;
+  let mailgun = require('mailgun-js')({apiKey: mailgunKey, domain: mailgunDomain});
   let recipientUser = Meteor.users.findOne({"_id": userId});
   let senderUser = Meteor.users.findOne({"emails.address": sender});
   if (_.isEmpty(recipientUser) || _.isEmpty(senderUser)) {
@@ -46,9 +44,16 @@ Picker.route( '/emails', function( params, request, response, next ) {
     response.statusCode = 200;
     response.end( "false" );
   }
-  let senderEmail = `user-${senderUser._id}@${domain}`;
+  let senderEmail = `user-${senderUser._id}@${mailgunDomain}`;
 
-  mailgun.sendText(senderEmail, recipientUser.emails[0].address, subject, message, domain, (err) => {
+  let data = {
+    from: sender,
+    to: recipientUser.emails[0].address,
+    subject: subject,
+    html: message
+  }
+
+  mailgun.messages().send(data, (err) => {
     if (! err) {
       console.log("done");
       return true;

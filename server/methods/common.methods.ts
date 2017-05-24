@@ -14,13 +14,18 @@ Meteor.methods({
       return Email.send({ to, from, subject, html});
   },
   "sendEmailCustom": (to: string, subject: string, text: string) => {
-      let Mailgun = require('mailgun').Mailgun;
       let mailgunKey = Meteor.settings.public["mailgun"] ["key"];
       let mailgunDomain = Meteor.settings.public["mailgun"] ["domain"];
-      let email = new Mailgun(mailgunKey);
-      let domain = mailgunDomain;
+      let mailgun = require('mailgun-js')({apiKey: mailgunKey, domain: mailgunDomain});
 
-      email.sendText(`noreply@${domain}`, to, subject, text, domain, (err) => {
+      let data = {
+        from: `noreply@${domain}`,
+        to: to,
+        subject: subject,
+        html: text
+      }
+
+      mailgun.messages().send(data, (err) => {
         if (err) {
           console.log(err);
         }

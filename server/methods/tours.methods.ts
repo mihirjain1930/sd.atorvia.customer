@@ -102,16 +102,21 @@ Meteor.methods({
     "tours.askAQuestion": (mailData: any) => {
       userIsInRole(["customer"]);
 
-      let Mailgun = require('mailgun').Mailgun;
       let mailgunKey = Meteor.settings.public["mailgun"] ["key"];
       let mailgunDomain = Meteor.settings.public["mailgun"] ["domain"];
-      let mailgun = new Mailgun(mailgunKey);
-      let domain = mailgunDomain;
+      let mailgun = require('mailgun-js')({apiKey: mailgunKey, domain: mailgunDomain});
       let supplier = Meteor.users.findOne({"_id": mailData.supplierId});
       let user = Meteor.user();
-      let sender = `user-${user._id}@${domain}`;
+      let sender = `user-${user._id}@${mailgunDomain}`;
 
-      mailgun.sendText(sender, supplier.emails[0].address, mailData.subject, mailData.message, domain, (err) => {
+      let data = {
+        from: sender,
+        to: supplier.emails[0].address,
+        subject: mailData.subject,
+        html: mailData.message
+      }
+
+      mailgun.messages().send(data, (err) => {
         if (! err) {
           console.log("done");
           return true;
