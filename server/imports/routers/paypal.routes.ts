@@ -6,10 +6,13 @@ import { Transactions } from "../../../both/collections/transactions.collection"
 import { Bookings } from "../../../both/collections/bookings.collection";
 
 // configue paypal sdk
+let paypalMode = Meteor.settings.public["paypal"] ["mode"];
+let clientId = Meteor.settings.public["paypal"] ["clientId"];
+let clientSecret = Meteor.settings.public["paypal"] ["clientSecret"];
 paypal.configure({
-  'mode': 'sandbox', //sandbox or live
-  'client_id': 'AeNIxZgtK5ybDTEbj8kOwsC-apBuG6fs_eRgtyIq4qS5SzDOtTsBla2FIl3StvVhJHltFFf-RBSAyp7c',
-  'client_secret': 'EJkxMwNb1sfofwhXEgDf-epl-3qDmrwDIdRGoL0SD6iMJsFk4jn5r3ZDpAnvg7LRE5Xjcre-zlRvTHiA'
+  'mode': paypalMode, //sandbox or live
+  'client_id': clientId,
+  'client_secret': clientSecret
 });
 
 declare var Picker: any;

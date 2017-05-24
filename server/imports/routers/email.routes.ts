@@ -1,3 +1,4 @@
+import { Meteor } from "meteor/meteor";
 import * as bodyParser from "body-parser";
 import * as _ from 'underscore';
 
@@ -34,8 +35,10 @@ Picker.route( '/emails', function( params, request, response, next ) {
   console.log("contents:", message);
 
   let Mailgun = require('mailgun').Mailgun;
-  let mailgun = new Mailgun('key-44af5040debdf3d034c42e9a5d2f82d8');
-  let domain = "beta.atorvia.com";
+  let mailgunKey = Meteor.settings.public["mailgun"] ["key"];
+  let mailgunDomain = Meteor.settings.public["mailgun"] ["domain"];
+  let mailgun = new Mailgun(mailgunKey);
+  let domain = mailgunDomain;
   let recipientUser = Meteor.users.findOne({"_id": userId});
   let senderUser = Meteor.users.findOne({"emails.address": sender});
   if (_.isEmpty(recipientUser) || _.isEmpty(senderUser)) {

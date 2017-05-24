@@ -103,8 +103,10 @@ Meteor.methods({
       userIsInRole(["customer"]);
 
       let Mailgun = require('mailgun').Mailgun;
-      let mailgun = new Mailgun('key-44af5040debdf3d034c42e9a5d2f82d8');
-      let domain = "beta.atorvia.com";
+      let mailgunKey = Meteor.settings.public["mailgun"] ["key"];
+      let mailgunDomain = Meteor.settings.public["mailgun"] ["domain"];
+      let mailgun = new Mailgun(mailgunKey);
+      let domain = mailgunDomain;
       let supplier = Meteor.users.findOne({"_id": mailData.supplierId});
       let user = Meteor.user();
       let sender = `user-${user._id}@${domain}`;
