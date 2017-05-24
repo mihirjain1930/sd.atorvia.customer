@@ -92,6 +92,13 @@
 							color: $green-color;
 							margin-right: 5px;
             }
+						span.stars {
+							margin-left: 10px;
+							vertical-align: bottom;
+							label.star {
+								cursor: default;
+							}
+						}
           }
         }
 				.travel-desc {
