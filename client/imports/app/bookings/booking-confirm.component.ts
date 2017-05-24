@@ -21,7 +21,7 @@ import template from './booking-confirm.html';
 @InjectUser('user')
 export class BookingConfirmComponent extends MeteorComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy  {
   booking: Booking = null;
-  tour: Tour;
+  tour: Tour = null;
 
   constructor(private router: Router, private titleService: Title, private zone: NgZone, private formBuilder: FormBuilder, private localStorage: LocalStorageService, private sessionStorage: SessionStorageService) {
     super();
@@ -33,12 +33,13 @@ export class BookingConfirmComponent extends MeteorComponent implements OnInit, 
   ngOnInit() {
     this.titleService.setTitle("Booking Confirm | Atorvia");
     let bookingId = this.sessionStorage.retrieve("bookingId");
-    this.call("bookings.findOne", {_id: bookingId}, (err, result) => {
+    this.call("bookings.findOne", {_id: bookingId}, {with: {tour: true}}, (err, result) => {
       if (err) {
         showAlert(err.reason, "danger");
         return;
       }
-      this.booking = <Booking>result;
+      this.booking = <Booking>result.booking;
+      this.tour = <Tour>result.tour;
     })
   }
 
