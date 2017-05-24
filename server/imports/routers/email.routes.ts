@@ -47,7 +47,7 @@ Picker.route( '/emails', function( params, request, response, next ) {
   let senderEmail = `user-${senderUser._id}@${mailgunDomain}`;
 
   let data = {
-    from: sender,
+    from: senderEmail,
     to: recipientUser.emails[0].address,
     subject: subject,
     html: message

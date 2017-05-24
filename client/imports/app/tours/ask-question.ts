@@ -31,8 +31,8 @@ export class AskQuestionComponent extends MeteorComponent implements OnInit  {
 
   ngOnInit () {
     this.askAQuestionForm = this.formBuilder.group({
-      subject: ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(50) ])],
-      message: ['', Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(255) ])]
+      subject: ['', Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(255) ])],
+      message: ['', Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(1000) ])]
     });
 
     this.error = '';
