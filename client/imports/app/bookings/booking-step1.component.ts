@@ -12,6 +12,7 @@ import { Title } from '@angular/platform-browser';
 import { validateEmail, validatePhoneNum, validateFirstName, validatePassportNum } from "../../validators/common";
 import { Booking } from "../../../../both/models/booking.model";
 import { Place } from "../../../../both/models/place.model";
+import { Tour } from "../../../../both/models/tour.model";
 import { showAlert } from "../shared/show-alert";
 import template from './booking-step1.html';
 import * as _ from 'underscore';
@@ -29,6 +30,7 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
   cardError: string = null;
   hideCardForm: boolean = true;
   countries: Place[] = [];
+  tour: Tour = null;
 
   constructor(private router: Router,
     private zone: NgZone,
@@ -70,7 +72,11 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
         return;
       }
       this.countries = res;
-    })
+    });
+
+    this.call("tours.findOne", {_id: this.booking.tour.id}, {with: {owner: true}}, (err, res) => {
+      this.tour = <Tour>res.tour;
+    });
   }
 
   ngAfterViewChecked() {

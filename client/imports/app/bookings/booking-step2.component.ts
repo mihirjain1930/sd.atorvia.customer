@@ -11,6 +11,7 @@ import { MeteorComponent } from 'angular2-meteor';
 import { LocalStorageService, SessionStorageService } from 'ng2-webstorage';
 import { validateEmail, validatePhoneNum, validateFirstName, validatePassportNum } from "../../validators/common";
 import { Booking } from "../../../../both/models/booking.model";
+import { Tour } from "../../../../both/models/tour.model";
 import { showAlert } from "../shared/show-alert";
 import template from './booking-step2.html';
 import * as _ from 'underscore';
@@ -25,6 +26,7 @@ export class BookingStep2Component extends MeteorComponent implements OnInit, Af
   booking: Booking;
   isProcessing: boolean = false;
   cardError: string = null;
+  tour: Tour = null;
 
   constructor(private router: Router,
     private zone: NgZone,
@@ -54,6 +56,10 @@ export class BookingStep2Component extends MeteorComponent implements OnInit, Af
       expiryYear: ['', Validators.compose([Validators.required])],
       cvvNumber:  ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(4)])],
       cardType: ['']
+    });
+
+    this.call("tours.findOne", {_id: this.booking.tour.id}, {with: {owner: true}}, (err, res) => {
+      this.tour = <Tour>res.tour;
     });
   }
 

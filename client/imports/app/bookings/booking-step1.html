@@ -1,6 +1,6 @@
 <header-main *ngIf="!! user" [displayMenu]="false"></header-main>
 <main class="payment" *ngIf="!! bookingDetails">
-  <booking-header [booking]="bookingDetails"></booking-header>
+  <booking-header [booking]="bookingDetails" [tour]="tour"></booking-header>
   <div class="grey-bg step-1">
     <div class="container">
 

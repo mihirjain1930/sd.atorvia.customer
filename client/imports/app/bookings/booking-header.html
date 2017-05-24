@@ -14,7 +14,7 @@
                 <h5>{{bookingDetails.tour.name}}</h5>
                 <p>
                     <span><i class="fa fa-map-marker" aria-hidden="true"></i></span>{{bookingDetails.tour.destination}}
-                    <span class="stars" >
+                    <span class="stars" *ngIf="!! tour">
                       <input class="star star-5" id="star-5" type="radio" name="star" [checked]="tour.rating == 5" [disabled]="true"/>
                       <label class="star star-5" for="star-5" ></label>
                       <input class="star star-4" id="star-4" type="radio" name="star" [checked]="tour.rating == 4" [disabled]="true"/>
