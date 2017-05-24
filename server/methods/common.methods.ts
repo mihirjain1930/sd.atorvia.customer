@@ -20,7 +20,7 @@ Meteor.methods({
       let email = new Mailgun(mailgunKey);
       let domain = mailgunDomain;
 
-      email.sendText("noreply@atorvia.com", to, subject, text, domain, (err) => {
+      email.sendText(`noreply@${domain}`, to, subject, text, domain, (err) => {
         if (err) {
           console.log(err);
         }
