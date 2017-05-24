@@ -41,12 +41,13 @@ export class BookingStep2Component extends MeteorComponent implements OnInit, Af
   ngOnInit() {
     this.titleService.setTitle("Booking Step2 | Atorvia");
     let bookingId = this.sessionStorage.retrieve("bookingId");
-    this.call("bookings.findOne", {_id: bookingId}, (err, result) => {
+    this.call("bookings.findOne", {_id: bookingId}, {with: {tour: true}}, (err, result) => {
       if (err) {
         showAlert(err.reason, "danger");
         return;
       }
-      this.booking = <Booking>result;
+      this.booking = <Booking>result.booking;
+      this.tour = <Tour>result.tour;
     })
 
     this.cardForm = this.formBuilder.group({
@@ -56,10 +57,6 @@ export class BookingStep2Component extends MeteorComponent implements OnInit, Af
       expiryYear: ['', Validators.compose([Validators.required])],
       cvvNumber:  ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(4)])],
       cardType: ['']
-    });
-
-    this.call("tours.findOne", {_id: this.booking.tour.id}, {with: {owner: true}}, (err, res) => {
-      this.tour = <Tour>res.tour;
     });
   }
 
