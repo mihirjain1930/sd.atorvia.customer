@@ -26,6 +26,7 @@ Picker.route( '/emails', function( params, request, response, next ) {
   let message = body['body-html'];
   if (! message) {
     message = body['body-plain'];
+    message = message.split("\n").join("<br />");
   }
 
   let text2 = recipient.split("-");
