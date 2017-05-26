@@ -1,5 +1,7 @@
 span.stars {
   display: inline-block;
+  border-left: 1px solid #ccc;
+  padding-left: 10px;
 
   input.star {
     display: none;

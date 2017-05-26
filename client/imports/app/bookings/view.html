@@ -25,19 +25,25 @@
             <div class="booking-desc">
               <div class="hdr">
                 <h3>{{booking.tour.name}}</h3>
-                <p><span><i class="fa fa-map-marker" aria-hidden="true"></i></span>{{booking.tour.destination}}</p>
-                <span class="stars" *ngIf="booking.completed == true">
-                  <input class="star star-5" id="star-5" type="radio" name="star" [checked]="booking.tour.rating == 5" [disabled]="booking.tour.rating"/>
-                  <label class="star star-5" for="star-5" (click)="saveRating(5)" [ngClass]="{'active': ! booking.tour.hasRated}"></label>
-                  <input class="star star-4" id="star-4" type="radio" name="star" [checked]="booking.tour.rating == 4" [disabled]="booking.tour.rating"/>
-                  <label class="star star-4" for="star-4" (click)="saveRating(4)" [ngClass]="{'active': ! booking.tour.hasRated}"></label>
-                  <input class="star star-3" id="star-3" type="radio" name="star" [checked]="booking.tour.rating == 3" [disabled]="booking.tour.rating"/>
-                  <label class="star star-3" for="star-3" (click)="saveRating(3)" [ngClass]="{'active': ! booking.tour.hasRated}"></label>
-                  <input class="star star-2" id="star-2" type="radio" name="star" [checked]="booking.tour.rating == 2" [disabled]="booking.tour.rating"/>
-                  <label class="star star-2" for="star-2" (click)="saveRating(2)" [ngClass]="{'active': ! booking.tour.hasRated}"></label>
-                  <input class="star star-1" id="star-1" type="radio" name="star" [checked]="booking.tour.rating == 1" [disabled]="booking.tour.rating"/>
-                  <label class="star star-1" for="star-1" (click)="saveRating(1)" [ngClass]="{'active': ! booking.tour.hasRated}"></label>
-                </span>
+                <p>
+                  <span><i class="fa fa-map-marker" aria-hidden="true"></i></span>
+                  {{booking.tour.destination}}
+                  <span class="stars" *ngIf="booking.completed == true">
+                    <input class="star star-5" id="star-5" type="radio" name="star" [checked]="booking.tour.rating == 5" [disabled]="booking.tour.rating"/>
+                    <label class="star star-5" for="star-5" (click)="saveRating(5)" [ngClass]="{'active': ! booking.tour.hasRated}"></label>
+                    <input class="star star-4" id="star-4" type="radio" name="star" [checked]="booking.tour.rating == 4" [disabled]="booking.tour.rating"/>
+                    <label class="star star-4" for="star-4" (click)="saveRating(4)" [ngClass]="{'active': ! booking.tour.hasRated}"></label>
+                    <input class="star star-3" id="star-3" type="radio" name="star" [checked]="booking.tour.rating == 3" [disabled]="booking.tour.rating"/>
+                    <label class="star star-3" for="star-3" (click)="saveRating(3)" [ngClass]="{'active': ! booking.tour.hasRated}"></label>
+                    <input class="star star-2" id="star-2" type="radio" name="star" [checked]="booking.tour.rating == 2" [disabled]="booking.tour.rating"/>
+                    <label class="star star-2" for="star-2" (click)="saveRating(2)" [ngClass]="{'active': ! booking.tour.hasRated}"></label>
+                    <input class="star star-1" id="star-1" type="radio" name="star" [checked]="booking.tour.rating == 1" [disabled]="booking.tour.rating"/>
+                    <label class="star star-1" for="star-1" (click)="saveRating(1)" [ngClass]="{'active': ! booking.tour.hasRated}"></label>
+                  </span>
+                  <span class="ratings">
+                    {{booking.tour.rating}}
+                  </span>
+                </p>
               </div>
               <div class="booking-info">
                 <div class="row">
