@@ -39,6 +39,6 @@ export class CurrencyService {
     if (_.isEmpty(exchange)) {
       return amount;
     }
-    return Math.floor(amount * exchange.value);
+    return Math.round((amount * exchange.value) * 100) / 100;
   }
 }
