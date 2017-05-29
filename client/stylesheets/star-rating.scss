@@ -2,7 +2,9 @@ span.stars {
   display: inline-block;
   border-left: 1px solid #ccc;
   padding-left: 10px;
-
+  i {
+    font-size: 18px;
+  }
   input.star {
     display: none;
   }
@@ -13,6 +15,7 @@ span.stars {
     margin-bottom: 0;
     height: 30px;
     line-height: 30px;
+    margin-right: 5px;
   }
   input.star:not(:disabled) ~ label.star {
     cursor: pointer;
@@ -24,7 +27,7 @@ span.stars {
   }
   input.star-5:checked ~ label.star:before {
     color: #15987E;
-    text-shadow: 0 0 20px #952;
+    //text-shadow: 0 0 20px #952;
   }
   input.star-1:checked ~ label.star:before {
     color: #15987E;

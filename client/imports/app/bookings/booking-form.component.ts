@@ -135,7 +135,8 @@ export class BookingFormComponent extends MeteorComponent implements OnInit, Aft
           hasGuide: tour.hasGuide,
           hasFlight: tour.hasFlight,
           tourType: tour.tourType,
-          tourPace: tour.tourPace
+          tourPace: tour.tourPace,
+          hasRated: false
         };
       }
 

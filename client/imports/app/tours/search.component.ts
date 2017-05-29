@@ -150,7 +150,7 @@ export class SearchComponent extends MeteorComponent implements OnInit, AfterVie
                   return;
               }
               this.items = res.data;
-              // console.log(res.data);
+              console.log(res.data);
               this.itemsSize = res.count;
               this.paginationService.setTotalItems("tours", this.itemsSize);
           })

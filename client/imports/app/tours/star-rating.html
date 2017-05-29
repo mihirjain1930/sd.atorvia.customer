@@ -1,0 +1,10 @@
+<span class="stars">
+  <i class="fa" aria-hidden="true" [ngClass]="[rating > 0 ? 'fa-star': 'fa-star-o']"></i>
+  <i class="fa" aria-hidden="true" [ngClass]="[rating >= 1.5 ? 'fa-star': 'fa-star-o']"></i>
+  <i class="fa" aria-hidden="true" [ngClass]="[rating >= 2.5 ? 'fa-star': 'fa-star-o']"></i>
+  <i class="fa" aria-hidden="true" [ngClass]="[rating >= 3.5 ? 'fa-star': 'fa-star-o']"></i>
+  <i class="fa" aria-hidden="true" [ngClass]="[rating >= 4.5 ? 'fa-star': 'fa-star-o']"></i>
+</span>
+<span class="ratings">
+  {{rating}}
+</span>

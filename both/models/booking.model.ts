@@ -46,8 +46,8 @@ export interface Booking extends CollectionObject {
       tourType: string;
       tourPace: string;
       dateRangeId?: string;
-      hasRated: boolean;
-      rating: number;
+      hasRated?: boolean;
+      rating?: number;
     };
     user: {
       id: string;
