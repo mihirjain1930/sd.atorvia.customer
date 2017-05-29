@@ -129,7 +129,7 @@ Picker.route( '/api/1.0/paypal/payment/execute/', function( params, request, res
       html = `<html>
           <head>
               <title>Payment Failed</title>
-              <meta http-equiv="refresh" content="3;url=${rootUrl}" >
+              <meta http-equiv="refresh" content="3;url=${rootUrl}/booking/step2" >
               <style type="text/css">
               .loader {
                   position: absolute;
@@ -154,7 +154,7 @@ Picker.route( '/api/1.0/paypal/payment/execute/', function( params, request, res
             <div style="position: absolute;left: 32%;top: 70%; text-align: center;">
             <p><b>Payment Failed</b>. Please contact customer support for further details.</p>
             <p>Please wait, you are being redirected to main application.</p>
-            <p><a href="/">Click here</a>, If you are not redirected automatically.</p>
+            <p><a href="${rootUrl}/booking/step2">Click here</a>, If you are not redirected automatically.</p>
             </div>
           </body>
       </html>`;
