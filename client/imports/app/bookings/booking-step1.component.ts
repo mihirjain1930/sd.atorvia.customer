@@ -13,6 +13,7 @@ import { validateEmail, validatePhoneNum, validateFirstName, validatePassportNum
 import { Booking } from "../../../../both/models/booking.model";
 import { Place } from "../../../../both/models/place.model";
 import { Tour } from "../../../../both/models/tour.model";
+import { User } from "../../../../both/models/user.model";
 import { showAlert } from "../shared/show-alert";
 import template from './booking-step1.html';
 import * as _ from 'underscore';
@@ -31,6 +32,7 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
   hideCardForm: boolean = true;
   countries: Place[] = [];
   tour: Tour = null;
+  user: User;
 
   constructor(private router: Router,
     private zone: NgZone,
@@ -56,7 +58,7 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
       travellers: this.formBuilder.array([
       ])
     });
-    this.loadTravellers();
+
     this.cardForm = this.formBuilder.group({
       nameOnCard: ['', Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(30), validateFirstName])],
       cardNumber: ['', Validators.compose([Validators.required, CValidators.creditCard, Validators.minLength(12), Validators.maxLength(19)])],
@@ -76,6 +78,15 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
 
     this.call("tours.findOne", {_id: this.booking.tour.id}, {with: {owner: true}}, (err, res) => {
       this.tour = <Tour>res.tour;
+    });
+
+    this.call("users.findOne", (err, res) => {
+      if (err) {
+        return;
+      }
+      //console.log("users.findOne():", res);
+      this.user = res;
+      this.loadTravellers();
     });
   }
 
@@ -143,7 +154,7 @@ export class BookingStep1Component extends MeteorComponent implements OnInit, Af
       let contact = null;
 
       if (i == 0 && !! Meteor.user()) {
-        let user = Meteor.user();
+        let user = this.user;
         firstName = user.profile.firstName;
         middleName = user.profile.middleName;
         lastName = user.profile.lastName;

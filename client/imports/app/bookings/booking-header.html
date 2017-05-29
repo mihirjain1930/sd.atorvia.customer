@@ -14,7 +14,7 @@
                 <h5>{{bookingDetails.tour.name}}</h5>
                 <p>
                     <span><i class="fa fa-map-marker" aria-hidden="true"></i></span>{{bookingDetails.tour.destination}}
-                    <star-rating [rating]="tour.rating" [disable]="true"></star-rating>
+                    <star-rating *ngIf="!! tour" [rating]="tour.rating" [disable]="true"></star-rating>
                 </p>
                 </div>
             </div>
