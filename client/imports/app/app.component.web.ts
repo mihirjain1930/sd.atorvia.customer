@@ -76,7 +76,7 @@ export class AppComponent extends MeteorComponent implements OnInit, AfterViewIn
         }
 
         if (res) {
-          this.localStorage.store("currencyCode", "INR");
+          this.localStorage.store("currencyCode", res);
         }
       });
     }
