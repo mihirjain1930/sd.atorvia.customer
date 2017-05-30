@@ -127,8 +127,8 @@
 							<input type="hidden" id="filterPrice" #filterPrice (click)="changePrice(filterPrice.value)" />
 							<div class="slider-box-custom">
 								<p>
-										<span id="startPriceRange">$0</span>
-										<span id="endPriceRange">$10000</span>
+										<span id="startPriceRange" [innerHTML]="currencyCode + 0"></span>
+										<span id="endPriceRange" [innerHTML]="currencyCode + 10000"></span>
 								</p>
 							  <div id="price-range" class="slider-custom" ></div>
 							</div>

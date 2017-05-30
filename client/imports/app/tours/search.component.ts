@@ -6,6 +6,7 @@ import { MeteorComponent } from 'angular2-meteor';
 import { Title } from '@angular/platform-browser';
 import { Observable, Subscription, Subject, BehaviorSubject } from "rxjs";
 import { PaginationService } from "ng2-pagination";
+import { LocalStorageService, SessionStorageService } from 'ng2-webstorage';
 import { Tour } from "../../../../both/models/tour.model";
 import { isValidEmail } from "../../../../both/validators/index";
 import { showAlert } from "../shared/show-alert";
@@ -42,7 +43,11 @@ export class SearchComponent extends MeteorComponent implements OnInit, AfterVie
   paramsSub: Subscription;
   isSearchScreen: boolean = true;
 
-  constructor(private zone: NgZone, private titleService: Title, private route: ActivatedRoute, private paginationService: PaginationService) {
+  constructor(private zone: NgZone,
+    private titleService: Title,
+    private route: ActivatedRoute,
+    private paginationService: PaginationService,
+    private localStorage: LocalStorageService) {
     super();
   }
 
@@ -71,7 +76,8 @@ export class SearchComponent extends MeteorComponent implements OnInit, AfterVie
   }
 
   ngAfterViewInit() {
-    Meteor.setTimeout(() => {
+    let currencyCode = this.currencyCode;
+    let callback = (currencyCode) => {
       jQuery(function($){
         $("#price-range").slider({
           range: true,
@@ -79,8 +85,8 @@ export class SearchComponent extends MeteorComponent implements OnInit, AfterVie
           max: 10000,
           values: [0, 10000],
           slide: function(event, ui) {
-            $("#startPriceRange").text("$" + ui.values[0]);
-            $("#endPriceRange").text("$" + ui.values[1]);
+            $("#startPriceRange").html(currencyCode + ui.values[0]);
+            $("#endPriceRange").html(currencyCode  + ui.values[1]);
             $("#filterPrice").val(ui.values[0] + ',' + ui.values[1]);
 
             $("#filterPrice").trigger("click");
@@ -91,10 +97,37 @@ export class SearchComponent extends MeteorComponent implements OnInit, AfterVie
       $(".filter-wrap").click(function () {
        $(".filter").show();
       });
-    }, 500);
+    };
+
+    setTimeout(`var callback = ${callback}; callback('${currencyCode}')`, 500);
   }
 
   ngOnDestroy() {
+  }
+
+  get currencyCode() {
+    let currencyCode = this.localStorage.retrieve("currencyCode");
+    switch(currencyCode) {
+      case "INR":
+      currencyCode = '<i class="fa fa-inr" aria-hidden="true"></i>';
+      break;
+      case "AUD":
+      currencyCode = 'A<i class="fa fa-dollar" aria-hidden="true"></i>';
+      break;
+      case "USD":
+      currencyCode = '<i class="fa fa-dollar" aria-hidden="true"></i>';
+      break;
+      case "CAD":
+      currencyCode = 'C<i class="fa fa-dollar" aria-hidden="true"></i>';
+      break;
+      case "EUR":
+      currencyCode = '<i class="fa fa-euro" aria-hidden="true"></i>';
+      break;
+      case "GBP":
+      currencyCode = '<i class="fa fa-gbp" aria-hidden="true"></i>';
+      break;
+    }
+    return currencyCode;
   }
 
   private setOptions() {
@@ -150,7 +183,7 @@ export class SearchComponent extends MeteorComponent implements OnInit, AfterVie
                   return;
               }
               this.items = res.data;
-              console.log(res.data);
+              // console.log(res.data);
               this.itemsSize = res.count;
               this.paginationService.setTotalItems("tours", this.itemsSize);
           })
@@ -207,7 +240,7 @@ export class SearchComponent extends MeteorComponent implements OnInit, AfterVie
   }
 
   changePrice(value) {
-    console.log("changePrice:", value);
+    // console.log("changePrice:", value);
     // don't apply filters if range is empty
     if (!value) {
       return;

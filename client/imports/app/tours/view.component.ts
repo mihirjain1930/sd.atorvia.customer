@@ -50,6 +50,7 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
   owner: User;
   relatedItems: Tour[] = null;
   slickInitialized: boolean = false;
+  prettyPhotoInitialized: boolean = false;
   activeTab: string = "overview";
   selDateRange: DateRange = null;
   userId: string;
@@ -63,6 +64,10 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
     this.paramsSub = this.route.params
       .map(params => params['name'])
       .subscribe(name => {
+          this.item = null;
+          this.relatedItems = null;
+          this.slickInitialized = false;
+          this.prettyPhotoInitialized = false;
           this.query = name;
 
           let tour = name.toUpperCase();
@@ -94,11 +99,6 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
 
   ngAfterViewInit() {
     Meteor.setTimeout(() => {
-      jQuery(function($){
-        $("a[rel^='prettyPhoto']").prettyPhoto({
-          social_tools: false
-        });
-      });
 
       function sticky_relocate() {
         if (! $('#sticky-anchor').length) {
@@ -121,8 +121,6 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
         $(window).scroll(sticky_relocate);
         sticky_relocate();
       });
-
-
 
     }, 1000);
   }
@@ -159,6 +157,23 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
 
   get relatedTours() {
     return this.relatedItems;
+  }
+
+  initializePrettyPhoto(i) {
+    let index = i + 1;
+    let tour = this.item;
+    if (index < tour.images.length || this.prettyPhotoInitialized !== false) {
+      return;
+    }
+    this.prettyPhotoInitialized = true;
+
+    Meteor.setTimeout(() => {
+      jQuery(function($){
+        $("a[rel^='prettyPhoto']").prettyPhoto({
+          social_tools: false
+        });
+      });
+    }, 1000);
   }
 
   initializeSlick(i) {
@@ -240,6 +255,31 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
       return false;
     }
     return true;
+  }
+
+  getStartPrice(dateRange: DateRange[]) {
+    let priceList = [];
+    for (let i = 0; i<dateRange.length;i++) {
+      if (! dateRange[i] || ! dateRange[i].startDate) {
+        continue;
+      }
+      let startDate = new Date(dateRange[i].startDate.toString());
+      let a = moment.utc(startDate);
+      a.set({hour:0,minute:0,second:0,millisecond:0})
+      let b = moment.utc(new Date());
+      b.set({hour:0,minute:0,second:0,millisecond:0})
+      let diff = a.diff(b,'days');
+      if (diff <= 0) {
+        continue;
+      } else {
+        priceList.push(dateRange[i].price[0].adult);
+      }
+    }
+    if (priceList.length) {
+      return Math.min.apply(Math, priceList);
+    } else {
+      return "N.A.";
+    }
   }
 
 }

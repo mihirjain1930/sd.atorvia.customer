@@ -25,18 +25,18 @@ export class AppComponent extends MeteorComponent implements OnInit, AfterViewIn
           this.subscribe("users");
           // this.checkRememberMe();
       }
-      this.subscribe("currencies", () => {
-      });
 
-      let currencyCode = this.localStorage.retrieve("currencyCode");
+      /*let currencyCode = this.localStorage.retrieve("currencyCode");
       if (! currencyCode) {
         this.setDefaultCurrency();
-      }
+      }*/
+      this.setDefaultCurrency();
 
-      let currenciesRates = this.localStorage.retrieve("currencies.rates");
+      /*let currenciesRates = this.localStorage.retrieve("currencies.rates");
       if (! currenciesRates) {
         this.fetchCurrencyRates();
-      }
+      }*/
+      this.fetchCurrencyRates();
     }
 
     private observeWindowHeight() {
@@ -76,7 +76,7 @@ export class AppComponent extends MeteorComponent implements OnInit, AfterViewIn
         }
 
         if (res) {
-          this.localStorage.store("currencyCode", res);
+          this.localStorage.store("currencyCode", "INR");
         }
       });
     }

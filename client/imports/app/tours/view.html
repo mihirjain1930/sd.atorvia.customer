@@ -21,7 +21,7 @@
 										<div class="col-md-3 right-content">
 											<p>From</p>
 											<h3>
-												<currency [amount]=tour.dateRange[0]?.price[0]?.adult></currency>
+												<currency [amount]=getStartPrice(tour.dateRange)></currency>
 											</h3>
 										</div>
 									</div>
@@ -262,8 +262,9 @@
 								<h3>Gallery</h3>
 							</div>
 							<div class="col-sm-12 second-row">
-                <div class="img-wrap" *ngFor="let image of tour.images;">
+                <div class="img-wrap" *ngFor="let image of tour.images; let i = index;">
                   <a target="_blank" href="{{image.url}}" rel="prettyPhoto[tour_gallery]"><img src="uploads/images/{{image.id}}-220-220.jpg" alt="{{image.name}}" /></a>
+									<span [innerHTML]="initializePrettyPhoto(i)"></span>
                 </div>
               </div>
 						</div>
@@ -296,7 +297,7 @@
 										<th>Start</th>
 										<th>End </th>
 										<th>Seats Left</th>
-										<th>Price($)</th>
+										<th>Price</th>
 										<th></th>
 									</tr>
 								</thead>
@@ -363,19 +364,21 @@
 					<div class="slider-wrap">
 						<!-- start loop -->
 						<div *ngFor= "let tour of relatedTours; let i = index;">
-							<div class="destination-wrap">
+							<div class="destination-wrap" [routerLink]="['/tours', tour.slug]">
 								<span *ngIf="!tour.images?.length"><img src="/images/destination.png" /></span>
 		            <span *ngIf="tour.images?.length > 0 && tour.featuredImage?.url"><img [src]="tour.featuredImage?.url" /></span>
 		            <span *ngIf="tour.images?.length > 0 && !tour.featuredImage?.url"><img [src]="tour.images[0]?.url" /></span>
 								<div class="content">
 									<div class="row">
 										<div class="col-8">
-											<h4><a [routerLink]="['/tours', tour.slug]">{{tour.name}}</a></h4>
+											<h4>{{tour.name}}</h4>
 											<p><span><i class="fa fa-map-marker" aria-hidden="true"></i></span>{{tour.destination}}</p>
 										</div>
 										<div class="col-4">
 											<p>From</p>
-											<h3><span>$</span>{{tour.dateRange[0]?.price[0]?.adult}}</h3>
+											<h3>
+												<currency [amount]=getStartPrice(tour.dateRange)></currency>
+											</h3>
 										</div>
 									</div>
 								</div>
