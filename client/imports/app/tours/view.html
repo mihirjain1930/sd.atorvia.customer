@@ -368,6 +368,7 @@
 								<span *ngIf="!tour.images?.length"><img src="/images/destination.png" /></span>
 		            <span *ngIf="tour.images?.length > 0 && tour.featuredImage?.url"><img [src]="tour.featuredImage?.url" /></span>
 		            <span *ngIf="tour.images?.length > 0 && !tour.featuredImage?.url"><img [src]="tour.images[0]?.url" /></span>
+								<div class="overlay"></div>
 								<div class="content">
 									<div class="row">
 										<div class="col-8 tour-title">
