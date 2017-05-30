@@ -73,7 +73,7 @@
                 </div>
                 <div class="col-4">
                   <p>From</p>
-                  <h3><currency [amount]=tour.dateRange[0]?.price[0]?.adult></currency></h3>
+                  <h3><currency [amount]=getStartPrice(tour.dateRange)></currency></h3>
                 </div>
               </div>
             </div>

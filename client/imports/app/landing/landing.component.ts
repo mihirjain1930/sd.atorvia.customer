@@ -9,6 +9,7 @@ import { ChangeDetectorRef } from "@angular/core";
 import { Tour } from "../../../../both/models/tour.model";
 import { isValidEmail } from "../../../../both/validators/index";
 import { showAlert } from "../shared/show-alert";
+import * as moment from 'moment';
 import template from './landing.html';
 
 interface Pagination {
@@ -18,6 +19,20 @@ interface Pagination {
 
 interface Options extends Pagination {
   [key: string]: any
+}
+
+interface DateRange {
+  _id: string;
+  startDate: Date;
+  endDate: Date;
+  price?: [{
+    numOfPersons: number;
+    adult: number;
+    child: number;
+  }],
+  numOfSeats: number;
+  soldSeats: number;
+  availableSeats: number;
 }
 
 @Component({
@@ -114,5 +129,30 @@ export class LandingComponent extends MeteorComponent implements OnInit, AfterVi
     }
     let slug = item.originalObject.slug;
     this.router.navigate(['/tours', slug]);
+  }
+
+  getStartPrice(dateRange: DateRange[]) {
+    let priceList = [];
+    for (let i = 0; i<dateRange.length;i++) {
+      if (! dateRange[i] || ! dateRange[i].startDate) {
+        continue;
+      }
+      let startDate = new Date(dateRange[i].startDate.toString());
+      let a = moment.utc(startDate);
+      a.set({hour:0,minute:0,second:0,millisecond:0})
+      let b = moment.utc(new Date());
+      b.set({hour:0,minute:0,second:0,millisecond:0})
+      let diff = a.diff(b,'days');
+      if (diff <= 0) {
+        continue;
+      } else {
+        priceList.push(dateRange[i].price[0].adult);
+      }
+    }
+    if (priceList.length) {
+      return Math.min.apply(Math, priceList);
+    } else {
+      return "N.A.";
+    }
   }
 }
