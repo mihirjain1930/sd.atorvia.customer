@@ -22,6 +22,8 @@ Meteor.methods({
           "$or": [{active: true}, {active: {$exists: false} }]
         }, {
           "$or": [{approved: true}, {approved: {$exists: false} }]
+        }, {
+          "$or": [{"dateRange.startDate": {$gt: new Date()} }]
         });
 
         if (!_.isEmpty(criteria)) {
@@ -90,6 +92,8 @@ Meteor.methods({
         "$or": [{active: true}, {active: {$exists: false} }]
       }, {
         "$or": [{approved: true}, {approved: {$exists: false} }]
+      }, {
+        "$or": [{"dateRange.startDate": {$gt: new Date()} }]
       });
       if (_.isEmpty(criteria)) {
         criteria = { };
