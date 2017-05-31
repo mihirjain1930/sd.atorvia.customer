@@ -758,6 +758,16 @@
 			text-align: center;
     }
   }
+	.overlay{
+		@extend .absolute;
+		@extend .bottom-0;
+		@extend .left-0;
+		@extend .bottom-0;
+		@extend .right-0;
+		background: rgba(0, 0, 0, 0.5);
+		height: 100%;
+		z-index: 4;
+	}
 	.slick-prev::before,
 	.slick-next::before {
 		color: $light-green;
@@ -836,6 +846,7 @@
     }
   }
 	.content {
+		z-index: 55;
 		@extend .absolute;
 		color: $white;
 		@extend .bottom-0;
@@ -887,7 +898,7 @@
     }
 
 		h3 {
-			margin-top: 58px;
+			margin-top: 48px;
 			font-weight: $weight_400;
 			@extend .text-right;
 			@media (max-width: $desktop) {
