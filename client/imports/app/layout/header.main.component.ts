@@ -39,8 +39,7 @@ export class HeaderMainComponent extends MeteorComponent implements OnInit, Afte
     logout() {
       this.localStorage.clear("rememberMeNot");
       this.sessionStorage.clear("Meteor.userId");
-      Meteor.logout();
-      this.subscribe("users", () => {
+      Meteor.logout(() => {
         this.zone.run(() => {
           showAlert("You have been logged out successfully.", "success");
           this.router.navigate( ['/'] );

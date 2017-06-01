@@ -30,8 +30,7 @@ export class NavbarComponent extends MeteorComponent implements OnInit, AfterVie
   logout() {
     this.localStorage.clear("rememberMeNot");
     this.sessionStorage.clear("Meteor.userId");
-    Meteor.logout();
-    this.subscribe("users", () => {
+    Meteor.logout(() => {
       this.zone.run(() => {
         showAlert("You have been logged out successfully.", "success");
         this.router.navigate( ['/'] );
