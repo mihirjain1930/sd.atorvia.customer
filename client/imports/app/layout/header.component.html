@@ -20,7 +20,7 @@
                 <li>
                   <span class="user-img">
                     <img src="images/user.png" alt="" *ngIf="! user.profile?.image?.url" />
-                    <img src="{{user.profile.image.url}}" alt="" *ngIf="!! user.profile?.image?.url" />
+                    <img src="uploads/images/{{user?.profile.image.id}}-102-102.jpg" alt="" *ngIf="!! user.profile?.image?.url" />
                   </span>
                   <div class="btn-group">
                     <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
