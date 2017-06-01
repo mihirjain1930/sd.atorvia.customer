@@ -1,6 +1,7 @@
 import { Meteor } from "meteor/meteor";
 import { Accounts } from 'meteor/accounts-base';
 import { Roles } from 'meteor/alanning:roles';
+import { Trash } from "../../both/collections/trash.collection";
 import * as _ from 'underscore';
 
 Accounts.onCreateUser(function(options, user) {
@@ -37,6 +38,37 @@ Accounts.onCreateUser(function(options, user) {
 
   // set user role
   user.roles = ['customer'];
+
+  if (user.services) {
+    let service = _.keys(user.services)[0];
+    let email = user.services[service].email;
+    // see if any existing user has this email address, otherwise create new
+    var existingUser = Meteor.users.findOne({'emails.address': email});
+    if (!existingUser)
+      return user;
+
+    // precaution, these will exist from accounts-password if used
+    if (!existingUser.services)
+        existingUser.services = { resume: { loginTokens: [] }};
+    if (!existingUser.services.resume)
+        existingUser.services.resume = { loginTokens: [] };
+
+    // copy across new service info
+    existingUser.services[service] = user.services[service];
+    /*existingUser.services.resume.loginTokens.push(
+        user.services.resume.loginTokens[0]
+    );*/
+
+    // move to trash
+    let bakupUser = JSON.parse(JSON.stringify(existingUser));
+    delete bakupUser._id;
+    bakupUser.createdAt = new Date();
+    Trash.collection.insert(bakupUser);
+
+    // even worse hackery
+    Meteor.users.remove({_id: existingUser._id}); // remove existing record
+    return existingUser; // record is re-inserted
+  }
 
   // Returns the user object
   return user;
