@@ -8,3 +8,6 @@ run.sh
 ._.DS_Store
 settings.json
 debug.log
+deploy.sh
+sshenv
+
