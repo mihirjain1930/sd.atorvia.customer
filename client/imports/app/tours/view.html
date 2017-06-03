@@ -8,7 +8,7 @@
 			<div class="carousel-inner" role="listbox">
 				<div class="carousel-item active" *ngIf="!! tour">
 					<img *ngIf="!tour.featuredImage?.url" class="d-block img-fluid" src="images/slide1.png" alt="First slide">
-					<img *ngIf="!!tour.featuredImage?.url" class="d-block img-fluid" [src]="uploads/images/{{tour.featuredImage.id}}-1600-680.jpg" alt="First slide" style="height: 680px; width: 1600px;">
+					<img *ngIf="!!tour.featuredImage?.url" class="d-block img-fluid" src="uploads/images/{{tour.featuredImage.id}}-1600-680.jpg" alt="First slide" style="height: 680px; width: 1600px;">
 					<div class="carousel-caption d-none d-md-block">
 						<div class="destination-wrap">
 							<div class="content">
@@ -95,7 +95,7 @@
 								<div class="tour-inf">
 									<div class="center-img">
 										<img src="images/user.png" alt="" *ngIf="! owner?.profile.image?.id" />
-                    <img src="uploads/images/{{owner?.profile.image.id}}-1600-680.jpg" alt="" *ngIf="!! owner?.profile.image?.id" />
+                    <img src="uploads/images/{{owner?.profile.image.id}}-100-100.jpg" alt="" *ngIf="!! owner?.profile.image?.id" />
 									</div>
 									<h3>{{owner.profile.supplier?.companyName}}
 										<span *ngIf="owner?.profile.supplier?.agentCertificate?.verified == true && owner?.profile.supplier?.agentIdentity?.verified == true">
