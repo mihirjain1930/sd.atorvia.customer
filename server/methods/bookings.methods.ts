@@ -335,7 +335,7 @@ Meteor.methods({
       let pdf = require('html-pdf');
       let Future = require('fibers/future');
       var myFuture = new Future();
-      let dirPath = `${process.env.PWD}/../supplier/uploads/pdfs`;
+      let dirPath = `${process.env.PWD}/../uploads/pdfs`;
       fs.ensureDirSync(dirPath);
       pdf.create(html).toFile(`${dirPath}/voucher-${booking._id}.pdf`, function(err, res){
         if (err) {

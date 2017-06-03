@@ -12,11 +12,11 @@ Picker.middleware( bodyParser.urlencoded( { extended: false } ) );
 Picker.route( '/bookings/voucher/:id', function( params, request, response, next ) {
   let fs = require("fs-extra");
 
-  let filePath = `${process.env.PWD}/../supplier/uploads/pdfs/voucher-${params.id}.pdf`;
+  let filePath = `${process.env.PWD}/../uploads/pdfs/voucher-${params.id}.pdf`;
 
   fs.readFile(`${filePath}`, (err, data) => {
     if (err) {
-      response.end( "Error while downloading file. Please recheck the file name." ); 
+      response.end( "Error while downloading file. Please recheck the file name." );
       console.log(err);
     }
     else {
@@ -38,9 +38,9 @@ Picker.route("/uploads/images/:id-:w-:h.jpg", function( params, request, respons
       response.end( "Invalid image-id" );
       return;
   }
-  let imagePath = process.env.PWD + '/../supplier/uploads/images/' + image._id + '.' + image.extension;
+  let imagePath = process.env.PWD + '/../uploads/images/' + image._id + '.' + image.extension;
   // let destPath = process.env.PWD + '/uploads/images/' + image._id + '-350x280.' + image.extension;
-  let destPath = `${process.env.PWD}/../supplier/uploads/images/${image._id}-${params.w}x${params.h}.${image.extension}`;
+  let destPath = `${process.env.PWD}/../uploads/images/${image._id}-${params.w}x${params.h}.${image.extension}`;
   console.log(destPath);
 
   function readFile() {
@@ -58,7 +58,7 @@ Picker.route("/uploads/images/:id-:w-:h.jpg", function( params, request, respons
       }
     });
   }
-  
+
   if (fs.existsSync(destPath)) {
     console.log("load from cache");
     readFile();

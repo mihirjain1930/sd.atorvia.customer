@@ -12,14 +12,14 @@ function loggedIn(userId) {
 export const ImagesStore = new UploadFS.store.Local({
   collection: Images.collection,
   name: 'images',
-  path: process.env.PWD + '/../supplier/uploads/images',
+  path: process.env.PWD + '/../uploads/images',
   filter: new UploadFS.Filter({
     contentTypes: ['image/*']
   }),
   /*copyTo: [
     ThumbsStore
   ],*/
-  /*transformWrite(from, to, fileId, file) {
+  transformWrite(from, to, fileId, file) {
     // Resize to 1280x720
     const gm = require('gm');
 
@@ -29,7 +29,7 @@ export const ImagesStore = new UploadFS.store.Local({
       .quality(100)
       .stream()
       .pipe(to);
-  },*/
+  },
   permissions: new UploadFS.StorePermissions({
     insert: loggedIn,
     update: loggedIn,
