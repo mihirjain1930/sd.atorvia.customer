@@ -155,8 +155,8 @@
 								</div>
 								<div class="info">
 									<h3><span class="grey-box">
-										<img src="images/user.png" alt="" *ngIf="! user?.profile.image?.url" />
-			              <img src="{{user?.profile.image.url}}" alt="" *ngIf="!! user?.profile.image?.url" />
+										<img src="images/user.png" alt="" *ngIf="! tour?.owner.image?.id" />
+			              <img src="uploads/images/{{tour?.owner.image.id}}-40-40.jpg" alt="" *ngIf="!! tour?.owner.image?.id" />
 									</span>{{tour.owner.companyName}}<span><i class="fa fa-check-circle" aria-hidden="true"></i></span></h3>
 									<p>{{tour.description}}</p>
 									<ul>
