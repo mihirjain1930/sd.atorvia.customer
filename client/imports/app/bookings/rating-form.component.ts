@@ -5,15 +5,15 @@ import { CustomValidators as CValidators } from "ng2-validation";
 import { InjectUser } from "angular2-meteor-accounts-ui";
 import { Router, ActivatedRoute } from '@angular/router';
 import { MeteorComponent } from 'angular2-meteor';
-import { SessionStorageService } from 'ng2-webstorage';
 import { Observable, Subscription, Subject, BehaviorSubject } from "rxjs";
 import { ChangeDetectorRef } from "@angular/core";
+import { Title } from '@angular/platform-browser';
 import { User } from "../../../../both/models/user.model";
 import { Tour } from "../../../../both/models/tour.model";
 import { Booking } from "../../../../both/models/booking.model";
 import { showAlert } from "../shared/show-alert";
 import * as moment from 'moment';
-import template from "./view.html";
+import template from "./rating-form.html";
 
 declare var jQuery:any;
 
@@ -22,38 +22,42 @@ declare var jQuery:any;
   template
 })
 @InjectUser('user')
-export class BookingViewComponent extends MeteorComponent implements OnInit, AfterViewInit, OnDestroy {
+export class RateTourComponent extends MeteorComponent implements OnInit, AfterViewInit {
+  ratingForm: FormGroup;
   booking: Booking = null;
   tour: Tour = null;
-  bookingId: string;
   supplier: User = null;
-  error: string = null;
-  activeTab: string = "overview";
+  bookingId: string;
+  error: string;
   paramsSub: Subscription;
+  rating:Number = 0;
+
   constructor(
     private zone: NgZone,
     private router: Router,
     private route: ActivatedRoute,
-    private sessionStorage: SessionStorageService,
+    private titleService: Title,
     private changeDetectorRef: ChangeDetectorRef,
     private formBuilder: FormBuilder
-    ) {
+  ) {
     super();
   }
 
   ngOnInit() {
+    this.titleService.setTitle("Review Tour | Atorvia");
     this.paramsSub = this.route.params
     .map(params => params['id'])
     .subscribe(id => {
 
       this.bookingId = id;
-      this.call("bookings.findOne", {_id: id}, {with: {supplier: true, tour: true}}, (err, res) => {
+      this.call("bookings.findOne", {"_id": id, "cancelled": false, "paymentInfo.status": "approved"}, {with: {supplier: true, tour: true}}, (err, res) => {
         if (err) {
           console.log(err.reason, "danger");
           return;
         }
+
         // check completed flag
-        if (new Date(res.booking.startDate.toString()) < new Date()) {
+        if (new Date(res.booking.startDate) < new Date()) {
           res.booking.completed = true;
         }
 
@@ -63,19 +67,16 @@ export class BookingViewComponent extends MeteorComponent implements OnInit, Aft
 
         this.changeDetectorRef.detectChanges();
       });
-
     });
+
+    this.ratingForm = this.formBuilder.group({
+      comments: ['', Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(255)]) ]
+    });
+
+    this.error = '';
   }
 
   ngAfterViewInit() {
-  }
-
-  ngOnDestroy() {
-    this.paramsSub.unsubscribe();
-  }
-
-  detectChanges() {
-    this.changeDetectorRef.detectChanges();
   }
 
   get departInDays() {
@@ -96,40 +97,43 @@ export class BookingViewComponent extends MeteorComponent implements OnInit, Aft
     let booking = this.booking;
 
     if (! booking.paymentInfo || booking.paymentInfo.status != 'approved') {
-        retVal = "Unpaid";
-      } else if (booking.cancelled == true && booking.refunded !== true) {
-        retVal = "Refund Requested";
-      } else if (booking.cancelled == true && booking.refunded == true) {
-        retVal = "Cancelled";
-      } else if (booking.confirmed !== true) {
-          retVal = "Pending";
-      } else if (booking.confirmed === true && booking.completed !== true) {
-          retVal = "Confirmed";
-      } else if (booking.completed === true) {
-          retVal = "Completed";
-      }
+      retVal = "Unpaid";
+    } else if (booking.cancelled == true && booking.refunded !== true) {
+      retVal = "Cancelled";
+    } else if (booking.cancelled == true && booking.refunded == true) {
+      retVal = "Refunded";
+    } else if (booking.confirmed !== true) {
+        retVal = "Pending";
+    } else if (booking.confirmed === true && booking.completed !== true) {
+        retVal = "Confirmed";
+    } else if (booking.completed === true) {
+        retVal = "Completed";
+    }
 
     return retVal;
   }
 
-  makePayment() {
-    this.sessionStorage.store("bookingId", this.bookingId);
-    this.zone.run(() => {
-      this.router.navigate(['/booking/step2']);
-    })
-  }
+  reviewTour() {
+    let comments = this.ratingForm.value.comments;
+    let rate = this.rating;
+    let booking = this.booking;
+    if (booking.tour.hasRated) {
+      showAlert("Your input has been already saved.");
+      return;
+    }
 
-  downloadVoucher(bookingId: string) {
-    this.call("bookings.generateVoucher", bookingId, (err, res) => {
+    this.call("bookings.saveRating", booking._id, rate, comments, (err, res) => {
       if (err) {
         showAlert(err.reason, "danger");
         return;
       }
 
-      let fileUrl = `/bookings/voucher/${bookingId}`;
-      console.log(fileUrl);
-      window.location.href = fileUrl;
-    })
+        booking.tour.rating = rate;
+        booking.tour.hasRated = true;
+        showAlert("Tour rating has been updated successfully. Thank you!", "success");
+        this.zone.run(() => {
+          this.router.navigate(['/bookings']);
+        })
+      })
   }
-
 }

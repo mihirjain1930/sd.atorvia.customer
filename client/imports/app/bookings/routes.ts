@@ -8,6 +8,7 @@ import { BookingConfirmComponent } from "./booking-confirm.component";
 import { BookingsListComponent } from "./list.component";
 import { BookingViewComponent } from "./view.component";
 import { CancelBookingComponent } from "./cancel-booking.component";
+import { RateTourComponent } from "./rating-form.component";
 
 // Route Configuration
 export const routes = [
@@ -16,5 +17,6 @@ export const routes = [
   { path: 'booking/confirm', component: BookingConfirmComponent, canActivate: [AuthService], data: {'state': 'login'} },
   { path: 'bookings', component: BookingsListComponent, canActivate: [AuthService], data: {'state': 'login'} },
   { path: 'bookings/view/:id', component: BookingViewComponent, canActivate: [AuthService], data: {'state': 'login'} },
+  { path: 'booking/rate/:id', component: RateTourComponent, canActivate: [AuthService], data: {'state': 'login'} },
   { path: 'bookings/cancel/:id', component: CancelBookingComponent, canActivate: [AuthService], data: {'state': 'login'} }
 ];

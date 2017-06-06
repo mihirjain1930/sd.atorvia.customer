@@ -6,6 +6,7 @@ import { BookingConfirmComponent } from "./booking-confirm.component";
 import { BookingsListComponent } from "./list.component";
 import { BookingViewComponent } from "./view.component";
 import { CancelBookingComponent } from "./cancel-booking.component";
+import { RateTourComponent } from "./rating-form.component";
 
 export const BOOKING_DECLARATIONS = [
   BookingHeaderComponent,
@@ -15,5 +16,6 @@ export const BOOKING_DECLARATIONS = [
   BookingConfirmComponent,
   BookingsListComponent,
   BookingViewComponent,
-  CancelBookingComponent
+  CancelBookingComponent,
+  RateTourComponent
 ];

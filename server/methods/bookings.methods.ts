@@ -3,6 +3,8 @@ import { Tours } from "../../both/collections/tours.collection";
 import { Tour } from "../../both/models/tour.model";
 import { Bookings } from "../../both/collections/bookings.collection";
 import { Booking } from "../../both/models/booking.model";
+import { Review } from "../../both/models/review.model";
+import { Reviews } from "../../both/collections/reviews.collection";
 import { Transactions } from "../../both/collections/transactions.collection";
 import { isLoggedIn, userIsInRole } from "../imports/services/auth";
 import * as _ from 'underscore';
@@ -150,8 +152,6 @@ Meteor.methods({
       }
     },
     "bookings.createConfirmation": (bookingId) => {
-      let fs = require("fs");
-
       // find booking details
       let booking = Bookings.collection.findOne({_id: bookingId});
       if (_.isEmpty(booking)) {
@@ -168,7 +168,6 @@ Meteor.methods({
       }, 0);
     },
     "bookings.paymentConfirmation": (bookingId) => {
-      let fs = require("fs");
 
       // find booking details
       let booking = Bookings.collection.findOne({_id: bookingId});
@@ -207,7 +206,6 @@ Meteor.methods({
       }, 0);
     },
     "bookings.paymentFailedConfirmation": (bookingId) => {
-      let fs = require("fs");
 
       // find booking details
       let booking = Bookings.collection.findOne({_id: bookingId});
@@ -266,7 +264,6 @@ Meteor.methods({
       return retVal;
     },
     "bookings.sendCancelledConfirmation": (bookingId) => {
-      let fs = require("fs");
 
       // find booking details
       let booking = Bookings.collection.findOne({_id: bookingId});
@@ -347,7 +344,7 @@ Meteor.methods({
       });
       return myFuture.wait();
     },
-    "bookings.saveRating": (bookingId, rating) => {
+    "bookings.saveRating": (bookingId, rating, comments) => {
       userIsInRole(["customer"]);
 
       // find booking details
@@ -370,6 +367,19 @@ Meteor.methods({
         tourRating = ( rating + tourRating ) / 2;
       }
       Tours.collection.update({_id: tour._id}, {$set: { "rating": tourRating } });
+
+      //insert comments in review collection
+      Reviews.collection.insert({
+        tourId: tour._id,
+        bookingId: bookingId,
+        user: booking.user,
+        rating: rating,
+        createdAt: new Date(),
+        approved: false,
+        deleted: false
+      })
+
+
 
       return true;
     }

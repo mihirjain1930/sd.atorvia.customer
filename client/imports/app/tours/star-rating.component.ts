@@ -20,4 +20,9 @@ export class StarRatingComponent extends MeteorComponent {
     super();
   }
 
+  get ratings() {
+    let rating = this.rating;
+    return Math.round(rating * 10) / 10;
+  }
+
 }
