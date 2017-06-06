@@ -4,6 +4,13 @@ span.stars {
   padding-left: 10px;
   border-left: 1px solid rgb(204, 204, 204);
 }
+.reviewrating {
+  span.stars {
+    border-left: 0;
+    color: #16a085;
+  }
+}
+
 h1 {
     font-size: 2em;
     margin-bottom: .5rem;

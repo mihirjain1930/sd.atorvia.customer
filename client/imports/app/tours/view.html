@@ -56,6 +56,7 @@
 										<li class="nav-item" ><a class="nav-link" [ngClass]="{'active': activeTab=='itinerary'}" data-target="#itinerary" (click)="activeTab='itinerary'; detectChanges(); scrollToDiv('itinerary')"><span>Itinerary</span><span class="icon-wrap"><i class="fa fa-th-list" aria-hidden="true"></i></span></a></li>
 										<li class="nav-item" ><a class="nav-link" [ngClass]="{'active': activeTab=='gallery'}" data-target="#gallery" (click)="activeTab='gallery'; detectChanges(); scrollToDiv('gallery')"><span>Gallery</span><span class="icon-wrap"><i class="fa fa-picture-o" aria-hidden="true"></i></span></a></li>
 										<li class="nav-item" ><a class="nav-link" [ngClass]="{'active': activeTab=='inclusion'}" data-target="#inclusion" (click)="activeTab='inclusion'; detectChanges(); scrollToDiv('inclusion')"><span>Inclusion</span><span class="icon-wrap"><i class="fa fa-tasks" aria-hidden="true"></i></span></a></li>
+										<li class="nav-item" ><a class="nav-link" [ngClass]="{'active': activeTab=='reviews'}" data-target="#reviews" (click)="activeTab='reviews'; detectChanges(); scrollToDiv('inclusion')"><span>Reviews</span><span class="icon-wrap"><i class="fa fa-tasks" aria-hidden="true"></i></span></a></li>
 									</ul>
 								</div>
 							</div>
@@ -287,120 +288,158 @@
 						</div>
 					</div>
 					<!--inclusive-policy-->
-					<!--Availability-->
-					<div class="availability right-wrap" id="availability">
-						<h3>Availability</h3>
-						<div class="table-responsive status-table">
-							<table class="table">
-								<thead>
-									<tr>
-										<th>Start</th>
-										<th>End </th>
-										<th>Seats Left</th>
-										<th>Price</th>
-										<th></th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr *ngFor="let row of tour.dateRange; let i = index;" [hidden]="! isAvailSchedule(row)">
-										<td>{{row.startDate | date}}</td>
-										<td>{{row.endDate | date}}</td>
-										<td *ngIf="row.availableSeats > 0">{{row.availableSeats}}</td>
-										<td *ngIf="row.availableSeats <= 0">SOLD OUT</td>
-										<td>
-											<currency [amount]=row.price[0]?.adult></currency>
-											<a href="javascript:void(0)" (click)="selDateRange=row; detectChanges();" data-toggle="modal" data-target="#myModal">see all pricing</a>
-										</td>
-										<td>
-											<button *ngIf="row.availableSeats>0" type="button" class="btn green-btn" (click)="selDateRange=row; detectChanges();" data-toggle="modal" data-target="#bookTour">BOOK</button>
-										</td>
-									</tr>
-								</tbody>
-							</table>
+					<!--reviews section-->
+					<div [ngClass]="{'active': activeTab=='reviews'}" class="review-list right-wrap" id="reviews">
+						<div class="row">
+							<div class="col-sm-6">
+								<h3>Reviews</h3>
+							</div>
+							<div class="col-sm-6 pull-right text-right reviewrating">
+								<star-rating [rating]="tour.rating" [disable]="true"></star-rating>
+							</div>
 						</div>
-					</div>
-					<div class=" modal fade bd-example-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content ">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Schedule Pricing</h5>
-                </div>
-                <div class="modal-body">
-                  <table class="table hover-table" *ngIf="selDateRange">
-                    <thead>
-                      <tr>
-                        <th>People</th>
-                        <th>Adult</th>
-                        <th>Child</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngFor="let row of selDateRange.price">
-                        <td>{{row.numOfPersons}}</td>
-                        <td><currency [amount]=row.adult></currency></td>
-                        <td><currency [amount]=row.child></currency></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-					<!--Availability-->
-				</div>
-			</div>
-		</div>
-
-	</section>
-
-	<!--slider-option-->
-	<section class="slider-option" *ngIf="relatedTours!=null && relatedTours.length">
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-12">
-					<h3>You may also like</h3>
-				</div>
-				<div class="col-sm-12">
-					<div class="slider-wrap">
-						<!-- start loop -->
-						<div *ngFor= "let tour of relatedTours; let i = index;">
-							<div class="destination-wrap" [routerLink]="['/tours', tour.slug]">
-								<span *ngIf="!tour.images?.length"><img src="/images/destination.png" /></span>
-		            <span *ngIf="tour.images?.length > 0 && tour.featuredImage?.url"><img [src]="tour.featuredImage?.url" /></span>
-		            <span *ngIf="tour.images?.length > 0 && !tour.featuredImage?.url"><img [src]="tour.images[0]?.url" /></span>
-								<div class="overlay"></div>
-								<div class="content">
-									<div class="row">
-										<div class="col-8 tour-title">
-											<h4>{{tour.name}}</h4>
-											<p><span><i class="fa fa-map-marker" aria-hidden="true"></i></span>{{tour.destination}}</p>
+						<ul class="">
+							<li class="col-sm-12">
+								<div class="row">
+									<div class="col-sm-2">
+										<div class="user-wrap"><img src="images/user.png" alt=""/></div>
+									</div>
+									<div class="col-sm-10">
+										<div class="row">
+											<div class="col-sm-6">
+												<h4>EMMANUEL
+													<span class="rating"></span>
+												</h4>
+											</div>
+											<div class="col-sm-6 pull-right text-right">
+												<p>25 May 2017</p>
+											</div>
+											<div class="">
+												<div class="col-sm-12">
+													<p>"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."
+														"There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain..."</p>
+													</div>
+												</div>
+											</div>
 										</div>
-										<div class="col-4">
-											<p>From</p>
-											<h3>
-												<currency [amount]=getStartPrice(tour.dateRange)></currency>
-											</h3>
+									</div>
+									</li>
+								</ul>
+								</div>
+							<!--Availability-->
+							<div class="availability right-wrap" id="availability">
+								<h3>Availability</h3>
+								<div class="table-responsive status-table">
+									<table class="table">
+										<thead>
+											<tr>
+												<th>Start</th>
+												<th>End </th>
+												<th>Seats Left</th>
+												<th>Price</th>
+												<th></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr *ngFor="let row of tour.dateRange; let i = index;" [hidden]="! isAvailSchedule(row)">
+												<td>{{row.startDate | date}}</td>
+												<td>{{row.endDate | date}}</td>
+												<td *ngIf="row.availableSeats > 0">{{row.availableSeats}}</td>
+												<td *ngIf="row.availableSeats <= 0">SOLD OUT</td>
+												<td>
+													<currency [amount]=row.price[0]?.adult></currency>
+													<a href="javascript:void(0)" (click)="selDateRange=row; detectChanges();" data-toggle="modal" data-target="#myModal">see all pricing</a>
+												</td>
+												<td>
+													<button *ngIf="row.availableSeats>0" type="button" class="btn green-btn" (click)="selDateRange=row; detectChanges();" data-toggle="modal" data-target="#bookTour">BOOK</button>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div class=" modal fade bd-example-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content ">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabel">Schedule Pricing</h5>
+										</div>
+										<div class="modal-body">
+											<table class="table hover-table" *ngIf="selDateRange">
+												<thead>
+													<tr>
+														<th>People</th>
+														<th>Adult</th>
+														<th>Child</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr *ngFor="let row of selDateRange.price">
+														<td>{{row.numOfPersons}}</td>
+														<td><currency [amount]=row.adult></currency></td>
+														<td><currency [amount]=row.child></currency></td>
+													</tr>
+												</tbody>
+											</table>
 										</div>
 									</div>
 								</div>
 							</div>
-
-							<span [innerHTML]="initializeSlick(i)"></span>
+							<!--Availability-->
 						</div>
-						<!-- end loop -->
 					</div>
 				</div>
-			</div>
-		</div>
-	</section>
-	<!--slider-option-->
 
-	<!-- Modal -->
-	<div class="modal fade askquestion" id="askquestion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document" *ngIf="!! tour">
-			<ask-question [supplierId]="tour.owner.id"></ask-question>
-		</div>
-	</div>
-	<!--link-content-->
-	<footer-bar></footer-bar>
+			</section>
+
+			<!--slider-option-->
+			<section class="slider-option" *ngIf="relatedTours!=null && relatedTours.length">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-12">
+							<h3>You may also like</h3>
+						</div>
+						<div class="col-sm-12">
+							<div class="slider-wrap">
+								<!-- start loop -->
+								<div *ngFor= "let tour of relatedTours; let i = index;">
+									<div class="destination-wrap" [routerLink]="['/tours', tour.slug]">
+										<span *ngIf="!tour.images?.length"><img src="/images/destination.png" /></span>
+										<span *ngIf="tour.images?.length > 0 && tour.featuredImage?.url"><img [src]="tour.featuredImage?.url" /></span>
+										<span *ngIf="tour.images?.length > 0 && !tour.featuredImage?.url"><img [src]="tour.images[0]?.url" /></span>
+										<div class="overlay"></div>
+										<div class="content">
+											<div class="row">
+												<div class="col-8 tour-title">
+													<h4>{{tour.name}}</h4>
+													<p><span><i class="fa fa-map-marker" aria-hidden="true"></i></span>{{tour.destination}}</p>
+												</div>
+												<div class="col-4">
+													<p>From</p>
+													<h3>
+														<currency [amount]=getStartPrice(tour.dateRange)></currency>
+													</h3>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<span [innerHTML]="initializeSlick(i)"></span>
+								</div>
+								<!-- end loop -->
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!--slider-option-->
+
+			<!-- Modal -->
+			<div class="modal fade askquestion" id="askquestion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document" *ngIf="!! tour">
+					<ask-question [supplierId]="tour.owner.id"></ask-question>
+				</div>
+			</div>
+			<!--link-content-->
+			<footer-bar></footer-bar>
 </main>

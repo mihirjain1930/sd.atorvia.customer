@@ -709,6 +709,29 @@
 		margin-bottom: 5px;
   }
 }
+.review-list{
+	li{
+		list-style: none;
+		.user-wrap{
+			width: 75px;
+			height: 75px;
+			@include border-radius(100%,100%,100%,100%);
+			img{
+				width: 75px;
+				height: 75px;
+				@include border-radius(100%,100%,100%,100%);
+			}
+		}
+		h4{
+			font-size: $font-16;
+			font-weight: $weight_700;
+			color: $label-color;
+		}
+		p{
+			font-size: $font-14;
+		}
+	}
+}
 .availability {
 	.green-btn {
 		padding: 12px 28px;
