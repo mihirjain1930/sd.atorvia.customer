@@ -150,9 +150,9 @@ Meteor.methods({
       where.push(
       {
           "$or": [{deleted: false}, {deleted: {$exists: false} }]
-      }/*, {
+      }, {
         "$or": [{approved: true}, {approved: {$exists: false} }]
-      }*/);
+      });
 
       if (!_.isEmpty(criteria)) {
         where.push(criteria);

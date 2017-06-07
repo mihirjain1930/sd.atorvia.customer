@@ -376,7 +376,7 @@ Meteor.methods({
         rating: rating,
         comments: comments,
         createdAt: new Date(),
-        approved: false,
+        approved: true,
         deleted: false
       });
 

@@ -80,7 +80,7 @@ export class TourReviewsComponent extends MeteorComponent implements OnInit {
           this.orderBy,
           this.nameOrder,
           this.whereSub
-      ).subscribe(([pageSize, curPage, orderBy, nameOrder, where, searchString]) => {
+      ).subscribe(([pageSize, curPage, orderBy, nameOrder, where]) => {
           //console.log("inside subscribe");
           const options: Options = {
               limit: pageSize as number,
