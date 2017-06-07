@@ -378,9 +378,7 @@ Meteor.methods({
         createdAt: new Date(),
         approved: false,
         deleted: false
-      })
-
-
+      });
 
       return true;
     }

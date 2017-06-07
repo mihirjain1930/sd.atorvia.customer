@@ -37,8 +37,7 @@
         <hr>
         </li>
       </ul>
-      </div>
-      <div class="pagination-wrap paginationbutton">
+      <div class="pagination-wrap paginationbutton" *ngIf="itemsSize > 0">
         <pagination-template id="reviews" #p="paginationApi"
              (pageChange)="onPageChanged($event)" >
 
@@ -55,4 +54,5 @@
               </div>
             </div>
         </pagination-template>
+      </div>
       </div>
