@@ -84,6 +84,7 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
 
             this.item = <Tour>res.tour;
             this.owner = <User>res.owner;
+            this.owner.profile.avgRating = Math.round( this.owner.profile.avgRating * 10) / 10;            
             this.fetchRelatedItems();
             this.changeDetectorRef.detectChanges();
             let item = this.item;
@@ -284,5 +285,7 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
       return "N.A.";
     }
   }
+
+
 
 }

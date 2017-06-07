@@ -89,7 +89,6 @@ export class TourReviewsComponent extends MeteorComponent implements OnInit {
           };
 
           this.paginationService.setCurrentPage("reviews", curPage as number);
-          this.searchString = searchString;
           jQuery(".loading").show();
           this.call("tourReviews.find", options, where, (err, res) => {
               jQuery(".loading").hide();
