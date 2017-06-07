@@ -132,4 +132,6 @@ export interface Booking extends CollectionObject {
     deleted: boolean;
     createdAt: Date;
     modifiedAt: Date;
+    reviewApprovalAt: Date;
+    reviewMailCount: number;
 }

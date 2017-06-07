@@ -45,6 +45,11 @@ Meteor.methods({
         booking.cancelled = false;
         booking.deleted = false;
         booking.refunded = false;
+        booking.reviewMailCount = 0;
+        let reviewApprovalDate = new Date(booking.endDate.toString());
+
+        reviewApprovalDate.setDate(reviewApprovalDate.getDate() + 1);
+        booking.reviewApprovalAt = reviewApprovalDate;
 
         try {
            var bookingId = Bookings.collection.insert(booking);
@@ -355,7 +360,7 @@ Meteor.methods({
       }
 
       // update rating in bookings collection
-      Bookings.collection.update({_id: booking._id}, {$set: { "tour.rating": rating, "tour.hasRated": true } });
+      Bookings.collection.update({_id: booking._id}, {$set: { "tour.rating": rating, "tour.hasRated": true, reviewMailCount: 2 } });
 
       // update rating in tours collection
       let tour = Tours.collection.findOne({_id: booking.tour.id});
@@ -381,6 +386,61 @@ Meteor.methods({
       });
 
       return true;
+    },
+    "bookings.sendReviewOnCompletion": () => {
+      userIsInRole(["customer"]);
+      const options: Options = {
+          limit: 0,
+          skip: 0
+      };
+
+      let user = Meteor.user();
+
+      let where:any = [{cancelled: false, active: true, confirmed: true, reviewMailCount: {$lte: 1}, reviewApprovalAt: {$lte: new Date()} }];
+      where.push({
+          "$or": [{deleted: false}, {deleted: {$exists: false} }]
+      });
+
+      let bookings = Bookings.collection.find({$and: where}, options).fetch();
+      if (bookings.length == 0) {
+        console.log("Skip sending email.")
+        return;
+      }
+
+      for (let i=0; i<bookings.length; i++) {
+        let booking = bookings[i];
+        // console.log(`${i}: send request approval for tour: ${tour.name}`);
+        let bookingURL = Meteor.settings.public["customerAppUrl"] + '/booking/rate/' + booking._id;
+        let message = `Hi ${booking.user.firstName}. Thank you for booking your tour with Atorvia. Please
+        review the tour you had with us on link below.
+        <a href='${bookingURL}'>${booking.tour.name}</a>`
+
+        let to = booking.user.email;
+        let subject = "Submit review for tour booking";
+        let html = message;
+        Meteor.setTimeout(() => {
+          Meteor.call("sendEmail", to, subject, html);
+        }, 0);
+
+        let count = booking.reviewMailCount;
+
+        switch(count) {
+          case 0:
+            let reviewApprovalDate = booking.reviewApprovalAt;
+            reviewApprovalDate.setDate(reviewApprovalDate.getDate() + 6);
+            let reviewApprovalAt = reviewApprovalDate;
+            count = count + 1;
+
+            Bookings.collection.update({_id: booking._id}, {$set: {reviewApprovalAt: reviewApprovalAt, reviewMailCount: count}});
+            break;
+          case 1:
+            count = count + 1;
+            Bookings.collection.update({_id: booking._id}, {$set: {reviewMailCount: count}});
+            break;
+
+        }
+      }
+
     }
 });
 

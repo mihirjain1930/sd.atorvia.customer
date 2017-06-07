@@ -15,4 +15,8 @@ Meteor.startup(() => {
   Meteor.setInterval(() => {
     Meteor.call("currencies.syncRates");
   }, 60 * 60 * 1000);
+
+  Meteor.setInterval(() => {
+    Meteor.call("bookings.sendReviewOnCompletion");
+  }, 6 * 60 * 60 * 1000);
 });
