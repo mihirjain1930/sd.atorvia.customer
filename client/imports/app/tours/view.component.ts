@@ -9,6 +9,7 @@ import { InjectUser } from "angular2-meteor-accounts-ui";
 import { Title } from '@angular/platform-browser';
 import { SessionStorageService } from 'ng2-webstorage';
 import { Tour } from "../../../../both/models/tour.model";
+import { Review } from "../../../../both/models/review.model";
 import { User } from "../../../../both/models/user.model";
 import { showAlert } from "../shared/show-alert";
 import * as moment from 'moment';
@@ -47,6 +48,8 @@ export class TourViewComponent extends MeteorComponent implements OnInit, AfterV
   query: string;
   error: string;
   item: Tour;
+  review: Review;
+  reviewSize: number = -1;
   owner: User;
   relatedItems: Tour[] = null;
   slickInitialized: boolean = false;

@@ -374,6 +374,7 @@ Meteor.methods({
         bookingId: bookingId,
         user: booking.user,
         rating: rating,
+        comments: comments,
         createdAt: new Date(),
         approved: false,
         deleted: false

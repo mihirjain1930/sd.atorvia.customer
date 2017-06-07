@@ -5,6 +5,8 @@ import { check } from "meteor/check";
 import { Tours } from "../../both/collections/tours.collection";
 import { Bookings } from "../../both/collections/bookings.collection";
 import { Tour } from "../../both/models/tour.model";
+import { Review } from "../../both/models/review.model";
+import { Reviews } from "../../both/collections/reviews.collection";
 import { isLoggedIn, userIsInRole } from "../imports/services/auth";
 import * as _ from 'underscore';
 
@@ -139,5 +141,25 @@ Meteor.methods({
         }
       })
       return true;
+    },
+    "tourReviews.find": (options: Options, criteria: any) => {
+      userIsInRole(["customer"]);
+
+      let userId = Meteor.userId();
+      let where:any = [];
+      where.push(
+      {
+          "$or": [{deleted: false}, {deleted: {$exists: false} }]
+      }/*, {
+        "$or": [{approved: true}, {approved: {$exists: false} }]
+      }*/);
+
+      if (!_.isEmpty(criteria)) {
+        where.push(criteria);
+      }
+
+      let cursor = Reviews.collection.find({$and: where}, options);
+      return {count: cursor.count(), data: cursor.fetch()};
     }
+
 });
