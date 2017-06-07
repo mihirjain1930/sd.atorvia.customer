@@ -12,7 +12,7 @@
               <button class="cancel btn grey-btn" [routerLink]="['/bookings/cancel', booking._id]" *ngIf="departInDays > 0 && booking.cancelled == false && booking.paymentInfo?.status == 'approved'">Cancel and request a refund</button>
               <button class="btn grey-btn pull-right" style="margin-right: 0px;" (click)="makePayment()" *ngIf="booking.paymentInfo?.status != 'approved'">Make Payment</button>
               <button class="btn green-btn pull-right" style="width: 200px;" *ngIf="booking.paymentInfo?.status == 'approved' " (click)="downloadVoucher(booking._id)">Download Voucher</button>
-              <button class="btn green-btn pull-left" style="width: 200px;margin-left: 185px;" *ngIf="booking.completed == true && booking.cancelled == true && ! booking.tour.hasRated" [routerLink]="['/booking/rate', booking._id]">Rate Tour</button>
+              <button class="btn green-btn pull-left" style="width: 200px;margin-left: 185px;" *ngIf="booking.completed == true && booking.cancelled == false && ! booking.tour.hasRated" [routerLink]="['/booking/rate', booking._id]">Rate Tour</button>
             </div>
           </div>
         </div>
