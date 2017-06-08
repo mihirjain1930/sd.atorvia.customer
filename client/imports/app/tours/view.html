@@ -369,8 +369,8 @@
 								<div *ngFor= "let tour of relatedTours; let i = index;">
 									<div class="destination-wrap" [routerLink]="['/tours', tour.slug]">
 										<span *ngIf="!tour.images?.length"><img src="/images/destination.png" /></span>
-										<span *ngIf="tour.images?.length > 0 && tour.featuredImage?.url"><img [src]="tour.featuredImage?.url" /></span>
-										<span *ngIf="tour.images?.length > 0 && !tour.featuredImage?.url"><img [src]="tour.images[0]?.url" /></span>
+										<span *ngIf="tour.images?.length > 0 && tour.featuredImage?.url"><img src="uploads/images/{{tour.featuredImage.id}}-340-280.jpg" /></span>
+										<span *ngIf="tour.images?.length > 0 && !tour.featuredImage?.url"><img src="uploads/images/{{tour.images[0]?.id}}-340-280.jpg" /></span>
 										<div class="overlay"></div>
 										<div class="content">
 											<div class="row">
