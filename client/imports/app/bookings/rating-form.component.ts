@@ -50,7 +50,7 @@ export class RateTourComponent extends MeteorComponent implements OnInit, AfterV
     .subscribe(id => {
 
       this.bookingId = id;
-      this.call("bookings.findOne", {"_id": id, "cancelled": false, "paymentInfo.status": "approved"}, {with: {supplier: true, tour: true}}, (err, res) => {
+      this.call("bookings.findOne", {"_id": id, "confirmed": true, "cancelled": false, "tour.hasRated": false, "paymentInfo.status": "approved"}, {with: {supplier: true, tour: true}}, (err, res) => {
         if (err) {
           console.log(err.reason, "danger");
           return;
