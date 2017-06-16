@@ -25,7 +25,7 @@ Meteor.methods({
         }, {
           "$or": [{approved: true}, {approved: {$exists: false} }]
         }, {
-          "$or": [{"dateRange.startDate": {$gt: new Date()} }]
+          "$or": [{"dateRange.startDate": {$gte: new Date()} }]
         });
 
         if (!_.isEmpty(criteria)) {

@@ -48,7 +48,7 @@ Meteor.methods({
         booking.reviewMailCount = 0;
         let reviewApprovalDate = new Date(booking.endDate.toString());
 
-        reviewApprovalDate.setDate(reviewApprovalDate.getDate() + 1);
+        reviewApprovalDate.setHours(reviewApprovalDate.getHours() + 1);
         booking.reviewApprovalAt = reviewApprovalDate;
 
         try {
@@ -360,7 +360,7 @@ Meteor.methods({
       }
 
       // update rating in bookings collection
-      Bookings.collection.update({_id: booking._id}, {$set: { "tour.rating": rating, "tour.hasRated": true, reviewMailCount: 2 } });
+      Bookings.collection.update({_id: booking._id}, {$set: { "tour.rating": rating, "tour.hasRated": true } });
 
       // update rating in tours collection
       let tour = Tours.collection.findOne({_id: booking.tour.id});
@@ -388,7 +388,6 @@ Meteor.methods({
       return true;
     },
     "bookings.sendReviewOnCompletion": () => {
-      userIsInRole(["customer"]);
       const options: Options = {
           limit: 0,
           skip: 0
@@ -396,7 +395,7 @@ Meteor.methods({
 
       let user = Meteor.user();
 
-      let where:any = [{cancelled: false, active: true, confirmed: true, reviewMailCount: {$lte: 1}, reviewApprovalAt: {$lte: new Date()} }];
+      let where:any = [{cancelled: false, active: true, confirmed: true, "tour.hasRated": false, reviewMailCount: {$lte: 1}, reviewApprovalAt: {$lte: new Date()} }];
       where.push({
           "$or": [{deleted: false}, {deleted: {$exists: false} }]
       });
@@ -427,7 +426,7 @@ Meteor.methods({
         switch(count) {
           case 0:
             let reviewApprovalDate = booking.reviewApprovalAt;
-            reviewApprovalDate.setDate(reviewApprovalDate.getDate() + 6);
+            reviewApprovalDate.setHours(reviewApprovalDate.getHours() + 2);
             let reviewApprovalAt = reviewApprovalDate;
             count = count + 1;
 
