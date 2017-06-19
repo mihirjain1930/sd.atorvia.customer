@@ -48,7 +48,7 @@ Meteor.methods({
         booking.reviewMailCount = 0;
         let reviewApprovalDate = new Date(booking.endDate.toString());
 
-        reviewApprovalDate.setHours(reviewApprovalDate.getHours() + 1);
+        reviewApprovalDate.setDate(reviewApprovalDate.getDate() + 1);
         booking.reviewApprovalAt = reviewApprovalDate;
 
         try {
@@ -426,7 +426,7 @@ Meteor.methods({
         switch(count) {
           case 0:
             let reviewApprovalDate = booking.reviewApprovalAt;
-            reviewApprovalDate.setHours(reviewApprovalDate.getHours() + 2);
+            reviewApprovalDate.setDatw(reviewApprovalDate.getDate() + 6);
             let reviewApprovalAt = reviewApprovalDate;
             count = count + 1;
 
