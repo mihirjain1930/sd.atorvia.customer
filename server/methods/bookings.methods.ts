@@ -426,7 +426,7 @@ Meteor.methods({
         switch(count) {
           case 0:
             let reviewApprovalDate = booking.reviewApprovalAt;
-            reviewApprovalDate.setDatw(reviewApprovalDate.getDate() + 6);
+            reviewApprovalDate.setDate(reviewApprovalDate.getDate() + 6);
             let reviewApprovalAt = reviewApprovalDate;
             count = count + 1;
 
